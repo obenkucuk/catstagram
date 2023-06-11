@@ -1,0 +1,9 @@
+{
+  "helloWorld": "Meraba Dünya!",
+  "noNetworkMessage": "Ağ Bağlantısı Sağlanamadı!",
+  "connectedMessage": "Bağlantı Sağlandı!",
+  "settings": "Ayarlar",
+  "home": "Ana Sayfa",
+  "lightMode": "Açık Mod",
+  "darkMode": "Koyu Mod"
+}
