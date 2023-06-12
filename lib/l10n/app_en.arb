@@ -3,7 +3,14 @@
   "noNetworkMessage": "Network connection is not available!",
   "connectedMessage": "Connected to the network",
   "settings": "Settings",
-  "home": "Home",
-  "lightMode": "Light Mode",
-  "darkMode": "Dark Mode"
+  "changeTheme": "Change Theme",
+  "lightMode": "Light",
+  "darkMode": "Dark",
+  "changeLanguage": "Change Language",
+  "english": "English",
+  "turkish": "Turkish",
+  "searchPlaceholder": "Search Cute Cats",
+  "cancel": "Cancel",
+  "recentSearches": "Recent Searches",
+  "sleeping": "Sleeping right now!"
 }

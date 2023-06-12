@@ -49,4 +49,4 @@ class LocalizationService {
 }
 
 /// NOT: App Localization
-AppLocalizations get appLocalization => AppLocalizations.of(navigatorKey.currentContext!);
+AppLocalizations appLocalization(BuildContext context) => AppLocalizations.of(context);

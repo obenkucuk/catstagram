@@ -1,68 +1,71 @@
+import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/theme/text_styles.dart';
-import 'package:catstagram/ui/screens/main_screens/settings_screen/custom_dropdown/my_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/settings_controller.dart';
+import '../custom_dropdown/custom_dropdown.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        key: controller.scaffoldKey,
-        body: NestedScrollView(
+    return Scaffold(
+      key: controller.scaffoldKey,
+      body: Obx(() {
+        if (controller.loadingStatus.value != LoadingStatus.loaded) {
+          return const Center(child: CircularProgressIndicator.adaptive());
+        }
+
+        return NestedScrollView(
             headerSliverBuilder: (context, innerBoxScroller) {
-              return [const CupertinoSliverNavigationBar(largeTitle: Text('Settings'))];
+              return [CupertinoSliverNavigationBar(largeTitle: Text(appLocalization(context).settings))];
             },
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      const Text('Change Theme'),
+                      Text(appLocalization(context).changeLanguage),
                       const Spacer(),
-                      CupertinoSlidingSegmentedControl<Brightness>(
-                        groupValue: controller.brigthtness.value,
-                        children: {
-                          Brightness.light: createSegment("Light"),
-                          Brightness.dark: createSegment("Dark"),
-                        },
-                        onValueChanged: (value) => controller.changeTheme(value),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: CupertinoSlidingSegmentedControl<Brightness>(
+                          groupValue: controller.brigthtness.value,
+                          children: {
+                            Brightness.light: createSegment(context, appLocalization(context).lightMode),
+                            Brightness.dark: createSegment(context, appLocalization(context).darkMode),
+                          },
+                          onValueChanged: (value) => controller.changeTheme(value),
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      const Text('Change Dil'),
+                      Text(appLocalization(context).changeTheme),
                       const Spacer(),
-                      MyDropdownWidget(
-                        dropdownWidth: 115,
-                        textStyle: s14W400,
-                        items: {
-                          'Türkçe': Text(
-                            'Türkçe',
-                            key: GlobalKey(debugLabel: 'tr'),
-                          ),
-                          'İngilizce': Text('İngilizce'),
-                        },
-                        onSelected: (v) {
-                          print(v);
-                        },
+                      CustomDropdown(
+                        title: controller.locale.value.languageCode == 'tr' ? 0 : 1,
+                        dropdownWidth: MediaQuery.of(context).size.width * 0.3,
+                        textStyle: s14W400(context),
+                        items: controller.dropdownItems,
+                        onSelected: (index) => controller.changeLocalization(index),
                       )
                     ],
                   )
                 ],
               ),
-            )),
-      ),
+            ));
+      }),
     );
   }
 
-  Widget createSegment(String text) => ColoredBox(color: Colors.transparent, child: Text(text, style: s14W400));
+  Widget createSegment(BuildContext context, String text) =>
+      ColoredBox(color: Colors.transparent, child: Text(text, style: s14W400(context)));
 }

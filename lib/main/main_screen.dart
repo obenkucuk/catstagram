@@ -88,7 +88,7 @@ class MainScreenState extends State<MainScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: Text(
                   _scaffoldMessage,
-                  style: s14W400.copyWith(color: Colors.white),
+                  style: s14W400(context).copyWith(color: Colors.white),
                 ),
               ),
             )

@@ -1,4 +1,5 @@
 import 'package:catstagram/core/extensions/to_cats_id_url.dart';
+import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,21 +26,20 @@ class SearchView extends GetView<SearchXController> {
               SliverAppBar(
                 floating: true,
                 actions: [
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 400),
-                    child: controller.isOverlayVisible.value
-                        ? AnimatedSlide(
-                            offset: controller.isOverlayVisible.value ? Offset.zero : const Offset(5, 0),
-                            duration: const Duration(milliseconds: 400),
-                            child: GestureDetector(
-                              onTap: controller.hideSearch,
-                              child: ColoredBox(
-                                color: Colors.amber,
-                                child: Text('Cancel', style: s12W600),
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 200),
+                    child: SizedBox(
+                      width: controller.isOverlayVisible.value ? MediaQuery.of(context).size.width * .12 : 0,
+                      child: AnimatedSlide(
+                        offset: controller.isOverlayVisible.value ? Offset.zero : const Offset(5, 0),
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                        child: GestureDetector(
+                          onTap: controller.hideSearch,
+                          child: Text(appLocalization(context).cancel, style: s14W400(context)),
+                        ),
+                      ),
+                    ),
                   )
                 ],
                 title: Padding(
@@ -48,16 +48,11 @@ class SearchView extends GetView<SearchXController> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: AnimatedFractionallySizedBox(
-                          alignment: Alignment.centerLeft,
-                          duration: const Duration(milliseconds: 300),
-                          widthFactor: controller.isOverlayVisible.value ? 0.95 : 1,
-                          child: CupertinoSearchTextField(
-                            focusNode: controller.searchFocusNode,
-                            style: s12W300,
-                            placeholder: 'Search Cute Cat',
-                            onSubmitted: (searchKey) => controller.implementSearch(searchKey),
-                          ),
+                        child: CupertinoSearchTextField(
+                          focusNode: controller.searchFocusNode,
+                          style: s12W300(context),
+                          placeholder: appLocalization(context).searchPlaceholder,
+                          onSubmitted: (searchKey) => controller.implementSearch(searchKey),
                         ),
                       ),
                     ],

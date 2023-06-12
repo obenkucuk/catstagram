@@ -3,7 +3,14 @@
   "noNetworkMessage": "Ağ Bağlantısı Sağlanamadı!",
   "connectedMessage": "Bağlantı Sağlandı!",
   "settings": "Ayarlar",
-  "home": "Ana Sayfa",
-  "lightMode": "Açık Mod",
-  "darkMode": "Koyu Mod"
+  "changeTheme": "Tema Değiştir",
+  "lightMode": "Açık",
+  "darkMode": "Koyu",
+  "changeLanguage": "Dili Değiştir",
+  "english": "İngilizce",
+  "turkish": "Türkçe",
+  "searchPlaceholder": "Tatlı Kedileri Ara",
+  "cancel": "İptal",
+  "recentSearches": "Geçmiş Aramalar",
+  "sleeping": "Biraz uyumam gerekiyor!"
 }

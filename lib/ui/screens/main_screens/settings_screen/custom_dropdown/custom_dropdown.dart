@@ -1,19 +1,16 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
-
 import '../../../../../theme/text_styles.dart';
 import 'animated_dropdown.dart';
 
-class MyDropdownWidget extends StatefulWidget {
-  final Map<String, Text> items;
+class CustomDropdown extends StatefulWidget {
+  final Map<String, Widget> items;
   final Function(int) onSelected;
   final int? title;
   final TextStyle? textStyle;
   final double? dropdownWidth;
   final int itemHeight;
 
-  const MyDropdownWidget({
+  const CustomDropdown({
     super.key,
     required this.items,
     required this.onSelected,
@@ -24,10 +21,10 @@ class MyDropdownWidget extends StatefulWidget {
   });
 
   @override
-  State<MyDropdownWidget> createState() => _MyDropdownWidgetState();
+  State<CustomDropdown> createState() => _CustomDropdownState();
 }
 
-class _MyDropdownWidgetState extends State<MyDropdownWidget> {
+class _CustomDropdownState extends State<CustomDropdown> {
   final GlobalKey dimensionKey = GlobalKey();
   late int selectedItem;
   bool overlayIsVisible = false;
@@ -37,11 +34,12 @@ class _MyDropdownWidgetState extends State<MyDropdownWidget> {
   @override
   void initState() {
     super.initState();
-    selectedItem = 0;
+    selectedItem = widget.title ?? 0;
   }
 
   void showOverlay() {
     setState(() => overlayIsVisible = true);
+
     RenderBox renderBox = dimensionKey.currentContext!.findRenderObject() as RenderBox;
     Offset offset = renderBox.localToGlobal(Offset.zero);
 
@@ -106,9 +104,9 @@ class _MyDropdownWidgetState extends State<MyDropdownWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(widget.items.keys.toList()[selectedItem], style: widget.textStyle ?? s16W600),
+            Text(widget.items.keys.toList()[selectedItem], style: widget.textStyle ?? s16W600(context)),
             RotatedBox(
-              quarterTurns: overlayIsVisible ? 0 : 2,
+              quarterTurns: overlayIsVisible ? 2 : 0,
               child: const Icon(Icons.keyboard_arrow_down_sharp),
             ),
           ],

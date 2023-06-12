@@ -1,3 +1,4 @@
+import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -18,7 +19,7 @@ class ShareView extends GetView<ShareController> {
               widthFactor: 0.4,
               child: Lottie.asset(AssetConstants.loadingCat),
             ),
-            const Text('Sleeping right now!')
+            Text(appLocalization(context).sleeping)
           ],
         ),
       ),

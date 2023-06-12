@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/ui/screens/main_screens/search_screen/controller/search_controller.dart';
 import 'package:flutter/material.dart';
 import '../../../../../theme/text_styles.dart';
@@ -87,14 +86,14 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
-            border: const Border(top: BorderSide(width: 0.5, color: Colors.amber)),
+            border: Border(top: BorderSide(width: 0.5, color: Theme.of(context).dividerColor)),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               const SizedBox(height: 10),
-              Text('Recent Search', style: s14W600),
+              Text(appLocalization(context).recentSearches, style: s14W600(context)),
               ...widget.list.map((e) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
@@ -105,7 +104,7 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
                       const Spacer(flex: 1),
                       GestureDetector(
                         onTap: () async => await widget.onTap(e.keyword),
-                        child: Text(e.keyword, style: s16W400),
+                        child: Text(e.keyword, style: s16W400(context)),
                       ),
                       const Spacer(flex: 15),
                       GestureDetector(
