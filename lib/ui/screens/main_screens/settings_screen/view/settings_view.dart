@@ -1,9 +1,8 @@
 import 'package:catstagram/theme/text_styles.dart';
+import 'package:catstagram/ui/screens/main_screens/settings_screen/custom_dropdown/my_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../theme/material_inherited.dart';
 import '../controller/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
@@ -35,6 +34,27 @@ class SettingsView extends GetView<SettingsController> {
                         },
                         onValueChanged: (value) => controller.changeTheme(value),
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Text('Change Dil'),
+                      const Spacer(),
+                      MyDropdownWidget(
+                        dropdownWidth: 115,
+                        textStyle: s14W400,
+                        items: {
+                          'Türkçe': Text(
+                            'Türkçe',
+                            key: GlobalKey(debugLabel: 'tr'),
+                          ),
+                          'İngilizce': Text('İngilizce'),
+                        },
+                        onSelected: (v) {
+                          print(v);
+                        },
+                      )
                     ],
                   )
                 ],
