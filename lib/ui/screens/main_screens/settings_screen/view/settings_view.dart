@@ -12,17 +12,22 @@ class SettingsView extends GetView<SettingsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Text(appLocalization(context).settings),
+        ),
+        centerTitle: false,
+      ),
       key: controller.scaffoldKey,
       body: Obx(() {
         if (controller.loadingStatus.value != LoadingStatus.loaded) {
           return const Center(child: CircularProgressIndicator.adaptive());
         }
 
-        return NestedScrollView(
-            headerSliverBuilder: (context, innerBoxScroller) {
-              return [CupertinoSliverNavigationBar(largeTitle: Text(appLocalization(context).settings))];
-            },
-            body: Padding(
+        return ListView(
+          children: [
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,7 +66,9 @@ class SettingsView extends GetView<SettingsController> {
                   )
                 ],
               ),
-            ));
+            )
+          ],
+        );
       }),
     );
   }

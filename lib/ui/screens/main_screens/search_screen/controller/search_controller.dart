@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/state_manager.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 import '../../../../../core/services/network_service/base_http_model.dart';

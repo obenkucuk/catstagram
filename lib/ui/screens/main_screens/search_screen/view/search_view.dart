@@ -27,6 +27,7 @@ class SearchView extends GetView<SearchXController> {
                 floating: true,
                 actions: [
                   AnimatedSize(
+                    alignment: Alignment.centerLeft,
                     duration: const Duration(milliseconds: 200),
                     child: SizedBox(
                       width: controller.isOverlayVisible.value ? MediaQuery.of(context).size.width * .12 : 0,
@@ -36,26 +37,28 @@ class SearchView extends GetView<SearchXController> {
                         curve: Curves.fastLinearToSlowEaseIn,
                         child: GestureDetector(
                           onTap: controller.hideSearch,
-                          child: Text(appLocalization(context).cancel, style: s14W400(context)),
+                          child: FittedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                appLocalization(context).cancel,
+                                style: s14W400(context),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   )
                 ],
                 title: Padding(
-                  key: controller.overlayDimensionKey,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CupertinoSearchTextField(
-                          focusNode: controller.searchFocusNode,
-                          style: s12W300(context),
-                          placeholder: appLocalization(context).searchPlaceholder,
-                          onSubmitted: (searchKey) => controller.implementSearch(searchKey),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(left: 10),
+                  child: CupertinoSearchTextField(
+                    key: controller.overlayDimensionKey,
+                    focusNode: controller.searchFocusNode,
+                    style: s12W300(context),
+                    placeholder: appLocalization(context).searchPlaceholder,
+                    onSubmitted: (searchKey) => controller.implementSearch(searchKey),
                   ),
                 ),
               ),
@@ -70,13 +73,13 @@ class SearchView extends GetView<SearchXController> {
                   ),
                   itemBuilder: (context, index) {
                     return Image.network(
-                      (controller.dataSearchList[index].data!.first.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+                      (controller.dataSearchList[index].data.first.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
                       errorBuilder: (context, error, stackTrace) => const CircularProgressIndicator.adaptive(),
                       fit: BoxFit.cover,
                     );
                   },
                 ),
-              if (controller.shuldSearchLazyLoad)
+              if (controller.shuldSearchLazyLoad && controller.dataSearchList.isNotEmpty)
                 const SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),

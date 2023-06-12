@@ -4,7 +4,6 @@ import '../../../constants/app_constants.dart';
 import '../../../constants/app_enums.dart';
 import '../../../theme/material_inherited.dart';
 import '../../logger.dart';
-import '../../router/router.dart';
 import '../storage_service/storage_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

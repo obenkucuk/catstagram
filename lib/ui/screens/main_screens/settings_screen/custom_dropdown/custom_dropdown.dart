@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../theme/text_styles.dart';
 import 'animated_dropdown.dart';
 
+//todo: taşınacak
 class CustomDropdown extends StatefulWidget {
   final Map<String, Widget> items;
   final Function(int) onSelected;

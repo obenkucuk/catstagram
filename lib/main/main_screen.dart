@@ -17,11 +17,14 @@ class MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   late final MyBottomBar? myBottomBar = MainScreen.myBottomBar;
 
+  bool isTabBarVisible = true;
   String _scaffoldMessage = '';
   bool isMessengerActive = false;
   Color _scaffoldColor = AppColorsX.error;
 
-//tabbar screens
+  hideTabBar(bool val) {
+    setState(() => isTabBarVisible = val);
+  }
 
   Future<void> showSnacbar(String? message, [ScaffoldMessengerType type = ScaffoldMessengerType.error]) async {
     if (type == ScaffoldMessengerType.success) {
@@ -54,29 +57,27 @@ class MainScreenState extends State<MainScreen> {
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (Platform.isAndroid && myBottomBar != null)
-              NavigationBar(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  onDestinationSelected: (int index) => setState(() => _selectedIndex = index),
-                  selectedIndex: _selectedIndex,
-                  destinations: myBottomBar!.elements
-                      .map((e) => NavigationDestination(
-                            icon: Icon(e.iconData),
-                            label: e.label,
-                          ))
-                      .toList())
-            else if (Platform.isIOS && myBottomBar != null)
-              CupertinoTabBar(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                currentIndex: _selectedIndex,
-                onTap: (int index) => setState(() => _selectedIndex = index),
-                items: myBottomBar!.elements
-                    .map((e) => BottomNavigationBarItem(
-                          icon: Icon(e.iconData),
-                          label: e.label,
-                        ))
-                    .toList(),
+            AnimatedSize(
+              duration: const Duration(seconds: 1),
+              child: SizedBox(
+                height: isTabBarVisible ? 80.0 : 0,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 400),
+                  opacity: isTabBarVisible ? 1 : 0,
+                  child: CupertinoTabBar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    currentIndex: _selectedIndex,
+                    onTap: (int index) => setState(() => _selectedIndex = index),
+                    items: myBottomBar!.elements
+                        .map((e) => BottomNavigationBarItem(
+                              icon: Icon(e.iconData),
+                              label: e.label,
+                            ))
+                        .toList(),
+                  ),
+                ),
               ),
+            ),
             ColoredBox(
               color: _scaffoldColor,
               child: AnimatedContainer(
@@ -113,7 +114,8 @@ class MainScreenInheritedWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant MainScreenInheritedWidget oldWidget) {
-    return state.isMessengerActive != oldWidget.state.isMessengerActive;
+    return state.isMessengerActive != oldWidget.state.isMessengerActive ||
+        state.isTabBarVisible != oldWidget.state.isTabBarVisible;
   }
 }
 
