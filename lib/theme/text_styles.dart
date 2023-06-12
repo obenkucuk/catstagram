@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../core/router/router.dart';
 
 /// fontSize: 8

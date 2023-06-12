@@ -1,3 +1,4 @@
+import 'package:catstagram/ui/screens/other_screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/router_service/router_argsuments_model.dart';
@@ -13,6 +14,11 @@ final GoRouter appRouter = GoRouter(
   navigatorKey: navigatorKey,
   debugLogDiagnostics: true,
   routes: [
+    GoRoute(
+      path: '/',
+      name: RoutesNames.splash,
+      pageBuilder: (context, state) => _routerPageBuilder(state, context, const SplashScreen()),
+    ),
     GoRoute(
       path: '/main',
       name: RoutesNames.main,

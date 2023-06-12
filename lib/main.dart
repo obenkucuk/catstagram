@@ -1,3 +1,4 @@
+import 'package:catstagram/core/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'core/router/router.dart';
 import 'core/services/session_service/session_service.dart';
@@ -16,12 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //NOT bottom bar items must be initialized before MaterialAppUpdater
-
     return MaterialAppUpdater(
       child: Builder(
         builder: (context) {
           return MaterialApp.router(
+            title: AppConfig.instance.appName,
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             darkTheme: darkTheme,

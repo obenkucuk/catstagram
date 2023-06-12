@@ -1,3 +1,4 @@
+import 'package:catstagram/core/config/app_config.dart';
 import 'package:flutter/material.dart';
 
 import '../../logger.dart';
@@ -11,6 +12,7 @@ class SessionService {
 
   Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
+    await AppConfig.instance.init();
     await StorageService.instance.init();
     await ThemeService.instance.init();
     await LocalizationService.instance.init();
