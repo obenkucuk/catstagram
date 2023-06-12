@@ -1,10 +1,13 @@
+import 'dart:async';
+
+import 'package:catstagram/ui/screens/main_screens/search_screen/controller/search_controller.dart';
 import 'package:flutter/material.dart';
 import '../../../../../theme/text_styles.dart';
 
 class SearchHistory extends StatefulWidget {
   final Offset offset;
   final Size size;
-  final List<String> list;
+  final List<SearchHistoryModel> list;
   final Function(String value) onDelete;
   final Function(String value) onTap;
 
@@ -31,6 +34,7 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
   void initState() {
     super.initState();
     prepareAnimations();
+
     runExpand();
   }
 
@@ -68,6 +72,7 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
   @override
   void dispose() {
     animController.dispose();
+
     super.dispose();
   }
 
@@ -99,12 +104,13 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
                       const CircleAvatar(backgroundColor: Colors.amber),
                       const Spacer(flex: 1),
                       GestureDetector(
-                        onTap: () async => await widget.onTap(e),
-                        child: Text(e, style: s16W400),
+                        onTap: () async => await widget.onTap(e.keyword),
+                        child: Text(e.keyword, style: s16W400),
                       ),
                       const Spacer(flex: 15),
                       GestureDetector(
-                          onTap: () async => await widget.onDelete(e), child: const Icon(Icons.close_rounded, size: 16))
+                          onTap: () async => await widget.onDelete(e.keyword),
+                          child: const Icon(Icons.close_rounded, size: 16))
                     ],
                   ),
                 );

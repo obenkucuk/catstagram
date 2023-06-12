@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:catstagram/core/extensions/to_cats_id_url.dart';
 import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,7 +32,7 @@ class SearchView extends GetView<SearchXController> {
                             offset: controller.isOverlayVisible.value ? Offset.zero : const Offset(5, 0),
                             duration: const Duration(milliseconds: 400),
                             child: GestureDetector(
-                              onTap: controller.hideOverlay,
+                              onTap: controller.hideSearch,
                               child: ColoredBox(
                                 color: Colors.amber,
                                 child: Text('Cancel', style: s12W600),
@@ -58,6 +56,7 @@ class SearchView extends GetView<SearchXController> {
                             focusNode: controller.searchFocusNode,
                             style: s12W300,
                             placeholder: 'Search Cute Cat',
+                            onSubmitted: (searchKey) => controller.implementSearch(searchKey),
                           ),
                         ),
                       ),
@@ -82,6 +81,13 @@ class SearchView extends GetView<SearchXController> {
                     );
                   },
                 ),
+              if (controller.shuldSearchLazyLoad)
+                const SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                )
             ],
           );
         },

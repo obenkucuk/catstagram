@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/state_manager.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 import '../../../../../core/services/network_service/base_http_model.dart';
@@ -14,16 +17,28 @@ class SearchXController extends GetxController {
 
   _searchFocusListener() {
     if (searchFocusNode.hasFocus) {
-      showOverlay();
+      showSearch();
     }
   }
+
+  final RxList<SearchHistoryModel> searchHistoryList = <SearchHistoryModel>[
+    SearchHistoryModel(keyword: 'deneme'),
+  ].obs;
 
   final GlobalKey overlayDimensionKey = GlobalKey();
   OverlayEntry? overlayEntry;
   OverlayState? overlayState;
 
+  implementSearch(String value) {
+    /// TODO: arama yap ve history listesine ekle
+    ///
+
+    var newSearchHistory = SearchHistoryModel(keyword: value);
+    searchHistoryList.add(newSearchHistory);
+  }
+
 //for showing the search history overlay
-  void showOverlay() {
+  void showSearch() {
     isOverlayVisible.value = true;
 
     RenderBox renderBox = overlayDimensionKey.currentContext!.findRenderObject() as RenderBox;
@@ -33,7 +48,7 @@ class SearchXController extends GetxController {
       return SearchHistory(
         offset: offset,
         size: renderBox.size,
-        list: ['1', '2', '3'],
+        list: searchHistoryList,
         onDelete: (value) => print(value),
         onTap: (value) => print(value),
       );
@@ -42,7 +57,7 @@ class SearchXController extends GetxController {
     overlayState!.insert(overlayEntry!);
   }
 
-  void hideOverlay() {
+  void hideSearch() {
     FocusScope.of(context).unfocus();
     isOverlayVisible.value = false;
     if (overlayEntry == null) return;
@@ -56,6 +71,7 @@ class SearchXController extends GetxController {
       <BaseHttpModel<List<CatFromTagResponseModel>>>[].obs;
 
   List<String> _allTags = [];
+
   Future<void> fetchData() async {
     var response = await Repository.instance.getTags();
 
@@ -74,9 +90,8 @@ class SearchXController extends GetxController {
     /// nextPage is the next page url from the api.
     /// nextPage can be null. Its for not sending too many request to the api and detect the if next page is exist.
 
-    if (searchScrollController.position.maxScrollExtent - 10 <= searchScrollController.offset) {
+    if (searchScrollController.position.maxScrollExtent - 20 <= searchScrollController.offset) {
       try {
-        print("object");
         if (shuldSearchLazyLoad) {
           shuldSearchLazyLoad = false;
           _allTags.shuffle();
@@ -96,6 +111,7 @@ class SearchXController extends GetxController {
   void onInit() {
     super.onInit();
     fetchData();
+
     searchScrollController = ScrollController()..addListener(_searchLazyLoad);
   }
 
@@ -104,4 +120,12 @@ class SearchXController extends GetxController {
     searchScrollController.removeListener(_searchLazyLoad);
     super.onClose();
   }
+}
+
+class SearchHistoryModel {
+  final String keyword;
+  final String? imageUrl;
+  final String? type;
+
+  SearchHistoryModel({required this.keyword, this.imageUrl, this.type});
 }
