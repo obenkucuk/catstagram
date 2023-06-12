@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import '../../../../../theme/text_styles.dart';
 
 class SearchHistory extends StatefulWidget {
@@ -34,7 +31,6 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
   void initState() {
     super.initState();
     prepareAnimations();
-
     runExpand();
   }
 
@@ -72,91 +68,51 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
   @override
   void dispose() {
     animController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GestureDetector(
-          onTap: () {
-            print('un');
-            FocusScope.of(context).unfocus();
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.transparent,
+    return Positioned(
+      top: widget.offset.dy + widget.size.height + 10,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height - (widget.offset.dy + widget.size.height + 10),
+      child: FadeTransition(
+        opacity: animation,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            border: const Border(top: BorderSide(width: 0.5, color: Colors.amber)),
           ),
-        ),
-        Positioned(
-          top: widget.offset.dy + widget.size.height,
-          width: MediaQuery.of(context).size.width,
-          height: (40 * widget.list.length).toDouble(),
-          child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: FadeTransition(
-              opacity: animation,
-              child: Material(
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-                    width: 0.5,
-                  ),
-                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
-                ),
-                color: Theme.of(context).colorScheme.primaryContainer,
-                elevation: 10,
-                shadowColor: Colors.grey.withOpacity(0.5),
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(indent: 20, endIndent: 20),
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.list.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: 40,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              Icons.history,
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              size: 20,
-                            ),
-                            SizedBox(width: 15),
-                            GestureDetector(
-                              onTap: () async => await widget.onTap(widget.list[index]),
-                              child: Text(
-                                widget.list[index],
-                                style: s16W400.copyWith(fontSize: 15),
-                              ),
-                            ),
-                            const Spacer(),
-                            GestureDetector(
-                              onTap: () async => await widget.onDelete(widget.list[index]),
-                              child: Text(
-                                'Remove',
-                                style: s12W400.copyWith(color: Theme.of(context).colorScheme.primary),
-                              ),
-                            )
-                          ],
-                        ),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const SizedBox(height: 10),
+              Text('Recent Search', style: s14W600),
+              ...widget.list.map((e) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const CircleAvatar(backgroundColor: Colors.amber),
+                      const Spacer(flex: 1),
+                      GestureDetector(
+                        onTap: () async => await widget.onTap(e),
+                        child: Text(e, style: s16W400),
                       ),
-                    );
-                  },
-                ),
-              ),
-            ),
+                      const Spacer(flex: 15),
+                      GestureDetector(
+                          onTap: () async => await widget.onDelete(e), child: const Icon(Icons.close_rounded, size: 16))
+                    ],
+                  ),
+                );
+              }).toList(),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

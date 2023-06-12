@@ -186,7 +186,7 @@ ThemeData lightTheme = ThemeData(
   ),
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: AppColorsX.primary,
-    selectionColor: AppColorsX.primaryContainerDark,
+    selectionColor: Colors.amber,
     selectionHandleColor: AppColorsX.primary,
   ),
   textButtonTheme: TextButtonThemeData(

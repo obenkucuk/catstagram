@@ -15,8 +15,6 @@ class SearchXController extends GetxController {
   _searchFocusListener() {
     if (searchFocusNode.hasFocus) {
       showOverlay();
-    } else {
-      hideOverlay();
     }
   }
 
@@ -45,6 +43,7 @@ class SearchXController extends GetxController {
   }
 
   void hideOverlay() {
+    FocusScope.of(context).unfocus();
     isOverlayVisible.value = false;
     if (overlayEntry == null) return;
     overlayEntry!.remove();
