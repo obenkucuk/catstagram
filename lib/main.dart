@@ -2,6 +2,7 @@ import 'package:catstagram/core/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'core/router/router.dart';
 import 'core/services/session_service/session_service.dart';
+import 'main/main_screen_constants.dart';
 import 'theme/material_inherited.dart';
 import 'theme/theme_data_dark.dart';
 import 'theme/theme_data_light.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialAppUpdater(
+      myBottomBar: appBottomBarItems,
       child: Builder(
         builder: (context) {
           return MaterialApp.router(

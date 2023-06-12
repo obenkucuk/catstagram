@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import '../../logger.dart';
 import '/core/extensions/string_map_prettier.dart';
 import '../../exceptions/custom_http_exception.dart';
-import 'enums.dart';
+import 'http_enums.dart';
 import 'http_urls.dart';
 part 'http_requests.dart';
 
