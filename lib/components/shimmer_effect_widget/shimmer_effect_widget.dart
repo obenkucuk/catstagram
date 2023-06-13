@@ -75,43 +75,63 @@ class _ShimmerEffectWidgetState extends State<ShimmerEffectWidget> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AnimatedContainer(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * .06),
-              color: color,
-            ),
-            duration: duration,
+          _ShimmerBox(
+            color: color,
             height: MediaQuery.of(context).size.width * .12,
             width: MediaQuery.of(context).size.width * .12,
+            borderRadius: MediaQuery.of(context).size.width * .06,
           ),
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AnimatedContainer(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: color,
-                ),
-                duration: duration,
+              _ShimmerBox(
+                color: color,
                 height: 10,
                 width: MediaQuery.of(context).size.width * .7,
+                borderRadius: 10,
               ),
               const SizedBox(height: 5),
-              AnimatedContainer(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: color,
-                ),
-                duration: duration,
+              _ShimmerBox(
+                color: color,
                 height: 10,
                 width: MediaQuery.of(context).size.width * .5,
+                borderRadius: 10,
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ShimmerBox extends StatelessWidget {
+  const _ShimmerBox({
+    required this.color,
+    required this.height,
+    required this.width,
+    required this.borderRadius,
+    this.duration = const Duration(seconds: 1),
+  });
+
+  final Color color;
+  final double height;
+  final double width;
+  final double borderRadius;
+  final Duration duration;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+        color: color,
+      ),
+      duration: duration,
+      height: height,
+      width: width,
     );
   }
 }

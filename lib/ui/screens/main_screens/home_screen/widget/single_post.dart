@@ -12,7 +12,7 @@ class SinglePost extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        /// post header
+        /// Post Header
         ListTile(
           contentPadding: const EdgeInsets.only(left: 10),
           leading: Container(
@@ -32,7 +32,7 @@ class SinglePost extends StatelessWidget {
           trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
         ),
 
-        //post image
+        /// Post Image
         if (catList != null)
           Image.network(
             (catList!.last.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
@@ -41,7 +41,7 @@ class SinglePost extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
           ),
 
-        //post footer
+        /// Post Footer
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -69,7 +69,7 @@ class SinglePost extends StatelessWidget {
           ],
         ),
 
-        //post likes
+        /// Post Likes
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: RichText(
