@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/home_controller.dart';
 import '../widget/single_post.dart';
+import '../widget/single_story.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -36,6 +37,34 @@ class HomeView extends GetView<HomeController> {
                   IconButton(onPressed: () {}, icon: const Icon(Icons.send)),
                 ],
               ),
+
+              /// Stories
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 120,
+                  child: ColoredBox(
+                    color: Colors.transparent,
+                    child: ListView.separated(
+                      controller: controller.storyScrollController,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: (controller.dataStoryList.isEmpty ? 5 : controller.dataStoryList.length) + 1,
+                      itemBuilder: (context, index) {
+                        int itemCount = (controller.dataStoryList.isEmpty ? 5 : controller.dataStoryList.length) + 1;
+                        if (itemCount == index + 1) {
+                          return const Center(child: SizedBox(width: 50, child: CircularProgressIndicator.adaptive()));
+                        } else if (controller.dataStoryList.isNotEmpty) {
+                          return SingleStory(catList: controller.dataStoryList[index].data);
+                        } else {
+                          return const SingleStory();
+                        }
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(width: 10),
+                    ),
+                  ),
+                ),
+              ),
+
+              SliverToBoxAdapter(child: SizedBox(height: 1, child: ColoredBox(color: Theme.of(context).dividerColor))),
 
               /// Post List
               if (controller.dataPostList.isNotEmpty)

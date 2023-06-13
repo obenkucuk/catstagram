@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/ui/screens/main_screens/search_screen/controller/search_controller.dart';
 import 'package:flutter/material.dart';
