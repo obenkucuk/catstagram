@@ -10,8 +10,9 @@ class SinglePost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        //post header
+        /// post header
         ListTile(
           contentPadding: const EdgeInsets.only(left: 10),
           leading: Container(
@@ -20,46 +21,57 @@ class SinglePost extends StatelessWidget {
               shape: BoxShape.circle,
               image: catList != null
                   ? DecorationImage(
-                      image: NetworkImage((catList!.first.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl), fit: BoxFit.cover)
+                      image: NetworkImage((catList!.first.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl),
+                      fit: BoxFit.cover,
+                    )
                   : null,
             ),
             child: catList == null ? const CircularProgressIndicator.adaptive() : null,
           ),
           title: Text(catList != null ? catList!.first.tags!.first : ''),
-          trailing: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_horiz),
-          ),
+          trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
         ),
 
         //post image
-        SizedBox.square(
-          dimension: MediaQuery.of(context).size.width,
-          child: catList == null
-              ? const CircularProgressIndicator.adaptive()
-              : Image.network(
-                  (catList!.last.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.width,
-                ),
-        ),
+        if (catList != null)
+          Image.network(
+            (catList!.last.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width,
+          ),
 
         //post footer
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.comment_outlined)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.send)),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.favorite_border),
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.insert_comment_outlined),
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.send_outlined),
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+            ),
             const Spacer(),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.bookmark_border)),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.bookmark_border),
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+            ),
           ],
         ),
 
         //post likes
-        Container(
-          alignment: Alignment.centerLeft,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: RichText(
             text: TextSpan(
               children: [
@@ -71,6 +83,7 @@ class SinglePost extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: 10)
       ],
     );
   }

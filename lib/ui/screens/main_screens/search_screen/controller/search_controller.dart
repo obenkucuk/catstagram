@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
-import '../../../../../core/services/network_service/base_http_model.dart';
 import '../../../../../core/services/network_service/repositories.dart';
 import '../widget/search_history.dart';
 
@@ -64,8 +63,7 @@ class SearchXController extends GetxController {
 
   late final ScrollController searchScrollController;
 
-  final RxList<BaseHttpModel<List<CatFromTagResponseModel>>> dataSearchList =
-      <BaseHttpModel<List<CatFromTagResponseModel>>>[].obs;
+  final RxList<CatFromTagResponseModel> dataSearchList = <CatFromTagResponseModel>[].obs;
 
   List<String> _allTags = [];
 
@@ -76,12 +74,14 @@ class SearchXController extends GetxController {
 
     _allTags.shuffle();
 
-    dataSearchList.value =
-        await Future.wait(List.from(_allTags.take(8)).map((element) => Repository.instance.getCatsFromTag(element)));
+    _allTags.take(8).forEach((element) async {
+      var res = await Repository.instance.getCatsFromTag(element);
+      dataSearchList.addAll(res.data);
+    });
   }
 
   bool shuldSearchLazyLoad = true;
-  void _searchLazyLoad() {
+  Future<void> _searchLazyLoad() async {
     /// for lazy load
     /// if the scroll is at the max scroll extent - 400, it will execute the [search] method.
     /// nextPage is the next page url from the api.
@@ -92,11 +92,12 @@ class SearchXController extends GetxController {
         if (shuldSearchLazyLoad) {
           shuldSearchLazyLoad = false;
           _allTags.shuffle();
-          Repository.instance.getCatsFromTag(_allTags.first).then((value) {
-            dataSearchList.value += [value];
 
-            shuldSearchLazyLoad = true;
-          });
+          var res = await Repository.instance.getCatsFromTag(_allTags.first);
+
+          dataSearchList.value += res.data;
+
+          shuldSearchLazyLoad = true;
         }
       } catch (_) {
         shuldSearchLazyLoad = true;

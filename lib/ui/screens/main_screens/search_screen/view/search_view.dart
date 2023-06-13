@@ -15,8 +15,6 @@ class SearchView extends GetView<SearchXController> {
       key: controller.scaffoldKey,
       body: Obx(
         () {
-          int itemCount = (controller.dataSearchList.isEmpty ? 8 : controller.dataSearchList.length);
-
           return CustomScrollView(
             physics: controller.isOverlayVisible.value
                 ? const NeverScrollableScrollPhysics()
@@ -30,7 +28,7 @@ class SearchView extends GetView<SearchXController> {
                     alignment: Alignment.centerLeft,
                     duration: const Duration(milliseconds: 200),
                     child: SizedBox(
-                      width: controller.isOverlayVisible.value ? MediaQuery.of(context).size.width * .12 : 0,
+                      width: controller.isOverlayVisible.value ? MediaQuery.of(context).size.width * .1 : 0,
                       child: AnimatedSlide(
                         offset: controller.isOverlayVisible.value ? Offset.zero : const Offset(5, 0),
                         duration: const Duration(milliseconds: 200),
@@ -39,11 +37,8 @@ class SearchView extends GetView<SearchXController> {
                           onTap: controller.hideSearch,
                           child: FittedBox(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(
-                                appLocalization(context).cancel,
-                                style: s14W400(context),
-                              ),
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Text(appLocalization(context).cancel, style: s14W400(context)),
                             ),
                           ),
                         ),
@@ -52,7 +47,7 @@ class SearchView extends GetView<SearchXController> {
                   )
                 ],
                 title: Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: CupertinoSearchTextField(
                     key: controller.overlayDimensionKey,
                     focusNode: controller.searchFocusNode,
@@ -64,7 +59,7 @@ class SearchView extends GetView<SearchXController> {
               ),
               if (controller.dataSearchList.isNotEmpty)
                 SliverGrid.builder(
-                  itemCount: itemCount,
+                  itemCount: controller.dataSearchList.isEmpty ? 8 : controller.dataSearchList.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 2,
@@ -73,7 +68,7 @@ class SearchView extends GetView<SearchXController> {
                   ),
                   itemBuilder: (context, index) {
                     return Image.network(
-                      (controller.dataSearchList[index].data.first.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+                      (controller.dataSearchList[index].id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
                       errorBuilder: (context, error, stackTrace) => const CircularProgressIndicator.adaptive(),
                       fit: BoxFit.cover,
                     );

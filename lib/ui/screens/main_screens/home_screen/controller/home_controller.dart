@@ -47,12 +47,16 @@ class HomeController extends GetxController {
     /// nextPage is the next page url from the api.
     /// nextPage can be null. Its for not sending too many request to the api and detect the if next page is exist.
 
-    if (postScrollController.offset > 80 &&
-        postScrollController.position.userScrollDirection == ScrollDirection.reverse) {
-      MainScreenInheritedWidget.of(context).hideTabBar(false);
-    } else {
-      MainScreenInheritedWidget.of(context).hideTabBar(true);
-    }
+    var direction = postScrollController.position.userScrollDirection;
+
+    MainScreenInheritedWidget.of(context).hideTabBar(direction == ScrollDirection.forward ? true : false);
+
+    // if (postScrollController.offset > 80 &&
+    //     postScrollController.position.userScrollDirection == ScrollDirection.reverse) {
+    //   MainScreenInheritedWidget.of(context).hideTabBar(false);
+    // } else {
+    //   MainScreenInheritedWidget.of(context).hideTabBar(true);
+    // }
 
     if (postScrollController.position.maxScrollExtent - 20 <= postScrollController.offset) {
       try {

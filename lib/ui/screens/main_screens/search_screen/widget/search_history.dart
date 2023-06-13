@@ -108,8 +108,13 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
                       ),
                       const Spacer(flex: 15),
                       GestureDetector(
-                          onTap: () async => await widget.onDelete(e.keyword),
-                          child: const Icon(Icons.close_rounded, size: 16))
+                        onTap: () async => await widget.onDelete(e.keyword),
+                        child: Icon(
+                          Icons.close_rounded,
+                          size: 16,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
+                        ),
+                      )
                     ],
                   ),
                 );

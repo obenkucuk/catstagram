@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../theme/text_styles.dart';
+import '../../theme/text_styles.dart';
 import 'animated_dropdown.dart';
 
-//todo: taşınacak
 class CustomDropdown extends StatefulWidget {
   final Map<String, Widget> items;
   final Function(int) onSelected;
@@ -97,18 +97,21 @@ class _CustomDropdownState extends State<CustomDropdown> {
       child: Container(
         width: widget.dropdownWidth,
         decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).dividerColor, width: 0.5),
           borderRadius: BorderRadius.circular(7),
-          color: Theme.of(context).highlightColor,
+          color: CupertinoColors.tertiarySystemFill,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(widget.items.keys.toList()[selectedItem], style: widget.textStyle ?? s16W600(context)),
-            RotatedBox(
-              quarterTurns: overlayIsVisible ? 2 : 0,
-              child: const Icon(Icons.keyboard_arrow_down_sharp),
+            AnimatedRotation(
+              duration: const Duration(milliseconds: 200),
+              turns: overlayIsVisible ? 0.5 : 0,
+              child: RotatedBox(
+                quarterTurns: overlayIsVisible ? 2 : 0,
+                child: const Icon(Icons.keyboard_arrow_down_sharp),
+              ),
             ),
           ],
         ),

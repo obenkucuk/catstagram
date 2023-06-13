@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
@@ -57,25 +56,21 @@ class MainScreenState extends State<MainScreen> {
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AnimatedSize(
-              duration: const Duration(seconds: 1),
-              child: SizedBox(
-                height: isTabBarVisible ? 80.0 : 0,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 400),
-                  opacity: isTabBarVisible ? 1 : 0,
-                  child: CupertinoTabBar(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    currentIndex: _selectedIndex,
-                    onTap: (int index) => setState(() => _selectedIndex = index),
-                    items: myBottomBar!.elements
-                        .map((e) => BottomNavigationBarItem(
-                              icon: Icon(e.iconData),
-                              label: e.label,
-                            ))
-                        .toList(),
-                  ),
-                ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: isTabBarVisible ? kBottomNavigationBarHeight + MediaQuery.of(context).padding.bottom : 0,
+              child: CupertinoTabBar(
+                height: isTabBarVisible ? kBottomNavigationBarHeight + MediaQuery.of(context).padding.bottom : 0,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                currentIndex: _selectedIndex,
+                onTap: (int index) => setState(() => _selectedIndex = index),
+                items: myBottomBar!.elements
+                    .map(
+                      (e) => BottomNavigationBarItem(icon: Icon(e.iconData)
+                          // label: e.label,
+                          ),
+                    )
+                    .toList(),
               ),
             ),
             ColoredBox(

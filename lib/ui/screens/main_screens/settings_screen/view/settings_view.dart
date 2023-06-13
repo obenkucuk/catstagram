@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/settings_controller.dart';
-import '../custom_dropdown/custom_dropdown.dart';
+import '../../../../../components/custom_dropdown/custom_dropdown.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
@@ -13,11 +13,13 @@ class SettingsView extends GetView<SettingsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(appLocalization(context).settings),
         ),
         centerTitle: false,
+        bottom: const PreferredSize(preferredSize: Size.zero, child: Divider()),
       ),
       key: controller.scaffoldKey,
       body: Obx(() {

@@ -38,7 +38,7 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> with SingleTickerPr
   void prepareAnimations() {
     animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 600),
     )..addStatusListener((status) {});
 
     animation = CurvedAnimation(
