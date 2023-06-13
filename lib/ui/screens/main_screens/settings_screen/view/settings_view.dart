@@ -21,8 +21,8 @@ class SettingsView extends GetView<SettingsController> {
         centerTitle: false,
         bottom: const PreferredSize(preferredSize: Size.zero, child: Divider()),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.add_box_outlined)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.plus_rectangle)),
+          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.bars)),
         ],
       ),
       key: controller.scaffoldKey,

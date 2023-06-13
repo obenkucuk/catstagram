@@ -1,5 +1,6 @@
 import 'package:catstagram/core/extensions/to_cats_id_url.dart';
 import 'package:catstagram/theme/text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 
@@ -29,7 +30,7 @@ class SinglePost extends StatelessWidget {
             child: catList == null ? const CircularProgressIndicator.adaptive() : null,
           ),
           title: Text(catList != null ? catList!.tags!.first : ''),
-          trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
+          trailing: IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.ellipsis)),
         ),
 
         /// Post Image
@@ -47,23 +48,23 @@ class SinglePost extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.favorite_border),
+              icon: const Icon(CupertinoIcons.heart),
               color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.insert_comment_outlined),
+              icon: const Icon(CupertinoIcons.chat_bubble),
               color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.send_outlined),
+              icon: const Icon(CupertinoIcons.paperplane),
               color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
             const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.bookmark_border),
+              icon: const Icon(CupertinoIcons.bookmark),
               color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
           ],

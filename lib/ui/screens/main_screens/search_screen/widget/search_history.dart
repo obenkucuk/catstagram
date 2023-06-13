@@ -1,5 +1,6 @@
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/ui/screens/main_screens/search_screen/controller/search_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../components/shimmer_effect_widget/shimmer_effect_widget.dart';
 import '../../../../../theme/text_styles.dart';
@@ -118,7 +119,7 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
                         GestureDetector(
                           onTap: () async => await widget.onDelete(e.keyword),
                           child: Icon(
-                            Icons.close_rounded,
+                            CupertinoIcons.delete_simple,
                             size: 16,
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),

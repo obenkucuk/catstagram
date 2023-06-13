@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/home_controller.dart';
@@ -33,8 +34,8 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ),
                   const Spacer(),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.send)),
+                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.heart)),
+                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.text_bubble)),
                 ],
               ),
 
@@ -44,15 +45,10 @@ class HomeView extends GetView<HomeController> {
                   height: 120,
                   child: ColoredBox(
                     color: Colors.transparent,
-                    child: ListView.separated(
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.dataPost.length > 10 ? 10 : controller.dataPost.length,
-                      itemBuilder: (context, index) {
-                        int itemCount = controller.dataPost.length > 10 ? 10 : controller.dataPost.length;
-
-                        return SingleStory(cat: controller.dataPost[index]);
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(width: 10),
+                      itemBuilder: (context, index) => SingleStory(cat: controller.dataPost[index]),
                     ),
                   ),
                 ),

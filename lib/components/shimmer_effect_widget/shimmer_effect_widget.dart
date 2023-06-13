@@ -17,20 +17,13 @@ class ShimmerEffectWidget extends StatefulWidget {
 class _ShimmerEffectWidgetState extends State<ShimmerEffectWidget> {
   late Timer _timer;
 
-  int _colorInt = 5;
-  late final Brightness _brightness;
+  int _colorInt = -60;
   bool _isStart = true;
   final duration = const Duration(seconds: 1);
   final int depth = 20;
 
   @override
   void initState() {
-    _brightness = widget.light == ShimmerEffectBrigthness.lighter ? Brightness.dark : Brightness.light;
-
-    _colorInt = _brightness == Brightness.dark
-        ? 5
-        : (_brightness == Brightness.light ? -50 : (_brightness == Brightness.dark ? 5 : -50));
-
     onReady();
     super.initState();
   }
@@ -65,10 +58,10 @@ class _ShimmerEffectWidgetState extends State<ShimmerEffectWidget> {
   @override
   Widget build(BuildContext context) {
     final Color color = Color.fromARGB(
-      Theme.of(context).scaffoldBackgroundColor.alpha,
-      Theme.of(context).scaffoldBackgroundColor.red + _colorInt + 10,
-      Theme.of(context).scaffoldBackgroundColor.green + _colorInt + 10,
-      Theme.of(context).scaffoldBackgroundColor.blue + _colorInt + 10,
+      Colors.grey.shade200.alpha,
+      Colors.grey.shade200.red + _colorInt,
+      Colors.grey.shade200.green + _colorInt + 10,
+      Colors.grey.shade200.blue + _colorInt + 10,
     );
 
     return IntrinsicHeight(

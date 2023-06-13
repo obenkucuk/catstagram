@@ -15,74 +15,74 @@ class SearchView extends GetView<SearchXController> {
       key: controller.scaffoldKey,
       body: Obx(
         () {
-          return CustomScrollView(
-            physics: controller.isOverlayVisible.value
-                ? const NeverScrollableScrollPhysics()
-                : const AlwaysScrollableScrollPhysics(),
-            controller: controller.searchScrollController,
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                actions: [
-                  AnimatedSize(
-                    alignment: Alignment.centerLeft,
-                    duration: const Duration(milliseconds: 200),
-                    child: SizedBox(
-                      width: controller.isOverlayVisible.value ? MediaQuery.of(context).size.width * .1 : 0,
-                      child: AnimatedSlide(
-                        offset: controller.isOverlayVisible.value ? Offset.zero : const Offset(5, 0),
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                        child: GestureDetector(
-                          onTap: controller.hideSearch,
-                          child: FittedBox(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Text(appLocalization(context).cancel, style: s14W400(context)),
+          return SafeArea(
+            child: CustomScrollView(
+              physics: controller.isOverlayVisible.value
+                  ? const NeverScrollableScrollPhysics()
+                  : const AlwaysScrollableScrollPhysics(),
+              controller: controller.searchScrollController,
+              slivers: [
+                SliverAppBar(
+                  surfaceTintColor: Colors.transparent,
+                  floating: true,
+                  actions: [
+                    AnimatedSize(
+                      alignment: Alignment.centerLeft,
+                      duration: const Duration(milliseconds: 200),
+                      child: SizedBox(
+                        width: controller.isOverlayVisible.value ? MediaQuery.of(context).size.width * .1 : 0,
+                        child: AnimatedSlide(
+                          offset: controller.isOverlayVisible.value ? Offset.zero : const Offset(5, 0),
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          child: GestureDetector(
+                            onTap: controller.hideSearch,
+                            child: FittedBox(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Text(appLocalization(context).cancel, style: s14W400(context)),
+                              ),
                             ),
                           ),
                         ),
                       ),
+                    )
+                  ],
+                  title: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: CupertinoSearchTextField(
+                      key: controller.overlayDimensionKey,
+                      focusNode: controller.searchFocusNode,
+                      controller: controller.searchTextController,
+                      style: s12W300(context),
+                      placeholder: appLocalization(context).searchPlaceholder,
+                      onSubmitted: (searchKey) => controller.implementSearch(searchKey),
                     ),
+                  ),
+                ),
+                if (controller.dataSearchList.isNotEmpty)
+                  SliverGrid.builder(
+                    itemCount: controller.dataSearchList.isEmpty ? 8 : controller.dataSearchList.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 2,
+                      childAspectRatio: 0.8,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Image.network(
+                        (controller.dataSearchList[index].id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+                        errorBuilder: (context, error, stackTrace) => const CircularProgressIndicator.adaptive(),
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                if (controller.shuldSearchLazyLoad && controller.dataSearchList.isNotEmpty)
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: 100, child: CircularProgressIndicator.adaptive()),
                   )
-                ],
-                title: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: CupertinoSearchTextField(
-                    key: controller.overlayDimensionKey,
-                    focusNode: controller.searchFocusNode,
-                    controller: controller.searchTextController,
-                    style: s12W300(context),
-                    placeholder: appLocalization(context).searchPlaceholder,
-                    onSubmitted: (searchKey) => controller.implementSearch(searchKey),
-                  ),
-                ),
-              ),
-              if (controller.dataSearchList.isNotEmpty)
-                SliverGrid.builder(
-                  itemCount: controller.dataSearchList.isEmpty ? 8 : controller.dataSearchList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                    childAspectRatio: 0.8,
-                  ),
-                  itemBuilder: (context, index) {
-                    return Image.network(
-                      (controller.dataSearchList[index].id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
-                      errorBuilder: (context, error, stackTrace) => const CircularProgressIndicator.adaptive(),
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
-              if (controller.shuldSearchLazyLoad && controller.dataSearchList.isNotEmpty)
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: CircularProgressIndicator.adaptive(),
-                  ),
-                )
-            ],
+              ],
+            ),
           );
         },
       ),
