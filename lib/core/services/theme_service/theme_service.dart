@@ -18,6 +18,8 @@ class ThemeService {
 
   ThemeMode initThemeMode = ThemeMode.system;
 
+  ThemeMode getThemeMode(context) => MaterialAppInheritedWidget.of(context).themeMode;
+
   Future<void> changeThemeMode(BuildContext context, {required ThemeMode mode}) async {
     MaterialAppInheritedWidget.of(context).changeTheme(
       mode: mode,

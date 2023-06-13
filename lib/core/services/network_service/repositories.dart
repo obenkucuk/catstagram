@@ -24,7 +24,7 @@ class Repository {
       TagsResponseModel model =
           TagsResponseModel.fromJson((await jsonDecode(response.body) as List).map((e) => e.toString()).toList());
 
-      return BaseHttpModel(data: model);
+      return BaseHttpModel(data: model, statusCode: response.statusCode);
     } catch (e, s) {
       Log.error('Error: $e, Stack Trace: $s');
 
@@ -37,16 +37,14 @@ class Repository {
       var response = await HttpClient.instance.request(
         method: HttpMethods.GET,
         path: HttpUrls.catsFromTag,
-        queryParameters: {
-          'tags': tag,
-        },
+        queryParameters: {'tags': tag},
       );
 
       Log.success('getCatsFromTag: \n', response!.body);
 
       var model = catsFromTagResponseModelFromJson(response.body);
 
-      return BaseHttpModel(data: model);
+      return BaseHttpModel(data: model, statusCode: response.statusCode);
     } catch (e, s) {
       Log.error('Error: $e, Stack Trace: $s');
 

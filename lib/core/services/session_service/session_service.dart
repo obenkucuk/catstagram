@@ -19,4 +19,6 @@ class SessionService {
 
     Log.info('SessionService initialized successfully');
   }
+
+  List<String> allTags = [];
 }

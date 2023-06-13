@@ -1,27 +1,25 @@
 import 'package:catstagram/constants/app_enums.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
-
 import '../../../../../core/services/localization_service/localization_service.dart';
 import '../../../../../core/services/theme_service/theme_service.dart';
 
 class SettingsController extends GetxController {
   final scaffoldKey = GlobalKey();
-  final Rx<Brightness> brigthtness = Rx(SchedulerBinding.instance.window.platformBrightness);
+  late final Rx<ThemeMode> themeMode = Rx(ThemeService.instance.getThemeMode(context));
   final Rx<LoadingStatus> loadingStatus = LoadingStatus.init.obs;
 
   late final Map<String, Widget> dropdownItems;
 
   BuildContext get context => scaffoldKey.currentContext!;
 
-  Future<void> changeTheme(Brightness? value) async {
-    brigthtness.value = value!;
+  Future<void> changeTheme(ThemeMode? value) async {
+    themeMode.value = value!;
     await ThemeService.instance
-        .changeThemeMode(context, mode: value == Brightness.dark ? ThemeMode.dark : ThemeMode.light);
+        .changeThemeMode(context, mode: value == ThemeMode.dark ? ThemeMode.dark : ThemeMode.light);
   }
 
-  Future<void> changeLocalization(index) async {
+  Future<void> changeLocalization(int index) async {
     await LocalizationService.instance.changeLocal(context, locale: index == 0 ? AppLocales.tr : AppLocales.en);
   }
 
@@ -39,7 +37,7 @@ class SettingsController extends GetxController {
     locale.value = localeFromStorage;
   }
 
-  Future ready() async {
+  Future _ready() async {
     try {
       loadingStatus.value = LoadingStatus.loading;
       await Future.wait([_initLocale()]);
@@ -52,7 +50,8 @@ class SettingsController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    ready();
+
+    _ready();
   }
 }
 

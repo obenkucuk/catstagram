@@ -20,6 +20,10 @@ class SettingsView extends GetView<SettingsController> {
         ),
         centerTitle: false,
         bottom: const PreferredSize(preferredSize: Size.zero, child: Divider()),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add_box_outlined)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        ],
       ),
       key: controller.scaffoldKey,
       body: Obx(() {
@@ -41,11 +45,11 @@ class SettingsView extends GetView<SettingsController> {
                       const Spacer(),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.3,
-                        child: CupertinoSlidingSegmentedControl<Brightness>(
-                          groupValue: controller.brigthtness.value,
+                        child: CupertinoSlidingSegmentedControl<ThemeMode>(
+                          groupValue: controller.themeMode.value,
                           children: {
-                            Brightness.light: createSegment(context, appLocalization(context).lightMode),
-                            Brightness.dark: createSegment(context, appLocalization(context).darkMode),
+                            ThemeMode.light: createSegment(context, appLocalization(context).lightMode),
+                            ThemeMode.dark: createSegment(context, appLocalization(context).darkMode),
                           },
                           onValueChanged: (value) => controller.changeTheme(value),
                         ),

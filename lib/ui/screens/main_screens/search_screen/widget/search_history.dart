@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import '../../../../../components/shimmer_effect_widget/shimmer_effect_widget.dart';
 import '../../../../../theme/text_styles.dart';
 
+enum SearchStatus { found, searching, error, history }
+
 class SearchHistory extends StatefulWidget {
   final Offset offset;
   final Size size;
   final List<SearchHistoryModel> list;
   final Function(String value) onDelete;
   final Function(String value) onTap;
+  final SearchStatus searchStatus;
 
   const SearchHistory({
     Key? key,
@@ -18,6 +21,7 @@ class SearchHistory extends StatefulWidget {
     required this.onDelete,
     required this.onTap,
     required this.size,
+    required this.searchStatus,
   }) : super(key: key);
 
   @override
@@ -41,7 +45,7 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
   void prepareAnimations() {
     animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 400),
     )..addStatusListener((status) {});
 
     animation = CurvedAnimation(
@@ -95,32 +99,34 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
             children: [
               const SizedBox(height: 10),
               Text(appLocalization(context).recentSearches, style: s14W600(context)),
-              ...widget.list.map((e) {
-                return const ShimmerEffectWidget();
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 5),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       const CircleAvatar(backgroundColor: Colors.amber),
-                //       const Spacer(flex: 1),
-                //       GestureDetector(
-                //         onTap: () async => await widget.onTap(e.keyword),
-                //         child: Text(e.keyword, style: s16W400(context)),
-                //       ),
-                //       const Spacer(flex: 15),
-                //       GestureDetector(
-                //         onTap: () async => await widget.onDelete(e.keyword),
-                //         child: Icon(
-                //           Icons.close_rounded,
-                //           size: 16,
-                //           color: Theme.of(context).textTheme.bodyLarge!.color,
-                //         ),
-                //       )
-                //     ],
-                //   ),
-                // );
-              }).toList(),
+              if (widget.searchStatus == SearchStatus.searching)
+                ...List.generate(20, (i) => i).map((e) => const ShimmerEffectWidget()).toList(),
+              if (widget.searchStatus == SearchStatus.history)
+                ...widget.list.map((e) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const CircleAvatar(backgroundColor: Colors.amber),
+                        const Spacer(flex: 1),
+                        GestureDetector(
+                          onTap: () async => await widget.onTap(e.keyword),
+                          child: Text(e.keyword, style: s16W400(context)),
+                        ),
+                        const Spacer(flex: 15),
+                        GestureDetector(
+                          onTap: () async => await widget.onDelete(e.keyword),
+                          child: Icon(
+                            Icons.close_rounded,
+                            size: 16,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }).toList(),
             ],
           ),
         ),

@@ -80,6 +80,7 @@ class _ShimmerEffectWidgetState extends State<ShimmerEffectWidget> {
             height: MediaQuery.of(context).size.width * .12,
             width: MediaQuery.of(context).size.width * .12,
             borderRadius: MediaQuery.of(context).size.width * .06,
+            margin: 10,
           ),
           const SizedBox(width: 10),
           Column(
@@ -114,6 +115,7 @@ class _ShimmerBox extends StatelessWidget {
     required this.width,
     required this.borderRadius,
     this.duration = const Duration(seconds: 1),
+    this.margin = 0,
   });
 
   final Color color;
@@ -121,10 +123,12 @@ class _ShimmerBox extends StatelessWidget {
   final double width;
   final double borderRadius;
   final Duration duration;
+  final double margin;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
+      margin: EdgeInsets.symmetric(vertical: margin),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
         color: color,

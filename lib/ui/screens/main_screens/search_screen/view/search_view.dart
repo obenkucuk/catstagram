@@ -51,6 +51,7 @@ class SearchView extends GetView<SearchXController> {
                   child: CupertinoSearchTextField(
                     key: controller.overlayDimensionKey,
                     focusNode: controller.searchFocusNode,
+                    controller: controller.searchTextController,
                     style: s12W300(context),
                     placeholder: appLocalization(context).searchPlaceholder,
                     onSubmitted: (searchKey) => controller.implementSearch(searchKey),

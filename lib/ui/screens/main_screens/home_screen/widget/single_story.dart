@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 
 class SingleStory extends StatelessWidget {
-  final List<CatFromTagResponseModel>? catList;
-  const SingleStory({super.key, this.catList});
+  final CatFromTagResponseModel? cat;
+  const SingleStory({super.key, this.cat});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: catList != null
+      child: cat != null
           ? Column(
               children: [
                 Container(
@@ -30,13 +30,13 @@ class SingleStory extends StatelessWidget {
                           padding: const EdgeInsets.all(3.0),
                           child: CircleAvatar(
                             backgroundImage: NetworkImage(
-                              (catList!.first.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+                              (cat!.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
                             ),
                           ),
                         )),
                   ),
                 ),
-                FittedBox(child: Text(catList!.first.tags!.first)),
+                FittedBox(child: Text(cat!.tags!.first)),
               ],
             )
           : const SizedBox(width: 80, child: CircularProgressIndicator.adaptive()),

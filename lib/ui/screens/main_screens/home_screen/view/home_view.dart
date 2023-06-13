@@ -45,18 +45,12 @@ class HomeView extends GetView<HomeController> {
                   child: ColoredBox(
                     color: Colors.transparent,
                     child: ListView.separated(
-                      controller: controller.storyScrollController,
                       scrollDirection: Axis.horizontal,
-                      itemCount: (controller.dataStoryList.isEmpty ? 5 : controller.dataStoryList.length) + 1,
+                      itemCount: controller.dataPost.length > 10 ? 10 : controller.dataPost.length,
                       itemBuilder: (context, index) {
-                        int itemCount = (controller.dataStoryList.isEmpty ? 5 : controller.dataStoryList.length) + 1;
-                        if (itemCount == index + 1) {
-                          return const Center(child: SizedBox(width: 50, child: CircularProgressIndicator.adaptive()));
-                        } else if (controller.dataStoryList.isNotEmpty) {
-                          return SingleStory(catList: controller.dataStoryList[index].data);
-                        } else {
-                          return const SingleStory();
-                        }
+                        int itemCount = controller.dataPost.length > 10 ? 10 : controller.dataPost.length;
+
+                        return SingleStory(cat: controller.dataPost[index]);
                       },
                       separatorBuilder: (context, index) => const SizedBox(width: 10),
                     ),
@@ -67,21 +61,21 @@ class HomeView extends GetView<HomeController> {
               SliverToBoxAdapter(child: SizedBox(height: 1, child: ColoredBox(color: Theme.of(context).dividerColor))),
 
               /// Post List
-              if (controller.dataPostList.isNotEmpty)
+              if (controller.dataPost.isNotEmpty)
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      var itemCount = (controller.dataPostList.isEmpty ? 5 : controller.dataPostList.length) + 1;
+                      var itemCount = (controller.dataPost.isEmpty ? 5 : controller.dataPost.length) + 1;
 
                       if (itemCount == index + 1) {
                         return const Center(child: SizedBox(height: 100, child: CircularProgressIndicator.adaptive()));
-                      } else if (controller.dataPostList.isNotEmpty) {
-                        return SinglePost(catList: controller.dataPostList[index].data);
+                      } else if (controller.dataPost.isNotEmpty) {
+                        return SinglePost(catList: controller.dataPost[index]);
                       } else {
                         return const SinglePost();
                       }
                     },
-                    childCount: (controller.dataPostList.isEmpty ? 5 : controller.dataPostList.length) + 1,
+                    childCount: (controller.dataPost.isEmpty ? 5 : controller.dataPost.length) + 1,
                   ),
                 )
             ],

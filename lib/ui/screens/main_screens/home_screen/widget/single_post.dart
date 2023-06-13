@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 
 class SinglePost extends StatelessWidget {
-  final List<CatFromTagResponseModel>? catList;
+  final CatFromTagResponseModel? catList;
   const SinglePost({super.key, this.catList});
 
   @override
@@ -21,21 +21,21 @@ class SinglePost extends StatelessWidget {
               shape: BoxShape.circle,
               image: catList != null
                   ? DecorationImage(
-                      image: NetworkImage((catList!.first.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl),
+                      image: NetworkImage((catList!.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl),
                       fit: BoxFit.cover,
                     )
                   : null,
             ),
             child: catList == null ? const CircularProgressIndicator.adaptive() : null,
           ),
-          title: Text(catList != null ? catList!.first.tags!.first : ''),
+          title: Text(catList != null ? catList!.tags!.first : ''),
           trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
         ),
 
         /// Post Image
         if (catList != null)
           Image.network(
-            (catList!.last.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+            (catList!.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.width,
             width: MediaQuery.of(context).size.width,
@@ -76,7 +76,7 @@ class SinglePost extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(text: 'Liked by ', style: s14W400(context)),
-                TextSpan(text: catList != null ? catList!.last.tags!.first : '', style: s14W700(context)),
+                TextSpan(text: catList != null ? catList!.tags!.first : '', style: s14W700(context)),
                 TextSpan(text: ' and', style: s14W400(context)),
                 TextSpan(text: ' others', style: s14W700(context)),
               ],
