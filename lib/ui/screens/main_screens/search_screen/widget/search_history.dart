@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/ui/screens/main_screens/search_screen/controller/search_controller.dart';
 import 'package:flutter/material.dart';
+import '../../../../../components/shimmer_effect_widget/shimmer_effect_widget.dart';
 import '../../../../../theme/text_styles.dart';
 
 class SearchHistory extends StatefulWidget {
@@ -95,29 +98,30 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
               const SizedBox(height: 10),
               Text(appLocalization(context).recentSearches, style: s14W600(context)),
               ...widget.list.map((e) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const CircleAvatar(backgroundColor: Colors.amber),
-                      const Spacer(flex: 1),
-                      GestureDetector(
-                        onTap: () async => await widget.onTap(e.keyword),
-                        child: Text(e.keyword, style: s16W400(context)),
-                      ),
-                      const Spacer(flex: 15),
-                      GestureDetector(
-                        onTap: () async => await widget.onDelete(e.keyword),
-                        child: Icon(
-                          Icons.close_rounded,
-                          size: 16,
-                          color: Theme.of(context).textTheme.bodyLarge!.color,
-                        ),
-                      )
-                    ],
-                  ),
-                );
+                return const ShimmerEffectWidget();
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 5),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       const CircleAvatar(backgroundColor: Colors.amber),
+                //       const Spacer(flex: 1),
+                //       GestureDetector(
+                //         onTap: () async => await widget.onTap(e.keyword),
+                //         child: Text(e.keyword, style: s16W400(context)),
+                //       ),
+                //       const Spacer(flex: 15),
+                //       GestureDetector(
+                //         onTap: () async => await widget.onDelete(e.keyword),
+                //         child: Icon(
+                //           Icons.close_rounded,
+                //           size: 16,
+                //           color: Theme.of(context).textTheme.bodyLarge!.color,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // );
               }).toList(),
             ],
           ),
