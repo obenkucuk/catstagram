@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 ContentModelFromPexel contentModelFromPexelFromJson(String str) => ContentModelFromPexel.fromJson(json.decode(str));

@@ -1,13 +1,15 @@
+import 'package:catstagram/core/extensions/to_cats_id_url.dart';
 import 'package:catstagram/core/services/session_service/session_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
+import '../../../../../core/models/search_history_and_found_model.dart';
 import '../../../../../core/services/network_service/repositories.dart';
-import '../widget/search_history.dart';
+import '../view/search_history_view.dart';
 
-enum SearchKeys { updateList }
+enum SearchKeys { updateSearch }
 
-class SearchXController extends GetxController {
+class SearchController extends GetxController {
   final scaffoldKey = GlobalKey();
 
   BuildContext get context => scaffoldKey.currentContext!;
@@ -15,32 +17,62 @@ class SearchXController extends GetxController {
   final RxBool isOverlayVisible = false.obs;
   final TextEditingController searchTextController = TextEditingController();
 
+  final List<SearchHistoryAndFoundModel> searchHistoryList = <SearchHistoryAndFoundModel>[
+    SearchHistoryAndFoundModel(keyword: 'Temp History Item'),
+  ];
+
+  final RxList<SearchHistoryAndFoundModel> searchFoundedList = <SearchHistoryAndFoundModel>[].obs;
+
+  final overlayDimensionKey = GlobalKey();
+  OverlayEntry? overlayEntry;
+  OverlayState? overlayState;
+  final Rx<SearchStatus> searchStatus = Rx(SearchStatus.history);
+
+  late final ScrollController searchScrollController;
+  final RxList<CatFromTagResponseModel> dataList = <CatFromTagResponseModel>[].obs;
+  final allTags = SessionService.instance.allTags;
+  bool shuldSearchViewLazyLoad = true;
+
+  /// open the search view when the search focus node has focus
   void _searchFocusListener() {
     if (searchFocusNode.hasFocus) {
       showSearch();
     }
   }
 
-  final RxList<SearchHistoryModel> searchHistoryList = <SearchHistoryModel>[
-    SearchHistoryModel(keyword: 'deneme'),
-  ].obs;
+  /// search for cats from the api
+  Future<void> implementSearch(String searchKey) async {
+    try {
+      searchStatus.value = SearchStatus.searching;
+      update([SearchKeys.updateSearch]);
 
-  final overlayDimensionKey = GlobalKey();
-  OverlayEntry? overlayEntry;
-  OverlayState? overlayState;
+      var res = await Repository.instance.getCatsFromTag(searchKey);
+      var modelList = res.data;
 
-  implementSearch(String searchKey) {
-    /// TODO: arama yap ve history listesine ekle
-    ///
+      for (var e in modelList) {
+        searchFoundedList.add(
+          SearchHistoryAndFoundModel(
+            keyword: e.tags != null ? e.tags!.first : '',
+            imageUrl: (e.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+          ),
+        );
+      }
+      searchStatus.value = SearchStatus.found;
+      update([SearchKeys.updateSearch]);
+    } catch (e) {
+      debugPrint('An Error Occured!');
+    }
 
     var isKeywordExist = searchHistoryList.any((e) => e.keyword == searchKey);
 
     if (!isKeywordExist) {
-      var newSearchHistory = SearchHistoryModel(keyword: searchKey);
+      var newSearchHistory = SearchHistoryAndFoundModel(
+          keyword: searchKey, imageUrl: searchFoundedList.isNotEmpty ? searchFoundedList.first.imageUrl : null);
       searchHistoryList.add(newSearchHistory);
     }
   }
 
+  /// delete the search key from the search history list
   void deleteFromSearchHistory(String searchKey) {
     var isKeywordExist = searchHistoryList.any((e) => e.keyword == searchKey);
 
@@ -48,21 +80,28 @@ class SearchXController extends GetxController {
       searchHistoryList.removeWhere((e) => e.keyword == searchKey);
     }
 
-    update([SearchKeys.updateList]);
+    update([SearchKeys.updateSearch]);
   }
 
-  final Rx<SearchStatus> searchStatus = Rx(SearchStatus.history);
+  /// listen to the search key changing to update the search history status
   void listenChangingSearchKey(String value) {
     if (value.isNotEmpty) {
       searchStatus.value = SearchStatus.searching;
-      update([SearchKeys.updateList]);
+      update([SearchKeys.updateSearch]);
     } else {
       searchStatus.value = SearchStatus.history;
-      update([SearchKeys.updateList]);
+      update([SearchKeys.updateSearch]);
     }
   }
 
-//for showing the search history overlay
+  /// get the search key from the search history list to implement the search
+  void getSearchKeyFromHistory(value) {
+    searchTextController.text = value;
+    searchTextController.selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+    implementSearch(value);
+  }
+
+  /// for showing the search history overlay
   Future<void> showSearch() async {
     isOverlayVisible.value = true;
 
@@ -70,20 +109,18 @@ class SearchXController extends GetxController {
     Offset offset = renderBox.localToGlobal(Offset.zero);
 
     overlayEntry = OverlayEntry(builder: (context) {
-      return GetBuilder<SearchXController>(
-          id: SearchKeys.updateList,
-          init: SearchXController(),
+      return GetBuilder<SearchController>(
+          id: SearchKeys.updateSearch,
+          init: SearchController(),
           builder: (controller) {
-            return SearchHistory(
+            return SearchHistoryView(
               searchStatus: searchStatus.value,
               offset: offset,
               size: renderBox.size,
-              list: searchHistoryList,
+              foundedList: searchFoundedList,
+              historyList: searchHistoryList,
               onDelete: (searchKey) => deleteFromSearchHistory(searchKey),
-              onTap: (value) {
-                searchTextController.text = value;
-                searchTextController.selection = TextSelection.fromPosition(TextPosition(offset: value.length));
-              },
+              onTap: (value) => getSearchKeyFromHistory(value),
             );
           });
     });
@@ -91,7 +128,10 @@ class SearchXController extends GetxController {
     overlayState!.insert(overlayEntry!);
   }
 
+  /// for hiding the search history overlay
   Future<void> hideSearch() async {
+    searchFoundedList.clear();
+    searchStatus.value = SearchStatus.history;
     searchTextController.clear();
     FocusScope.of(context).unfocus();
     isOverlayVisible.value = false;
@@ -100,37 +140,30 @@ class SearchXController extends GetxController {
     overlayEntry = null;
   }
 
-  late final ScrollController searchScrollController;
-
-  final RxList<CatFromTagResponseModel> dataSearchList = <CatFromTagResponseModel>[].obs;
-
-  final allTags = SessionService.instance.allTags;
-
+  /// for fetching data from the api
   Future<void> fetchData() async {
     allTags.shuffle();
     allTags.take(8).forEach((element) async {
       var res = await Repository.instance.getCatsFromTag(element);
-      dataSearchList.addAll(res.data);
+      dataList.addAll(res.data);
     });
   }
 
-  bool shuldSearchLazyLoad = true;
-  Future<void> _searchLazyLoad() async {
-    /// for lazy load
-
+  /// when user scroll to the end of the search view list to get more data from api
+  Future<void> _searchViewLazyLoad() async {
     if (searchScrollController.position.maxScrollExtent - 20 <= searchScrollController.offset) {
       try {
-        if (shuldSearchLazyLoad) {
-          shuldSearchLazyLoad = false;
+        if (shuldSearchViewLazyLoad) {
+          shuldSearchViewLazyLoad = false;
           allTags.shuffle();
           var res = await Repository.instance.getCatsFromTag(allTags.first);
 
-          dataSearchList.value += res.data;
+          dataList.value += res.data;
 
-          shuldSearchLazyLoad = true;
+          shuldSearchViewLazyLoad = true;
         }
       } catch (_) {
-        shuldSearchLazyLoad = true;
+        shuldSearchViewLazyLoad = true;
       }
     }
   }
@@ -139,21 +172,12 @@ class SearchXController extends GetxController {
   void onInit() {
     super.onInit();
     fetchData();
-
-    searchScrollController = ScrollController()..addListener(_searchLazyLoad);
+    searchScrollController = ScrollController()..addListener(_searchViewLazyLoad);
   }
 
   @override
   void onClose() {
-    searchScrollController.removeListener(_searchLazyLoad);
+    searchScrollController.removeListener(_searchViewLazyLoad);
     super.onClose();
   }
-}
-
-class SearchHistoryModel {
-  final String keyword;
-  final String? imageUrl;
-  final String? type;
-
-  SearchHistoryModel({required this.keyword, this.imageUrl, this.type});
 }

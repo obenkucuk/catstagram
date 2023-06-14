@@ -1,35 +1,42 @@
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
-import 'package:catstagram/ui/screens/main_screens/search_screen/controller/search_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../../../../../components/shimmer_effect_widget/shimmer_effect_widget.dart';
+import '../../../../../constants/assets_constants.dart';
+import '../../../../../core/models/search_history_and_found_model.dart';
 import '../../../../../theme/text_styles.dart';
 
-enum SearchStatus { found, searching, error, history }
+part '../widget/not_found_widget.dart';
+part '../widget/search_history_and_found_widget.dart';
 
-class SearchHistory extends StatefulWidget {
+enum SearchStatus { found, searching, history }
+
+class SearchHistoryView extends StatefulWidget {
   final Offset offset;
   final Size size;
-  final List<SearchHistoryModel> list;
+  final List<SearchHistoryAndFoundModel> historyList;
+  final List<SearchHistoryAndFoundModel> foundedList;
   final Function(String value) onDelete;
   final Function(String value) onTap;
   final SearchStatus searchStatus;
 
-  const SearchHistory({
+  const SearchHistoryView({
     Key? key,
     required this.offset,
-    required this.list,
+    required this.historyList,
     required this.onDelete,
     required this.onTap,
     required this.size,
     required this.searchStatus,
+    required this.foundedList,
   }) : super(key: key);
 
   @override
-  State<SearchHistory> createState() => _SearchHistoryState();
+  State<SearchHistoryView> createState() => _SearchHistoryViewState();
 }
 
-class _SearchHistoryState extends State<SearchHistory> with SingleTickerProviderStateMixin {
+class _SearchHistoryViewState extends State<SearchHistoryView> with SingleTickerProviderStateMixin {
   bool displayOverly = true;
 
   late AnimationController animController;
@@ -65,11 +72,11 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
   }
 
   @override
-  void didUpdateWidget(SearchHistory oldWidget) {
+  void didUpdateWidget(SearchHistoryView oldWidget) {
     super.didUpdateWidget(oldWidget);
     runExpand();
 
-    if (widget.list != oldWidget.list) {
+    if (widget.historyList != oldWidget.historyList) {
       setState(() {});
     }
   }
@@ -83,8 +90,6 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    print(widget.searchStatus);
-
     return Positioned(
       top: widget.offset.dy + widget.size.height + 10,
       width: MediaQuery.of(context).size.width,
@@ -101,35 +106,42 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
             padding: EdgeInsets.zero,
             children: [
               const SizedBox(height: 10),
-              Text(appLocalization(context).recentSearches, style: s14W600(context)),
+
+              /// If the search status is found, show the founded list
+              if (widget.searchStatus == SearchStatus.found)
+                if (widget.foundedList.isNotEmpty)
+                  ...widget.foundedList.map((e) {
+                    return _SearchHistoryAndFoundWidget(
+                      title: e.keyword,
+                      imageUrl: e.imageUrl,
+                      onTap: (value) => widget.onTap(value),
+                    );
+                  }).toList()
+                else
+                  _NotFoundWidget(
+                    height: MediaQuery.of(context).size.height - (widget.offset.dy + widget.size.height + 10),
+                  ),
+
+              /// If search status is searching, show the shimmer effect
               if (widget.searchStatus == SearchStatus.searching)
                 ...List.generate(20, (i) => i).map((e) => const ShimmerEffectWidget()).toList(),
+
+              /// when user didn't search anything, show the history list
               if (widget.searchStatus == SearchStatus.history)
-                ...widget.list.map((e) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const CircleAvatar(backgroundColor: Colors.amber),
-                        const Spacer(flex: 1),
-                        GestureDetector(
-                          onTap: () async => await widget.onTap(e.keyword),
-                          child: Text(e.keyword, style: s16W400(context)),
-                        ),
-                        const Spacer(flex: 15),
-                        GestureDetector(
-                          onTap: () async => await widget.onDelete(e.keyword),
-                          child: Icon(
-                            CupertinoIcons.delete_simple,
-                            size: 16,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }).toList(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(appLocalization(context).recentSearches, style: s14W600(context)),
+                    ...widget.historyList.map((e) {
+                      return _SearchHistoryAndFoundWidget(
+                        title: e.keyword,
+                        imageUrl: e.imageUrl,
+                        onTap: (value) => widget.onTap(value),
+                        onDelete: (value) => widget.onDelete(value),
+                      );
+                    }).toList(),
+                  ],
+                )
             ],
           ),
         ),

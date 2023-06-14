@@ -31,7 +31,7 @@ final GoRouter appRouter = GoRouter(
       pageBuilder: (context, state) => _routerPageBuilder(
         state,
         context,
-        StoryScreen(
+        const StoryScreen(
             // index: (state.extra as RouterArgumentsModel<int>).extra!,
             ),
       ),

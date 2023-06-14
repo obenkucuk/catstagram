@@ -8,6 +8,7 @@ import '../../../../../core/services/router_service/router_enums.dart';
 import '../../../../../core/services/router_service/router_service.dart';
 
 class SplashController extends GetxController {
+  /// fetch all tags from the api and save it in the session service to use it in the app
   Future<void> _getTags() async {
     List<String> allTags = [];
 

@@ -18,12 +18,10 @@ class HomeView extends GetView<HomeController> {
           child: CustomScrollView(
             controller: controller.postScrollController,
             slivers: [
+              /// App Bar for the home screen
               SliverAppBar(
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 surfaceTintColor: Colors.transparent,
-
-                /// shape: const ContinuousRectangleBorder(side: BorderSide(color: Colors.black)),
-                /// backgroundColor: Colors.amberAccent,
                 floating: true,
                 leadingWidth: MediaQuery.of(context).size.width * .5,
                 actions: [
@@ -37,7 +35,7 @@ class HomeView extends GetView<HomeController> {
                   const Spacer(),
                   IconButton(
                       onPressed: () {
-                        controller.goStory();
+                        controller.goToStory();
                       },
                       icon: const Icon(CupertinoIcons.heart)),
                   IconButton(
@@ -48,7 +46,7 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
 
-              /// Stories
+              /// Stories List view at the top of the home screen
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: 120,

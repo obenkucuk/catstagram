@@ -107,6 +107,7 @@ class _ShimmerBox extends StatelessWidget {
     required this.height,
     required this.width,
     required this.borderRadius,
+    // ignore: unused_element
     this.duration = const Duration(seconds: 1),
     this.margin = 0,
   });

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import '../../search_screen/controller/search_controller.dart';
 
-class SearchView extends GetView<SearchXController> {
+class SearchView extends GetView<SearchController> {
   const SearchView({super.key});
 
   @override
@@ -62,9 +62,9 @@ class SearchView extends GetView<SearchXController> {
                     ),
                   ),
                 ),
-                if (controller.dataSearchList.isNotEmpty)
+                if (controller.dataList.isNotEmpty)
                   SliverGrid.builder(
-                    itemCount: controller.dataSearchList.isEmpty ? 8 : controller.dataSearchList.length,
+                    itemCount: controller.dataList.isEmpty ? 8 : controller.dataList.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 2,
@@ -73,13 +73,13 @@ class SearchView extends GetView<SearchXController> {
                     ),
                     itemBuilder: (context, index) {
                       return Image.network(
-                        (controller.dataSearchList[index].id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+                        (controller.dataList[index].id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
                         errorBuilder: (context, error, stackTrace) => const CircularProgressIndicator.adaptive(),
                         fit: BoxFit.cover,
                       );
                     },
                   ),
-                if (controller.shuldSearchLazyLoad && controller.dataSearchList.isNotEmpty)
+                if (controller.shuldSearchViewLazyLoad && controller.dataList.isNotEmpty)
                   const SliverToBoxAdapter(
                     child: SizedBox(height: 100, child: CircularProgressIndicator.adaptive()),
                   )

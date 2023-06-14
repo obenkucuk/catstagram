@@ -1,6 +1,7 @@
 import 'package:catstagram/constants/app_enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../constants/loading_status_enums.dart';
 import '../../../../../core/services/localization_service/localization_service.dart';
 import '../../../../../core/services/theme_service/theme_service.dart';
 
@@ -8,23 +9,23 @@ class SettingsController extends GetxController {
   final scaffoldKey = GlobalKey();
   late final Rx<ThemeMode> themeMode = Rx(ThemeService.instance.getThemeMode(context));
   final Rx<LoadingStatus> loadingStatus = LoadingStatus.init.obs;
-
   late final Map<String, Widget> dropdownItems;
-
   BuildContext get context => scaffoldKey.currentContext!;
+  final Rx<Locale> locale = Rx(const Locale('en'));
 
+  /// change theme function
   Future<void> changeTheme(ThemeMode? value) async {
     themeMode.value = value!;
     await ThemeService.instance
         .changeThemeMode(context, mode: value == ThemeMode.dark ? ThemeMode.dark : ThemeMode.light);
   }
 
+  /// change language function
   Future<void> changeLocalization(int index) async {
     await LocalizationService.instance.changeLocal(context, locale: index == 0 ? AppLocales.tr : AppLocales.en);
   }
 
-  final Rx<Locale> locale = Rx(const Locale('en'));
-
+  /// creates dropdown items for the language dropdown
   Future<void> _initLocale() async {
     await Future.microtask(() {
       dropdownItems = {
@@ -37,6 +38,7 @@ class SettingsController extends GetxController {
     locale.value = localeFromStorage;
   }
 
+  /// to wait some functions to complete before the screen loads
   Future _ready() async {
     try {
       loadingStatus.value = LoadingStatus.loading;
@@ -50,10 +52,6 @@ class SettingsController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
     _ready();
   }
 }
-
-///TODO:
-enum LoadingStatus { init, loading, loaded, error }

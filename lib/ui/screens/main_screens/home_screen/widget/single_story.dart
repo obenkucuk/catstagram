@@ -3,6 +3,7 @@ import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 
+/// single story widget for the home screen
 class SingleStory extends StatelessWidget {
   final CatFromTagResponseModel? cat;
   const SingleStory({super.key, this.cat});

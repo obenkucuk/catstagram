@@ -8,8 +8,8 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SearchXController>(
-      init: SearchXController(),
+    return GetBuilder<SearchController>(
+      init: SearchController(),
       builder: (controller) => const SearchView(),
     );
   }

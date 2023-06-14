@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import '../constants/app_constants.dart';
 import 'app_colors.dart';
 
-//TODO app font family
-
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,

@@ -3,6 +3,7 @@ import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../constants/loading_status_enums.dart';
 import '../controller/settings_controller.dart';
 import '../../../../../components/custom_dropdown/custom_dropdown.dart';
 
@@ -39,6 +40,8 @@ class SettingsView extends GetView<SettingsController> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 10),
+
+                  /// change language with segmented control
                   Row(
                     children: [
                       Text(appLocalization(context).changeLanguage),
@@ -57,6 +60,8 @@ class SettingsView extends GetView<SettingsController> {
                     ],
                   ),
                   const SizedBox(height: 10),
+
+                  /// change theme with dropdown
                   Row(
                     children: [
                       Text(appLocalization(context).changeTheme),

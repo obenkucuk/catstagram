@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 
+/// single post widget for the home screen
 class SinglePost extends StatelessWidget {
   final CatFromTagResponseModel? catList;
   const SinglePost({super.key, this.catList});
