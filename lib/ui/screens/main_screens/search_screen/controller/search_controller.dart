@@ -41,7 +41,7 @@ class SearchXController extends GetxController {
     }
   }
 
-  deleteFromSearchHistory(String searchKey) {
+  void deleteFromSearchHistory(String searchKey) {
     var isKeywordExist = searchHistoryList.any((e) => e.keyword == searchKey);
 
     if (isKeywordExist) {
@@ -49,6 +49,17 @@ class SearchXController extends GetxController {
     }
 
     update([SearchKeys.updateList]);
+  }
+
+  final Rx<SearchStatus> searchStatus = Rx(SearchStatus.history);
+  void listenChangingSearchKey(String value) {
+    if (value.isNotEmpty) {
+      searchStatus.value = SearchStatus.searching;
+      update([SearchKeys.updateList]);
+    } else {
+      searchStatus.value = SearchStatus.history;
+      update([SearchKeys.updateList]);
+    }
   }
 
 //for showing the search history overlay
@@ -64,7 +75,7 @@ class SearchXController extends GetxController {
           init: SearchXController(),
           builder: (controller) {
             return SearchHistory(
-              searchStatus: SearchStatus.history,
+              searchStatus: searchStatus.value,
               offset: offset,
               size: renderBox.size,
               list: searchHistoryList,

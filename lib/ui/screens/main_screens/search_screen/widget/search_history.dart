@@ -83,6 +83,8 @@ class _SearchHistoryState extends State<SearchHistory> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    print(widget.searchStatus);
+
     return Positioned(
       top: widget.offset.dy + widget.size.height + 10,
       width: MediaQuery.of(context).size.width,

@@ -1,4 +1,5 @@
 import 'package:catstagram/ui/screens/other_screens/splash_screen/splash_screen.dart';
+import 'package:catstagram/ui/screens/other_screens/story_screen/story_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/router_service/router_argsuments_model.dart';
@@ -23,6 +24,17 @@ final GoRouter appRouter = GoRouter(
       path: '/main',
       name: RoutesNames.main,
       pageBuilder: (context, state) => _routerPageBuilder(state, context, const MainScreen()),
+    ),
+    GoRoute(
+      path: '/story',
+      name: RoutesNames.story,
+      pageBuilder: (context, state) => _routerPageBuilder(
+        state,
+        context,
+        StoryScreen(
+            // index: (state.extra as RouterArgumentsModel<int>).extra!,
+            ),
+      ),
     ),
   ],
   errorPageBuilder: (context, state) {

@@ -1,3 +1,4 @@
+import 'package:catstagram/core/services/network_service/repositories.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,8 +35,16 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ),
                   const Spacer(),
-                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.heart)),
-                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.text_bubble)),
+                  IconButton(
+                      onPressed: () {
+                        controller.goStory();
+                      },
+                      icon: const Icon(CupertinoIcons.heart)),
+                  IconButton(
+                      onPressed: () {
+                        Repository.instance.getPexelsSearch('cat');
+                      },
+                      icon: const Icon(CupertinoIcons.text_bubble)),
                 ],
               ),
 

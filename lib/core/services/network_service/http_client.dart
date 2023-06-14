@@ -6,9 +6,11 @@ import '/core/extensions/string_map_prettier.dart';
 import '../../exceptions/custom_http_exception.dart';
 import 'http_enums.dart';
 import 'http_urls.dart';
+import 'package:catstagram/core/config/app_config.dart';
 part 'http_requests.dart';
+part 'http_header.dart';
 
-class HttpClient with HttpRequests {
+class HttpClient with HttpRequests, Header {
   HttpClient._();
   static final HttpClient instance = HttpClient._();
 
@@ -20,10 +22,18 @@ class HttpClient with HttpRequests {
     Object? body,
     bool encode = false,
     bool retry = true,
+    bool isPexel = false,
+    bool isAuth = false,
   }) async {
+    if (isAuth) {
+      headers = headers ?? {};
+      var headerAuth = createHeader();
+      headers.addAll(headerAuth);
+    }
+
     var uri = Uri(
       scheme: 'https',
-      host: HttpUrls.baseUrl,
+      host: isPexel ? HttpUrls.pexelUrl : HttpUrls.catUrl,
       path: path,
       queryParameters: queryParameters,
     );

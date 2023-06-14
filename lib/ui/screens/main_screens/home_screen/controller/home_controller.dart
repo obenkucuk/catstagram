@@ -1,3 +1,6 @@
+import 'package:catstagram/core/router/route_names.dart';
+import 'package:catstagram/core/services/router_service/router_enums.dart';
+import 'package:catstagram/core/services/router_service/router_service.dart';
 import 'package:catstagram/core/services/session_service/session_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -6,6 +9,7 @@ import 'package:get/get.dart';
 import '../../../../../core/logger.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 import '../../../../../core/services/network_service/repositories.dart';
+import '../../../../../core/services/router_service/router_argsuments_model.dart';
 import '../../../../../main/main_screen.dart';
 
 class HomeController extends GetxController {
@@ -26,6 +30,11 @@ class HomeController extends GetxController {
       var res = await Repository.instance.getCatsFromTag(element);
       dataPost.addAll(res.data);
     });
+  }
+
+  goStory() {
+    RouterService.instance.pushNamed(RoutesNames.story,
+        args: RouterArgumentsModel<int>(appPageTransition: AppPageTransition.slideUp, extra: 5));
   }
 
   bool shuldPostLazyLoad = true;

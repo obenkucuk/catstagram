@@ -1,33 +1,32 @@
 import 'dart:convert';
 
-List<CatFromTagResponseModel> catsFromTagResponseModelFromJson(String str) =>
-    List<CatFromTagResponseModel>.from(json.decode(str).map((x) => CatFromTagResponseModel.fromJson(x)));
+enum ReqContentType { photo, video }
+
+List<CatFromTagResponseModel> catsFromTagResponseModelFromJson(String str, ReqContentType contentType, String tag) =>
+    List<CatFromTagResponseModel>.from(
+        json.decode(str).map((x) => CatFromTagResponseModel.fromJsonForCatApi(x, contentType, tag)));
 
 class CatFromTagResponseModel {
   final String? id;
+  final ReqContentType contentType;
   final List<String>? tags;
+  final int? duration;
+  final String? pexelUrl;
 
   CatFromTagResponseModel({
     this.id,
     this.tags,
+    required this.contentType,
+    this.duration,
+    this.pexelUrl,
   });
 
-  CatFromTagResponseModel copyWith({
-    String? id,
-    List<String>? tags,
-  }) =>
+  factory CatFromTagResponseModel.fromJsonForCatApi(
+          Map<String, dynamic> json, ReqContentType contentType, String tag) =>
       CatFromTagResponseModel(
-        id: id ?? this.id,
-        tags: tags ?? this.tags,
-      );
-
-  factory CatFromTagResponseModel.fromJson(Map<String, dynamic> json) => CatFromTagResponseModel(
         id: json["_id"],
-        tags: json["tags"] == null ? [] : List<String>.from(json["tags"]!.map((x) => x)),
+        tags: json["tags"] == null ? [tag] : List<String>.from(json["tags"]!.map((x) => x)),
+        contentType: contentType,
+        duration: json['duration'],
       );
-
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
-      };
 }

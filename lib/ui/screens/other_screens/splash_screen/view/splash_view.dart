@@ -26,7 +26,7 @@ class SplashView extends GetView<SplashController> {
           const CircularProgressIndicator.adaptive(),
           const Spacer(),
           Text(AppConfig.instance.appName),
-          SizedBox(height: MediaQuery.of(context).padding.bottom),
+          SizedBox(height: MediaQuery.of(context).padding.bottom > 0.0 ? MediaQuery.of(context).padding.bottom : 10),
         ],
       ),
     );
