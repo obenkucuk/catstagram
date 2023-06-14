@@ -1,3 +1,4 @@
+import 'package:catstagram/core/extensions/to_cats_id_url.dart';
 import 'package:catstagram/core/router/route_names.dart';
 import 'package:catstagram/core/services/router_service/router_enums.dart';
 import 'package:catstagram/core/services/router_service/router_service.dart';
@@ -9,6 +10,7 @@ import '../../../../../core/models/cats_from_tag_response_model.dart';
 import '../../../../../core/services/network_service/repositories.dart';
 import '../../../../../core/services/router_service/router_argsuments_model.dart';
 import '../../../../../main/main_screen.dart';
+import 'dart:math' show Random;
 
 class HomeController extends GetxController {
   final scaffoldKey = GlobalKey();
@@ -16,6 +18,7 @@ class HomeController extends GetxController {
   late final ScrollController postScrollController;
 
   final RxList<CatFromTagResponseModel> dataPost = <CatFromTagResponseModel>[].obs;
+  final RxList<StoryModel> dataStories = <StoryModel>[].obs;
   final allTags = SessionService.instance.allTags;
   bool shuldPostLazyLoad = true;
 
@@ -33,12 +36,42 @@ class HomeController extends GetxController {
         debugPrint(e.toString());
       }
     }
+
+    var takeNumber = dataPost.length > 6 ? 6 : dataPost.length;
+    var storyPost = dataPost;
+    var index = 0;
+    storyPost.take(takeNumber).forEach((e) {
+      storyPost.shuffle();
+
+      Random random = Random();
+      var rand1 = random.nextInt(dataPost.length > 3 ? 3 : dataPost.length);
+      var rand2 = random.nextInt(dataPost.length > 3 ? 3 : dataPost.length);
+
+      var story = StoryModel(
+        index: index,
+        name: '${e.tags!.first}_$index',
+        image: (e.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+        isSeen: false,
+        storyList: [
+          ...dataPost.take(rand1),
+          CatFromTagResponseModel(
+            contentType: ReqContentType.video,
+            pexelUrl: 'assets/video.mp4',
+          ),
+          ...dataPost.take(rand2),
+        ],
+      );
+      index++;
+      dataStories.add(story);
+
+      print(dataStories.length);
+    });
   }
 
   /// go to story screen when the user tap on the story item
-  void goToStory() {
+  void goToStory(int index) {
     RouterService.instance.pushNamed(RoutesNames.story,
-        args: RouterArgumentsModel<int>(appPageTransition: AppPageTransition.slideUp, extra: 5));
+        args: RouterArgumentsModel(appPageTransition: AppPageTransition.slideUp, extra: dataStories));
   }
 
   /// when user go to the end of list items load more data
@@ -74,4 +107,20 @@ class HomeController extends GetxController {
     postScrollController.dispose();
     super.onClose();
   }
+}
+
+class StoryModel {
+  final int index;
+  final String name;
+  final String image;
+  final bool isSeen;
+  final List<CatFromTagResponseModel> storyList;
+
+  const StoryModel({
+    required this.index,
+    required this.name,
+    required this.image,
+    required this.isSeen,
+    required this.storyList,
+  });
 }

@@ -2,6 +2,10 @@ import 'package:catstagram/core/services/network_service/repositories.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../core/router/route_names.dart';
+import '../../../../../core/services/router_service/router_argsuments_model.dart';
+import '../../../../../core/services/router_service/router_enums.dart';
+import '../../../../../core/services/router_service/router_service.dart';
 import '../controller/home_controller.dart';
 import '../widget/single_post.dart';
 import '../widget/single_story.dart';
@@ -33,11 +37,7 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ),
                   const Spacer(),
-                  IconButton(
-                      onPressed: () {
-                        controller.goToStory();
-                      },
-                      icon: const Icon(CupertinoIcons.heart)),
+                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.heart)),
                   IconButton(
                       onPressed: () {
                         Repository.instance.getPexelsSearch('cat');
@@ -54,11 +54,15 @@ class HomeView extends GetView<HomeController> {
                     color: Colors.transparent,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: controller.dataPost.length > 10 ? 10 : controller.dataPost.length,
+                        itemCount: controller.dataStories.length,
                         itemBuilder: (context, index) {
-                          return SingleStory(
-                            cat: controller.dataPost[index],
-                            isSeen: true,
+                          return GestureDetector(
+                            onTap: () => controller.goToStory(index),
+                            child: SingleStory(
+                              name: controller.dataStories[index].index.toString(),
+                              isSeen: controller.dataStories[index].isSeen,
+                              imageUrl: controller.dataStories[index].image,
+                            ),
                           );
                         }),
                   ),

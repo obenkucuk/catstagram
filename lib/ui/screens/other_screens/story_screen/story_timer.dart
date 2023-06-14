@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 enum StoryTimerStatus { pause, resume }
 
 class StoryTimer {
+  StoryTimer._();
+  static final StoryTimer instance = StoryTimer._();
+
   late Timer timer;
   late VoidCallback _listener;
   late VoidCallback _listener2;
   StoryTimerStatus status = StoryTimerStatus.pause;
 
-  final int elementCount;
-
-  Duration remainTime = const Duration(seconds: 5);
-
-  StoryTimer(this.elementCount);
+  late Duration initialDuration;
+  Duration? remainTime;
 
   void addListener(VoidCallback listener, VoidCallback listener2) {
     _listener = listener;
@@ -36,16 +36,16 @@ class StoryTimer {
   }
 
   resetTime() {
-    remainTime = const Duration(seconds: 5) * elementCount;
+    remainTime = initialDuration;
   }
 
   _setTimer(VoidCallback listener, VoidCallback listener2) {
     timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      if (remainTime <= Duration.zero) {
+      if (remainTime! <= Duration.zero) {
         listener2.call();
         resetTime();
       }
-      remainTime = remainTime - const Duration(milliseconds: 100);
+      remainTime = remainTime! - const Duration(milliseconds: 100);
       listener.call();
     });
   }

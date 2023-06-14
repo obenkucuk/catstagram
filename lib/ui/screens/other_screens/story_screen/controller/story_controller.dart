@@ -1,91 +1,153 @@
-import 'package:catstagram/ui/screens/other_screens/story_screen/controller/story_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../main_screens/home_screen/controller/home_controller.dart';
+import '../smooth_story_controller.dart';
+import '../story_timer.dart';
 
-import '../../../../../core/logger.dart';
-import '../model/story_page_element_model.dart';
+class StoryController extends GetxController with GetSingleTickerProviderStateMixin {
+  final List<StoryModel> elements;
 
-class StoryController extends GetxController {
+  static int length = 0;
+
+  StoryController(this.elements);
+  late AnimationController durationAnimationController;
+
   final pageKey = GlobalKey<NavigatorState>();
 
-  BuildContext get context => pageKey.currentContext!;
-
-  late final PageController storyController;
+  late final PageController storyPeopleController;
+  late final SmoothPageController storyController;
   RxDouble delta = 0.0.obs;
   RxInt currentPage = 0.obs;
-  late List<StoryPageElements> elements;
-  final List<Widget> colors = [
-    Colors.red,
-    Colors.orange,
-    Colors.yellow,
-    Colors.green,
-    Colors.blue,
-    Colors.indigo,
-    Colors.purple,
-  ]
-      .map((e) => Container(
-            height: double.maxFinite,
-            width: double.maxFinite,
-            color: e,
-          ))
-      .toList();
+  Duration currentStoryDuration = const Duration(seconds: 5);
+  RxDouble indicatorValue = 0.0.obs;
 
-  Future autoNextPage() async {
-    Log.print("autonextpage");
-
-    if (storyController.page!.floor() < elements.length - 1) {
-      return storyController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
+  Future<void> tapHandler(TapUpDetails position, int singleStoryIndex, BuildContext context, int peopleIndex) async {
+    if (position.globalPosition.dx < MediaQuery.of(context).size.width / 2) {
+      await _previousStory(elements[peopleIndex].storyList.length, singleStoryIndex);
     } else {
-      Navigator.pop(pageKey.currentContext!);
+      await _nextStory(elements[peopleIndex].storyList.length, singleStoryIndex);
     }
 
-    Log.print("auto2");
-
-    return "";
+    // print("length" + storyController.length.toString());
+    // print("index" + storyController.index.toString());
   }
 
-  _storyControllerListener() {
-    currentPage.value = storyController!.page!.floor();
-    delta.value = storyController.page! - storyController!.page!.floor();
-
-    if (((elements.length - 1) * MediaQuery.of(context).size.width) < storyController.offset - 50) {
-      Navigator.maybePop(pageKey.currentContext!);
-    } else if (storyController.offset < -50) {
-      Navigator.maybePop(pageKey.currentContext!);
-    } else if (delta.value == 0 && storyController.offset >= 0) {
-      myTimer.resume();
-    } else {
-      myTimer.pause();
+  Future<void> _nextStory(int length, int? index) async {
+//    setNewDuration(Duration(seconds: deneme));
+    print("ooooo1");
+    StoryTimer.instance.resetTime();
+    if (index == null) {
+      return storyController.smoothNext();
     }
+    if (length - 1 > index) {
+      storyController.smoothNext();
+    } else {
+      await _nextPeople();
+    }
+    StoryTimer.instance.resume();
+  }
+
+  Future<void> _previousStory(int length, int? index) async {
+    print("ooooo2");
+
+    StoryTimer.instance.resetTime();
+    if (index == null) {
+      return storyController.smoothPrevious();
+    }
+    if (index > 0) {
+      storyController.smoothPrevious();
+    } else {
+      await _previousPeople();
+    }
+    StoryTimer.instance.resume();
+  }
+
+  Future<void> _nextPeople() async {
+    print("ooooo3");
+
+    StoryTimer.instance.resetTime();
+    await storyPeopleController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
+  }
+
+  Future<void> _previousPeople() async {
+    print("ooooo4");
+
+    StoryTimer.instance.resetTime();
+    await storyPeopleController.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
+  }
+
+  _autoNext() async {
+    if (storyController.length! - 1 > storyController.index!) {
+      _nextStory(length, null);
+    } else {
+      await _nextPeople();
+    }
+  }
+
+  _storyPeopleControllerListener() {
+    currentPage.value = storyPeopleController!.page!.floor();
+    delta.value = storyPeopleController.page! - storyPeopleController!.page!.floor();
+
+    if (delta.value == 0 && storyPeopleController.offset >= 0) {
+      StoryTimer.instance.resume();
+    } else {
+      StoryTimer.instance.pause();
+    }
+  }
+
+  Duration? lastDuration;
+  setNewDuration(Duration duration) {
+    if (lastDuration != duration) {
+      StoryTimer.instance.initialDuration = duration;
+    }
+    lastDuration = duration;
   }
 
   _storyTimerListener1() {
-    // print(myTimer.remainTime);
+//    print(StoryTimer.instance.remainTime);
+//    currentStoryDuration.value = StoryTimer.instance.remainTime!;
+    _durationToAnimation();
+  }
+
+  _durationToAnimation() {
+    int max = StoryTimer.instance.initialDuration.inMilliseconds;
+    durationAnimationController.animateTo(StoryTimer.instance.remainTime!.inMilliseconds / max,
+        duration: durationAnimationController.value != 1 ? const Duration(milliseconds: 100) : const Duration());
   }
 
   _storyTimerListener2() {
-    autoNextPage();
+    _autoNext();
   }
 
-  late StoryTimer myTimer;
+  _durationAnimationListener() {
+    // print(indicatorValue.value);
+    if (durationAnimationController.value != 1) {
+      indicatorValue.value = 1 - durationAnimationController.value;
+    } else {
+      indicatorValue.value = 0;
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
-    elements = [
-      StoryPageElements(colors.getRange(0, 2).toList()),
-      StoryPageElements(colors.getRange(2, 4).toList()),
-      StoryPageElements(colors.getRange(0, 5).toList())
-    ];
-    myTimer = StoryTimer(1)..addListener(_storyTimerListener1, _storyTimerListener2);
+    durationAnimationController = AnimationController(vsync: this)..addListener(_durationAnimationListener);
 
-    storyController = PageController()..addListener(_storyControllerListener);
+    StoryTimer.instance.initialDuration = const Duration(seconds: 5);
+    StoryTimer.instance.addListener(_storyTimerListener1, _storyTimerListener2);
+
+    storyPeopleController = PageController()..addListener(_storyPeopleControllerListener);
+    storyController = SmoothPageController();
   }
 
   @override
   void onClose() {
-    storyController.removeListener(_storyControllerListener);
+    durationAnimationController.removeListener(_durationAnimationListener);
+    durationAnimationController.dispose();
+    storyPeopleController.removeListener(_storyPeopleControllerListener);
+    storyPeopleController.dispose();
     storyController.dispose();
-    myTimer.dispose();
+    StoryTimer.instance.dispose();
     super.onClose();
   }
 }

@@ -73,7 +73,7 @@ class Repository {
 
       for (var e in pexelModel.videos!) {
         var catModel = CatFromTagResponseModel(
-          contentType: ReqContentType.photo,
+          contentType: ReqContentType.video,
           duration: e.duration,
           pexelUrl: e.videoFiles!.first.link,
           id: e.id.toString(),
