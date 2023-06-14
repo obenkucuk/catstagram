@@ -53,10 +53,14 @@ class HomeView extends GetView<HomeController> {
                   child: ColoredBox(
                     color: Colors.transparent,
                     child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.dataPost.length > 10 ? 10 : controller.dataPost.length,
-                      itemBuilder: (context, index) => SingleStory(cat: controller.dataPost[index]),
-                    ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.dataPost.length > 10 ? 10 : controller.dataPost.length,
+                        itemBuilder: (context, index) {
+                          return SingleStory(
+                            cat: controller.dataPost[index],
+                            isSeen: true,
+                          );
+                        }),
                   ),
                 ),
               ),

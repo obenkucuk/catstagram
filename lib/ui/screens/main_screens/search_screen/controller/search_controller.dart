@@ -42,23 +42,28 @@ class SearchController extends GetxController {
 
   /// search for cats from the api
   Future<void> implementSearch(String searchKey) async {
+    searchFoundedList.clear();
+
     try {
       searchStatus.value = SearchStatus.searching;
       update([SearchKeys.updateSearch]);
 
       var res = await Repository.instance.getCatsFromTag(searchKey);
-      var modelList = res.data;
+      if (res.statusCode == 200) {
+        var modelList = res.data;
 
-      for (var e in modelList) {
-        searchFoundedList.add(
-          SearchHistoryAndFoundModel(
-            keyword: e.tags != null ? e.tags!.first : '',
-            imageUrl: (e.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
-          ),
-        );
+        for (var e in modelList) {
+          searchFoundedList.add(
+            SearchHistoryAndFoundModel(
+              keyword: e.tags != null ? e.tags!.first : '',
+              imageUrl: (e.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
+            ),
+          );
+        }
+
+        searchStatus.value = SearchStatus.found;
+        update([SearchKeys.updateSearch]);
       }
-      searchStatus.value = SearchStatus.found;
-      update([SearchKeys.updateSearch]);
     } catch (e) {
       debugPrint('An Error Occured!');
     }
@@ -144,8 +149,12 @@ class SearchController extends GetxController {
   Future<void> fetchData() async {
     allTags.shuffle();
     allTags.take(8).forEach((element) async {
-      var res = await Repository.instance.getCatsFromTag(element);
-      dataList.addAll(res.data);
+      try {
+        var res = await Repository.instance.getCatsFromTag(element);
+        if (res.statusCode == 200) dataList.addAll(res.data);
+      } catch (e) {
+        debugPrint('An Error Occured!');
+      }
     });
   }
 
@@ -157,8 +166,7 @@ class SearchController extends GetxController {
           shuldSearchViewLazyLoad = false;
           allTags.shuffle();
           var res = await Repository.instance.getCatsFromTag(allTags.first);
-
-          dataList.value += res.data;
+          if (res.statusCode == 200) dataList.value += res.data;
 
           shuldSearchViewLazyLoad = true;
         }

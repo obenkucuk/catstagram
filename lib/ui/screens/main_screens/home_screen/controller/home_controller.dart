@@ -14,18 +14,24 @@ class HomeController extends GetxController {
   final scaffoldKey = GlobalKey();
   BuildContext get context => scaffoldKey.currentContext!;
   late final ScrollController postScrollController;
-  final RxList<String> _selectedPostTags = <String>[].obs;
+
   final RxList<CatFromTagResponseModel> dataPost = <CatFromTagResponseModel>[].obs;
   final allTags = SessionService.instance.allTags;
   bool shuldPostLazyLoad = true;
 
   /// fetch data from the api to show in the post list and story view
   Future<void> fetchData() async {
-    _selectedPostTags.addAll(allTags.take(5));
+    var selectedPostTags = <String>[];
+    allTags.shuffle();
+    selectedPostTags.addAll(allTags.take(5));
 
-    for (var element in _selectedPostTags) {
-      var res = await Repository.instance.getCatsFromTag(element);
-      dataPost.addAll(res.data);
+    for (var element in selectedPostTags) {
+      try {
+        var res = await Repository.instance.getCatsFromTag(element);
+        if (res.statusCode == 200) dataPost.addAll(res.data);
+      } catch (e) {
+        debugPrint(e.toString());
+      }
     }
   }
 
@@ -46,10 +52,7 @@ class HomeController extends GetxController {
       try {
         if (shuldPostLazyLoad) {
           shuldPostLazyLoad = false;
-          allTags.shuffle();
-
-          var res = await Repository.instance.getCatsFromTag(allTags.first);
-          dataPost.value += res.data;
+          await fetchData();
           shuldPostLazyLoad = true;
         }
       } catch (_) {

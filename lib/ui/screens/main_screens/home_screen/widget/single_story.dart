@@ -2,11 +2,13 @@ import 'package:catstagram/core/extensions/to_cats_id_url.dart';
 import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
+import '../../../../../theme/app_colors.dart';
 
 /// single story widget for the home screen
 class SingleStory extends StatelessWidget {
   final CatFromTagResponseModel? cat;
-  const SingleStory({super.key, this.cat});
+  final bool isSeen;
+  const SingleStory({super.key, this.cat, required this.isSeen});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,12 @@ class SingleStory extends StatelessWidget {
                     width: 80,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(colors: [Colors.yellow.shade600, Colors.orange, Colors.red]),
+                      color: AppColorsX.paleTextLightTheme,
+                      gradient:
+                          !isSeen ? LinearGradient(colors: [Colors.yellow.shade600, Colors.orange, Colors.red]) : null,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(3.0),
+                      padding: EdgeInsets.all(isSeen ? 2.0 : 3.0),
                       child: DecoratedBox(
                           decoration: BoxDecoration(
                             color: Theme.of(context).scaffoldBackgroundColor,
