@@ -16,7 +16,7 @@ class SingleStoryBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (model.contentType == ReqContentType.video) {
-      return SizedBox();
+      return const VideoStoryWidget();
     } else {
       return Image.network(
         model.id!.toCatsIdUrl,

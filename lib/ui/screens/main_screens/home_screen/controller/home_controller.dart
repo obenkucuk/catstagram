@@ -57,10 +57,10 @@ class HomeController extends GetxController {
         isSeen: false.obs,
         storyList: [
           ...dataPost.take(rand1),
-          CatFromTagResponseModel(
-            contentType: ReqContentType.video,
-            pexelUrl: 'assets/video.mp4',
-          ),
+          // CatFromTagResponseModel(
+          //   contentType: ReqContentType.video,
+          //   pexelUrl: 'assets/video.mp4',
+          // ),
           ...dataPost.take(rand2),
         ],
       );

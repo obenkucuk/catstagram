@@ -5,14 +5,14 @@ import '../story_screen/controller/story_controller.dart';
 import 'view/story_view.dart';
 
 class StoryScreen extends StatelessWidget {
-  final List<StoryModel> model;
-  final int index;
-  const StoryScreen({super.key, required this.model, required this.index});
+  final List<StoryModel> elements;
+  final int initialPeopleIndex;
+  const StoryScreen({super.key, required this.elements, required this.initialPeopleIndex});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StoryController>(
-      init: StoryController(model, index),
+      init: StoryController(elements: elements, initialPeopleIndex: initialPeopleIndex),
       builder: (controller) => const StoryView(),
     );
   }

@@ -32,8 +32,8 @@ final GoRouter appRouter = GoRouter(
         state,
         context,
         StoryScreen(
-          model: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[0],
-          index: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[1],
+          elements: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[0],
+          initialPeopleIndex: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[1],
         ),
       ),
     ),

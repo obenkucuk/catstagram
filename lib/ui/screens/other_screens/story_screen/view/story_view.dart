@@ -5,6 +5,7 @@ import 'package:catstagram/theme/text_styles.dart';
 import 'package:catstagram/ui/screens/other_screens/story_screen/view/single_story.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import '../../../../../components/story_transform/cube_transform.dart';
 import '../../story_screen/controller/story_controller.dart';
@@ -15,131 +16,104 @@ class StoryView extends GetView<StoryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: controller.scaffoldKey,
-      body: Hero(
-        tag: HeroTags.story,
-        child: GestureDetector(
-          onVerticalDragStart: (_) {
-            StoryTimer.instance.pause();
-          },
-          onVerticalDragEnd: (details) {
-            if (details.primaryVelocity! > 100) Navigator.pop(context);
-            StoryTimer.instance.resume();
-          },
-          //first page view is for people
-          child: PageView.builder(
-            onPageChanged: (value) {
-              StoryTimer.instance.resetTime();
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        key: controller.scaffoldKey,
+        body: Hero(
+          tag: HeroTags.story,
+          child: GestureDetector(
+            onVerticalDragStart: (_) => StoryTimer.instance.pause(),
+            onVerticalDragEnd: (details) {
+              if (details.primaryVelocity! > 100) Navigator.pop(context);
+              StoryTimer.instance.resume();
             },
-            physics: const BouncingScrollPhysics(),
-            controller: controller.peopleController,
-            itemCount: controller.elements.length,
-            scrollBehavior: ScrollConfiguration.of(context).copyWith(
-              scrollbars: false,
-              overscroll: false,
-              dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
-            ),
-            itemBuilder: (context, peopleIndex) {
-              controller.storyController.length = controller.elements[peopleIndex].storyList.length;
+            //first page view is for people
+            child: PageView.builder(
+              onPageChanged: (_) => StoryTimer.instance.resetTime(),
+              // physics: const BouncingScrollPhysics(),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              controller: controller.peopleController,
+              itemCount: controller.elements.length,
+              scrollBehavior: ScrollConfiguration.of(context).copyWith(
+                scrollbars: false,
+                overscroll: false,
+                dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+              ),
+              itemBuilder: (context, peopleIndex) {
+                controller.currentPeopleStoryLenght.value = controller.elements[peopleIndex].storyList.length;
+                controller.currentStoryIndex.value = 0;
+                controller.indicatorValue.value = 0;
 
-              return Obx(
-                () => ColoredBox(
-                    color: Colors.black,
-                    child: CubeTransformWidget(
-                      index: peopleIndex,
-                      pageDelta: controller.delta.value,
-                      itemCount: controller.elements[peopleIndex].storyList.length,
-                      currentPage: controller.currentPage.value,
-                      child: Stack(
-                        children: [
-                          //second page view is for stories
-                          //stories
-                          PageView.builder(
-                            clipBehavior: Clip.antiAlias,
-                            controller: controller.storyController,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: controller.elements[peopleIndex].storyList.length,
-                            itemBuilder: (context, singleStoryIndex) {
-                              //set index to controller
-                              controller.storyController.index = singleStoryIndex;
-
-                              return SafeArea(
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                  child: ColoredBox(
-                                    color: Colors.grey,
-                                    child: Stack(
+                return Obx(
+                  () {
+                    return ColoredBox(
+                      color: Colors.black,
+                      child: CubeTransformWidget(
+                        index: peopleIndex,
+                        pageDelta: controller.delta.value,
+                        itemCount: controller.currentPeopleStoryLenght.value,
+                        currentPage: controller.currentPage.value,
+                        child: SafeArea(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                            child: GestureDetector(
+                              onLongPressDown: (details) => StoryTimer.instance.pause(),
+                              onLongPressEnd: (details) => StoryTimer.instance.resume(),
+                              onTapDown: (details) => StoryTimer.instance.pause(),
+                              onTapUp: (position) => controller.tapHandler(position),
+                              child: ColoredBox(
+                                color: Colors.grey,
+                                child: Stack(
+                                  children: [
+                                    SingleStoryBuilder(
+                                      model: controller
+                                          .elements[peopleIndex].storyList[controller.currentStoryIndex.value],
+                                    ),
+                                    //indicator
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Center(
-                                          child: GestureDetector(
-                                            onLongPressDown: (details) {
-                                              StoryTimer.instance.pause();
-                                            },
-                                            onLongPressEnd: (details) {
-                                              StoryTimer.instance.resume();
-                                            },
-                                            onTapDown: (details) {
-                                              StoryTimer.instance.pause();
-                                            },
-                                            onTapUp: (position) => controller.tapHandler(
-                                              position,
-                                              singleStoryIndex,
-                                              peopleIndex,
-                                            ),
-                                            child: SingleStoryBuilder(
-                                              model: controller.elements[peopleIndex].storyList[singleStoryIndex],
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+                                          child: Row(
+                                            children: List.generate(
+                                              controller.currentPeopleStoryLenght.value,
+                                              (indicatorIndex) {
+                                                return Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(right: 2, left: 2),
+                                                    child: _LinearProgressIndicator(
+                                                        value: indicatorIndex == controller.currentStoryIndex.value
+                                                            ? controller.indicatorValue.value
+                                                            : indicatorIndex >= controller.currentStoryIndex.value
+                                                                ? 0
+                                                                : 1),
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           ),
                                         ),
-                                        //indicator
-                                        Obx(
-                                          () => Align(
-                                            alignment: Alignment.topCenter,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-                                                  child: Row(
-                                                    children:
-                                                        List.generate(controller.elements[peopleIndex].storyList.length,
-                                                            (indicatorIndex) {
-                                                      return Expanded(
-                                                        child: Padding(
-                                                          padding: const EdgeInsets.only(right: 2, left: 2),
-                                                          child: _LinearProgressIndicator(
-                                                              value: indicatorIndex == singleStoryIndex
-                                                                  ? controller.indicatorValue.value
-                                                                  : indicatorIndex >= singleStoryIndex
-                                                                      ? 0
-                                                                      : 1),
-                                                        ),
-                                                      );
-                                                    }),
-                                                  ),
-                                                ),
-                                                _StoryUserAreaWidget(
-                                                  username: controller.elements[peopleIndex].name,
-                                                  image: controller.elements[peopleIndex].image,
-                                                  onCloseTap: () => Navigator.pop(context),
-                                                )
-                                              ],
-                                            ),
-                                          ),
+                                        _StoryUserAreaWidget(
+                                          username: controller.elements[peopleIndex].name,
+                                          image: controller.elements[peopleIndex].image,
+                                          onCloseTap: () => Navigator.pop(context),
                                         )
                                       ],
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              );
-                            },
+                              ),
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                    )),
-              );
-            },
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),
