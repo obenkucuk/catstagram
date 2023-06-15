@@ -2,7 +2,6 @@ import 'package:catstagram/ui/screens/other_screens/splash_screen/splash_screen.
 import 'package:catstagram/ui/screens/other_screens/story_screen/story_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../ui/screens/main_screens/home_screen/controller/home_controller.dart';
 import '../services/router_service/router_argsuments_model.dart';
 import '../../main/main_screen.dart';
 import '../services/router_service/router_enums.dart';
@@ -33,7 +32,8 @@ final GoRouter appRouter = GoRouter(
         state,
         context,
         StoryScreen(
-          model: ((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List<StoryModel>,
+          model: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[0],
+          index: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[1],
         ),
       ),
     ),

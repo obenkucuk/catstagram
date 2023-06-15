@@ -9,7 +9,7 @@ class SettingsController extends GetxController {
   final scaffoldKey = GlobalKey();
   late final Rx<ThemeMode> themeMode = Rx(ThemeService.instance.getThemeMode(context));
   final Rx<LoadingStatus> loadingStatus = LoadingStatus.init.obs;
-  late final Map<String, Widget> dropdownItems;
+
   BuildContext get context => scaffoldKey.currentContext!;
   final Rx<Locale> locale = Rx(const Locale('en'));
 
@@ -27,13 +27,6 @@ class SettingsController extends GetxController {
 
   /// creates dropdown items for the language dropdown
   Future<void> _initLocale() async {
-    await Future.microtask(() {
-      dropdownItems = {
-        appLocalization(context).turkish: Text(appLocalization(context).turkish),
-        appLocalization(context).english: Text(appLocalization(context).english)
-      };
-    });
-
     var localeFromStorage = await LocalizationService.instance.getCurrentLocale();
     locale.value = localeFromStorage;
   }

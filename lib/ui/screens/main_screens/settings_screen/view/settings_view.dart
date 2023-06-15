@@ -44,15 +44,16 @@ class SettingsView extends GetView<SettingsController> {
                   /// change language with segmented control
                   Row(
                     children: [
-                      Text(appLocalization(context).changeLanguage),
+                      Text(appLocalization(context).changeTheme),
                       const Spacer(),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.3,
+                        width: MediaQuery.of(context).size.width * 0.4,
                         child: CupertinoSlidingSegmentedControl<ThemeMode>(
                           groupValue: controller.themeMode.value,
                           children: {
                             ThemeMode.light: createSegment(context, appLocalization(context).lightMode),
                             ThemeMode.dark: createSegment(context, appLocalization(context).darkMode),
+                            ThemeMode.system: createSegment(context, appLocalization(context).system),
                           },
                           onValueChanged: (value) => controller.changeTheme(value),
                         ),
@@ -64,13 +65,16 @@ class SettingsView extends GetView<SettingsController> {
                   /// change theme with dropdown
                   Row(
                     children: [
-                      Text(appLocalization(context).changeTheme),
+                      Text(appLocalization(context).changeLanguage),
                       const Spacer(),
                       CustomDropdown(
                         title: controller.locale.value.languageCode == 'tr' ? 0 : 1,
-                        dropdownWidth: MediaQuery.of(context).size.width * 0.3,
+                        dropdownWidth: MediaQuery.of(context).size.width * 0.4,
                         textStyle: s14W400(context),
-                        items: controller.dropdownItems,
+                        items: {
+                          appLocalization(context).turkish: Text(appLocalization(context).turkish),
+                          appLocalization(context).english: Text(appLocalization(context).english)
+                        },
                         onSelected: (index) => controller.changeLocalization(index),
                       )
                     ],

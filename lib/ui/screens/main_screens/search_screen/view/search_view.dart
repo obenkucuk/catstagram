@@ -1,3 +1,4 @@
+import 'package:catstagram/components/lazy_load_loading_widget/lazy_load_loading_widget.dart';
 import 'package:catstagram/core/extensions/to_cats_id_url.dart';
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/theme/text_styles.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import '../../search_screen/controller/search_controller.dart';
 
-class SearchView extends GetView<SearchController> {
+class SearchView extends GetView<SearchControllerX> {
   const SearchView({super.key});
 
   @override
@@ -80,9 +81,7 @@ class SearchView extends GetView<SearchController> {
                     },
                   ),
                 if (controller.shuldSearchViewLazyLoad && controller.dataList.isNotEmpty)
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 100, child: CircularProgressIndicator.adaptive()),
-                  )
+                  const SliverToBoxAdapter(child: LazyLoadLoadingWidget())
               ],
             ),
           );

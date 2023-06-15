@@ -1,11 +1,8 @@
-import 'package:catstagram/core/services/network_service/repositories.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../core/router/route_names.dart';
-import '../../../../../core/services/router_service/router_argsuments_model.dart';
-import '../../../../../core/services/router_service/router_enums.dart';
-import '../../../../../core/services/router_service/router_service.dart';
+import '../../../../../components/lazy_load_loading_widget/lazy_load_loading_widget.dart';
+import '../../../../../constants/hero_tags.dart';
 import '../controller/home_controller.dart';
 import '../widget/single_post.dart';
 import '../widget/single_story.dart';
@@ -38,11 +35,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   const Spacer(),
                   IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.heart)),
-                  IconButton(
-                      onPressed: () {
-                        Repository.instance.getPexelsSearch('cat');
-                      },
-                      icon: const Icon(CupertinoIcons.text_bubble)),
+                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.text_bubble)),
                 ],
               ),
 
@@ -50,21 +43,24 @@ class HomeView extends GetView<HomeController> {
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: 120,
-                  child: ColoredBox(
-                    color: Colors.transparent,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: controller.dataStories.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () => controller.goToStory(index),
-                            child: SingleStory(
-                              name: controller.dataStories[index].index.toString(),
-                              isSeen: controller.dataStories[index].isSeen,
-                              imageUrl: controller.dataStories[index].image,
-                            ),
-                          );
-                        }),
+                  child: Hero(
+                    tag: HeroTags.story,
+                    child: ColoredBox(
+                      color: Colors.transparent,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.dataStories.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () => controller.goToStory(index),
+                              child: SingleStory(
+                                name: controller.dataStories[index].index.toString(),
+                                isSeen: controller.dataStories[index].isSeen.value,
+                                imageUrl: controller.dataStories[index].image,
+                              ),
+                            );
+                          }),
+                    ),
                   ),
                 ),
               ),
@@ -79,7 +75,7 @@ class HomeView extends GetView<HomeController> {
                       var itemCount = (controller.dataPost.isEmpty ? 5 : controller.dataPost.length) + 1;
 
                       if (itemCount == index + 1) {
-                        return const Center(child: SizedBox(height: 100, child: CircularProgressIndicator.adaptive()));
+                        return const LazyLoadLoadingWidget();
                       } else if (controller.dataPost.isNotEmpty) {
                         return SinglePost(catList: controller.dataPost[index]);
                       } else {

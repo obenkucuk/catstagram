@@ -9,7 +9,7 @@ import '../view/search_history_view.dart';
 
 enum SearchKeys { updateSearch }
 
-class SearchController extends GetxController {
+class SearchControllerX extends GetxController {
   final scaffoldKey = GlobalKey();
 
   BuildContext get context => scaffoldKey.currentContext!;
@@ -18,7 +18,8 @@ class SearchController extends GetxController {
   final TextEditingController searchTextController = TextEditingController();
 
   final List<SearchHistoryAndFoundModel> searchHistoryList = <SearchHistoryAndFoundModel>[
-    SearchHistoryAndFoundModel(keyword: 'Temp History Item'),
+    SearchHistoryAndFoundModel(keyword: 'Cute'),
+    SearchHistoryAndFoundModel(keyword: 'Angry'),
   ];
 
   final RxList<SearchHistoryAndFoundModel> searchFoundedList = <SearchHistoryAndFoundModel>[].obs;
@@ -114,9 +115,9 @@ class SearchController extends GetxController {
     Offset offset = renderBox.localToGlobal(Offset.zero);
 
     overlayEntry = OverlayEntry(builder: (context) {
-      return GetBuilder<SearchController>(
+      return GetBuilder<SearchControllerX>(
           id: SearchKeys.updateSearch,
-          init: SearchController(),
+          init: SearchControllerX(),
           builder: (controller) {
             return SearchHistoryView(
               searchStatus: searchStatus.value,
