@@ -10,15 +10,13 @@ class CatFromTagResponseModel {
   final String? id;
   final ReqContentType contentType;
   final List<String>? tags;
-  final int? duration;
-  final String? pexelUrl;
+  final String? videoUrl;
 
   CatFromTagResponseModel({
     this.id,
     this.tags,
     required this.contentType,
-    this.duration,
-    this.pexelUrl,
+    this.videoUrl,
   });
 
   factory CatFromTagResponseModel.fromJsonForCatApi(
@@ -27,6 +25,5 @@ class CatFromTagResponseModel {
         id: json["_id"],
         tags: json["tags"] == null ? [tag] : List<String>.from(json["tags"]!.map((x) => x)),
         contentType: contentType,
-        duration: json['duration'],
       );
 }

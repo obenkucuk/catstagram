@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../core/models/story_model.dart';
-import '../story_timer.dart';
+import 'story_timer_controller.dart';
+
+enum StoryUpdateKeys { storyScreen }
 
 class StoryController extends GetxController with GetSingleTickerProviderStateMixin {
   StoryController({required this.elements, required this.initialPeopleIndex});
@@ -14,10 +16,11 @@ class StoryController extends GetxController with GetSingleTickerProviderStateMi
   BuildContext get context => scaffoldKey.currentContext!;
 
   late final PageController peopleController;
-  late final StoryTimer storyTimer;
+  late final StoryTimerController storyTimer;
 
   final RxDouble delta = 0.0.obs;
   final RxInt currentPage = 0.obs;
+  late final Rx<AnimationController> animationController;
   final RxDouble indicatorValue = 0.0.obs;
 
 //tap handler for changing stories. if user click left side of the screen, it will go to previous story. if user click right side of the screen, it will go to next story.
@@ -30,6 +33,7 @@ class StoryController extends GetxController with GetSingleTickerProviderStateMi
     storyTimer.resetTime();
     if (elements[currentPage.value].storyList.length - 1 > currentStoryIndex.value) {
       currentStoryIndex.value += 1;
+      update([StoryUpdateKeys.storyScreen]);
     } else {
       await _nextPeople();
     }
@@ -42,6 +46,7 @@ class StoryController extends GetxController with GetSingleTickerProviderStateMi
 
     if (currentStoryIndex.value > 0) {
       currentStoryIndex.value -= 1;
+      update([StoryUpdateKeys.storyScreen]);
     } else {
       await _previousPeople();
     }
@@ -49,24 +54,28 @@ class StoryController extends GetxController with GetSingleTickerProviderStateMi
   }
 
   Future<void> _nextPeople() async {
+    currentStoryIndex.value = 0;
+    update([StoryUpdateKeys.storyScreen]);
     storyTimer.resetTime();
     await peopleController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
   Future<void> _previousPeople() async {
+    currentStoryIndex.value = 0;
+    update([StoryUpdateKeys.storyScreen]);
     storyTimer.resetTime();
     await peopleController.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
   final RxInt currentStoryIndex = 0.obs;
 
-  /// this function for [StoryTimer]. it will bi triggered when timers duration is over.
+  /// this function for [StoryTimerController]. it will bi triggered when timers duration is over.
   Future<void> _storyPeopleControllerListener() async {
-    currentPage.value = peopleController.page!.floor();
-    print(currentPage.value);
-
     delta.value = peopleController.page! - peopleController.page!.floor();
     var offset = peopleController.offset;
+    peopleController.position.axisDirection == AxisDirection.right
+        ? currentPage.value = peopleController.page!.floor()
+        : currentPage.value = peopleController.page!.ceil();
 
     if (offset < -100 || offset > peopleController.position.maxScrollExtent + 100) {
       await Navigator.maybePop(context);
@@ -75,18 +84,10 @@ class StoryController extends GetxController with GetSingleTickerProviderStateMi
     delta.value == 0 && offset >= 0 ? storyTimer.resume() : storyTimer.pause();
   }
 
-  Future<void> _durationAnimationListener() async {
-    var initialTime = storyTimer.initialDuration.inMicroseconds;
-    var remainTime = storyTimer.remainTime!.inMicroseconds;
-    var val = (initialTime - remainTime) / initialTime;
-
-    indicatorValue.value = val;
-  }
-
   @override
   void onInit() {
     super.onInit();
-    storyTimer = StoryTimer()..addListener(_durationAnimationListener, _nextStory);
+    storyTimer = StoryTimerController()..addListener(_nextStory);
     storyTimer.initialDuration = const Duration(seconds: 5);
     peopleController = PageController(initialPage: initialPeopleIndex)..addListener(_storyPeopleControllerListener);
   }

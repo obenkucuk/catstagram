@@ -57,21 +57,20 @@ class HomeController extends GetxController {
         isSeen: false.obs,
         storyList: [
           ...dataPost.take(rand1),
-          // CatFromTagResponseModel(
-          //   contentType: ReqContentType.video,
-          //   pexelUrl: 'assets/video.mp4',
-          // ),
-          // CatFromTagResponseModel(
-          //   contentType: ReqContentType.video,
-          //   pexelUrl: 'assets/video.mp4',
-          // ),
+          CatFromTagResponseModel(
+            contentType: ReqContentType.video,
+            videoUrl: 'assets/video.mp4',
+          ),
           ...dataPost.take(rand2),
+          CatFromTagResponseModel(
+            contentType: ReqContentType.video,
+            videoUrl: 'assets/video2.mp4',
+          ),
+          ...dataPost.take(rand1),
         ],
       );
       index++;
       dataStories.add(story);
-
-      print(dataStories.length);
     });
   }
 
