@@ -7,16 +7,18 @@ import 'package:video_player/video_player.dart';
 import '../../../../../core/models/cats_from_tag_response_model.dart';
 
 class SingleStoryBuilder extends StatelessWidget {
+  final StoryTimer storyTimer;
   final CatFromTagResponseModel model;
   const SingleStoryBuilder({
     super.key,
     required this.model,
+    required this.storyTimer,
   });
 
   @override
   Widget build(BuildContext context) {
     if (model.contentType == ReqContentType.video) {
-      return const VideoStoryWidget();
+      return VideoStoryWidget(storyTimer: storyTimer);
     } else {
       return Image.network(
         model.id!.toCatsIdUrl,
@@ -29,7 +31,9 @@ class SingleStoryBuilder extends StatelessWidget {
 }
 
 class VideoStoryWidget extends StatefulWidget {
-  const VideoStoryWidget({super.key});
+  final StoryTimer storyTimer;
+
+  const VideoStoryWidget({super.key, required this.storyTimer});
 
   @override
   State<VideoStoryWidget> createState() => _VideoStoryWidgetState();
@@ -37,29 +41,28 @@ class VideoStoryWidget extends StatefulWidget {
 
 class _VideoStoryWidgetState extends State<VideoStoryWidget> {
   Future<void> init() async {
-    StoryTimer.instance.videoPlayerController = VideoPlayerController.asset('assets/video.mp4');
-    await StoryTimer.instance.videoPlayerController!.initialize();
-
-    StoryTimer.instance.initialDuration = StoryTimer.instance.videoPlayerController!.value.duration;
-    StoryTimer.instance.resetTime();
-
-    Log.error(StoryTimer.instance.videoPlayerController!.value.duration);
-
-    StoryTimer.instance.videoPlayerController!.play();
+    widget.storyTimer.videoPlayerController = VideoPlayerController.asset('assets/video.mp4');
+    await widget.storyTimer.videoPlayerController!.initialize();
+    widget.storyTimer.initialDuration = widget.storyTimer.videoPlayerController!.value.duration;
+    widget.storyTimer.resetTime();
+    Log.error(widget.storyTimer.videoPlayerController!.value.duration);
+    widget.storyTimer.videoPlayerController!.play();
   }
 
   @override
   void initState() {
     super.initState();
+
     init();
   }
 
   @override
   void dispose() {
-    StoryTimer.instance.initialDuration = const Duration(seconds: 5);
-    StoryTimer.instance.resetTime();
-    StoryTimer.instance.videoPlayerController!.dispose();
-    StoryTimer.instance.videoPlayerController = null;
+    print('Video player gg');
+    widget.storyTimer.initialDuration = const Duration(seconds: 5);
+    widget.storyTimer.resetTime();
+    widget.storyTimer.videoPlayerController!.dispose();
+    widget.storyTimer.videoPlayerController = null;
     super.dispose();
   }
 
@@ -70,8 +73,8 @@ class _VideoStoryWidgetState extends State<VideoStoryWidget> {
       width: double.maxFinite,
       color: Colors.transparent,
       child: AspectRatio(
-          aspectRatio: StoryTimer.instance.videoPlayerController!.value.aspectRatio,
-          child: VideoPlayer(StoryTimer.instance.videoPlayerController!)),
+          aspectRatio: widget.storyTimer.videoPlayerController!.value.aspectRatio,
+          child: VideoPlayer(widget.storyTimer.videoPlayerController!)),
     );
   }
 }

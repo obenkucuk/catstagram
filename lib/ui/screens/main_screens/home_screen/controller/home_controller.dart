@@ -61,6 +61,10 @@ class HomeController extends GetxController {
           //   contentType: ReqContentType.video,
           //   pexelUrl: 'assets/video.mp4',
           // ),
+          // CatFromTagResponseModel(
+          //   contentType: ReqContentType.video,
+          //   pexelUrl: 'assets/video.mp4',
+          // ),
           ...dataPost.take(rand2),
         ],
       );

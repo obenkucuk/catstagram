@@ -5,25 +5,21 @@ import 'package:flutter/material.dart';
 class CubeTransformWidget extends StatelessWidget {
   CubeTransformWidget({
     super.key,
-    this.rotationAngle = 90,
     required this.index,
-    this.currentPage,
+    required this.currentPage,
     required this.pageDelta,
-    required this.itemCount,
     required this.child,
-  }) {
-    rotationAngle = math.pi / 180 * rotationAngle;
-  }
+    this.perspectiveScale = 0.0005,
+    this.rotationAngle = 90,
+  });
 
-  final double perspectiveScale = 0.0005;
+  final double perspectiveScale;
   final AlignmentGeometry rightPageAlignment = Alignment.centerLeft;
   final AlignmentGeometry leftPageAlignment = Alignment.centerRight;
-  double rotationAngle;
-
+  final double rotationAngle;
   final int index;
-  final int? currentPage;
+  final int currentPage;
   final double pageDelta;
-  final int itemCount;
   final Widget child;
 
   @override
@@ -33,15 +29,15 @@ class CubeTransformWidget extends StatelessWidget {
         alignment: leftPageAlignment,
         transform: Matrix4.identity()
           ..setEntry(3, 2, perspectiveScale)
-          ..rotateY(rotationAngle * pageDelta),
+          ..rotateY((math.pi / 180 * rotationAngle) * pageDelta),
         child: child,
       );
-    } else if (index == currentPage! + 1) {
+    } else if (index == currentPage + 1) {
       return Transform(
         alignment: rightPageAlignment,
         transform: Matrix4.identity()
           ..setEntry(3, 2, perspectiveScale)
-          ..rotateY(-rotationAngle * (1 - pageDelta)),
+          ..rotateY(-(math.pi / 180 * rotationAngle) * (1 - pageDelta)),
         child: child,
       );
     } else {
