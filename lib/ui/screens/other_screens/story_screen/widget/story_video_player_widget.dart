@@ -45,10 +45,12 @@ class _StoryVideoPlayerWidgetState extends State<_StoryVideoPlayerWidget> {
       height: double.maxFinite,
       width: double.maxFinite,
       color: Colors.transparent,
-      child: AspectRatio(
-        aspectRatio: widget.storyTimer.videoPlayerController!.value.aspectRatio,
-        child: VideoPlayer(widget.storyTimer.videoPlayerController!),
-      ),
+      child: widget.storyTimer.videoPlayerController != null
+          ? AspectRatio(
+              aspectRatio: widget.storyTimer.videoPlayerController!.value.aspectRatio,
+              child: VideoPlayer(widget.storyTimer.videoPlayerController!),
+            )
+          : const SizedBox(),
     );
   }
 }
