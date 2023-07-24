@@ -27,30 +27,30 @@ class HomeController extends GetxController {
   /// fetch data from the api to show in the post list and story view
   Future<void> fetchData() async {
     dataStories.value = SessionService.instance.dataStories;
-    var selectedPostTags = <String>[];
+    final selectedPostTags = <String>[];
     allTags.shuffle();
     selectedPostTags.addAll(allTags.take(5));
 
-    for (var element in selectedPostTags) {
+    for (final element in selectedPostTags) {
       try {
-        var res = await Repository.instance.getCatsFromTag(element);
+        final res = await Repository.instance.getCatsFromTag(element);
         if (res.statusCode == 200) dataPost.addAll(res.data);
       } catch (e) {
         debugPrint(e.toString());
       }
     }
 
-    var takeNumber = dataPost.length > 6 ? 6 : dataPost.length;
-    var storyPost = dataPost;
+    final takeNumber = dataPost.length > 6 ? 6 : dataPost.length;
+    final storyPost = dataPost;
     var index = 0;
     storyPost.take(takeNumber).forEach((e) {
       storyPost.shuffle();
 
-      Random random = Random();
-      var rand1 = random.nextInt(dataPost.length > 3 ? 3 : dataPost.length) + 1;
-      var rand2 = random.nextInt(dataPost.length > 3 ? 3 : dataPost.length) + 1;
+      final random = Random();
+      final rand1 = random.nextInt(dataPost.length > 3 ? 3 : dataPost.length) + 1;
+      final rand2 = random.nextInt(dataPost.length > 3 ? 3 : dataPost.length) + 1;
 
-      var story = StoryModel(
+      final story = StoryModel(
         index: index,
         name: '${e.tags!.first}_$index',
         image: (e.id ?? 'H2NHTuNktH1nAf4a').toCatsIdUrl,
@@ -113,8 +113,9 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
-    postScrollController.removeListener(_postLazyLoad);
-    postScrollController.dispose();
+    postScrollController
+      ..removeListener(_postLazyLoad)
+      ..dispose();
     super.onClose();
   }
 }

@@ -3,7 +3,7 @@ extension MapStringPrettier on Map<String, dynamic>? {
   String prettify() {
     if (this == null) return '';
 
-    String prettyString = '\n';
+    var prettyString = '\n';
 
     this!.forEach((key, value) {
       prettyString += '$key: $value\n';

@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:catstagram/core/logger.dart' show Log;
+import 'package:catstagram/core/services/localization_service/localization_service.dart' show LocalizationService;
+import 'package:catstagram/core/services/storage_service/models/user_preferences_model.dart';
+import 'package:flutter/material.dart' show ThemeMode;
 import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
-import '../../logger.dart';
-import '../localization_service/localization_service.dart';
-import 'models/user_preferences_model.dart';
+import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
 
 class StorageService {
   StorageService._();
@@ -47,7 +47,7 @@ class StorageService {
 //if system locale is not supported use default locale
     if (preferences == null) {
       // get system local
-      var locale = LocalizationService.instance.getSysyemLocale();
+      final locale = LocalizationService.instance.getSysyemLocale();
 
       preferences = IsarUserPreferencesModel(
         locale: locale.languageCode,
@@ -58,7 +58,7 @@ class StorageService {
 
 //if preferences found but locale is not supported use default locale
     if (preferences.isSystemLocale) {
-      var locale = LocalizationService.instance.getSysyemLocale();
+      final locale = LocalizationService.instance.getSysyemLocale();
 
       preferences = preferences.copyWith(locale: locale.languageCode);
     }
@@ -68,17 +68,14 @@ class StorageService {
 
   Future<void> cleanDb() async {
     final isar = await isarDb;
-    await isar.writeTxn(() => isar.clear());
+    await isar.writeTxn(isar.clear);
   }
 
   Future<Isar> openIsarDB() async {
-    var dir = await getApplicationDocumentsDirectory();
+    final dir = await getApplicationDocumentsDirectory();
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
-        [
-          IsarUserPreferencesModelSchema,
-        ],
-        inspector: true,
+        [IsarUserPreferencesModelSchema],
         directory: dir.path,
       );
     }

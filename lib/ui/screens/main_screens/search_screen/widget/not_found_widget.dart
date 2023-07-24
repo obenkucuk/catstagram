@@ -12,7 +12,6 @@ class _NotFoundWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: height,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           FractionallySizedBox(widthFactor: 0.3, child: Lottie.asset(AssetConstants.notFound)),
           Center(child: Text('Not Found any cat!', style: s18W500(context))),

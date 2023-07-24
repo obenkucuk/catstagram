@@ -125,7 +125,7 @@ class _SearchHistoryViewState extends State<SearchHistoryView> with SingleTicker
 
               /// If search status is searching, show the shimmer effect
               if (widget.searchStatus == SearchStatus.searching)
-                ...List.generate(20, (i) => i).map((e) => const ShimmerEffectWidget()).toList(),
+                ...List.generate(20, (i) => i).map((e) => const ShimmerEffectWidget()),
 
               /// when user didn't search anything, show the history list
               if (widget.searchStatus == SearchStatus.history)

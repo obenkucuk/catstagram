@@ -1,11 +1,11 @@
+import 'package:catstagram/components/lazy_load_loading_widget/lazy_load_loading_widget.dart';
+import 'package:catstagram/constants/hero_tags.dart';
+import 'package:catstagram/ui/screens/main_screens/home_screen/controller/home_controller.dart';
+import 'package:catstagram/ui/screens/main_screens/home_screen/widget/single_post.dart';
+import 'package:catstagram/ui/screens/main_screens/home_screen/widget/single_story.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../components/lazy_load_loading_widget/lazy_load_loading_widget.dart';
-import '../../../../../constants/hero_tags.dart';
-import '../controller/home_controller.dart';
-import '../widget/single_post.dart';
-import '../widget/single_story.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -48,18 +48,19 @@ class HomeView extends GetView<HomeController> {
                     child: ColoredBox(
                       color: Colors.transparent,
                       child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: controller.dataStories.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () => controller.goToStory(index),
-                              child: SingleStory(
-                                name: controller.dataStories[index].index.toString(),
-                                isSeen: controller.dataStories[index].isSeen.value,
-                                imageUrl: controller.dataStories[index].image,
-                              ),
-                            );
-                          }),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.dataStories.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () => controller.goToStory(index),
+                            child: SingleStory(
+                              name: controller.dataStories[index].index.toString(),
+                              isSeen: controller.dataStories[index].isSeen.value,
+                              imageUrl: controller.dataStories[index].image,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -72,7 +73,7 @@ class HomeView extends GetView<HomeController> {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      var itemCount = (controller.dataPost.isEmpty ? 5 : controller.dataPost.length) + 1;
+                      final itemCount = (controller.dataPost.isEmpty ? 5 : controller.dataPost.length) + 1;
 
                       if (itemCount == index + 1) {
                         return const LazyLoadLoadingWidget();

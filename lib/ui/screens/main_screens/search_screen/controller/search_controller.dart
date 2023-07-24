@@ -49,11 +49,11 @@ class SearchControllerX extends GetxController {
       searchStatus.value = SearchStatus.searching;
       update([SearchKeys.updateSearch]);
 
-      var res = await Repository.instance.getCatsFromTag(searchKey);
+      final res = await Repository.instance.getCatsFromTag(searchKey);
       if (res.statusCode == 200) {
-        var modelList = res.data;
+        final modelList = res.data;
 
-        for (var e in modelList) {
+        for (final e in modelList) {
           searchFoundedList.add(
             SearchHistoryAndFoundModel(
               keyword: e.tags != null ? e.tags!.first : '',
@@ -69,10 +69,10 @@ class SearchControllerX extends GetxController {
       debugPrint('An Error Occured!');
     }
 
-    var isKeywordExist = searchHistoryList.any((e) => e.keyword == searchKey);
+    final isKeywordExist = searchHistoryList.any((e) => e.keyword == searchKey);
 
     if (!isKeywordExist) {
-      var newSearchHistory = SearchHistoryAndFoundModel(
+      final newSearchHistory = SearchHistoryAndFoundModel(
           keyword: searchKey, imageUrl: searchFoundedList.isNotEmpty ? searchFoundedList.first.imageUrl : null);
       searchHistoryList.add(newSearchHistory);
     }
@@ -80,7 +80,7 @@ class SearchControllerX extends GetxController {
 
   /// delete the search key from the search history list
   void deleteFromSearchHistory(String searchKey) {
-    var isKeywordExist = searchHistoryList.any((e) => e.keyword == searchKey);
+    final isKeywordExist = searchHistoryList.any((e) => e.keyword == searchKey);
 
     if (isKeywordExist) {
       searchHistoryList.removeWhere((e) => e.keyword == searchKey);
@@ -102,8 +102,9 @@ class SearchControllerX extends GetxController {
 
   /// get the search key from the search history list to implement the search
   void getSearchKeyFromHistory(String value) {
-    searchTextController.text = value;
-    searchTextController.selection = TextSelection.fromPosition(TextPosition(offset: value.length));
+    searchTextController
+      ..text = value
+      ..selection = TextSelection.fromPosition(TextPosition(offset: value.length));
     implementSearch(value);
   }
 
@@ -111,11 +112,12 @@ class SearchControllerX extends GetxController {
   Future<void> showSearch() async {
     isOverlayVisible.value = true;
 
-    RenderBox renderBox = overlayDimensionKey.currentContext!.findRenderObject() as RenderBox;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
+    final RenderBox renderBox = overlayDimensionKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
 
-    overlayEntry = OverlayEntry(builder: (context) {
-      return GetBuilder<SearchControllerX>(
+    overlayEntry = OverlayEntry(
+      builder: (context) {
+        return GetBuilder<SearchControllerX>(
           id: SearchKeys.updateSearch,
           init: SearchControllerX(),
           builder: (controller) {
@@ -125,11 +127,14 @@ class SearchControllerX extends GetxController {
               size: renderBox.size,
               foundedList: searchFoundedList,
               historyList: searchHistoryList,
-              onDelete: (searchKey) => deleteFromSearchHistory(searchKey),
-              onTap: (value) => getSearchKeyFromHistory(value),
+              onDelete: deleteFromSearchHistory,
+              onTap: getSearchKeyFromHistory,
             );
-          });
-    });
+          },
+        );
+      },
+    );
+
     overlayState = Overlay.of(context);
     overlayState!.insert(overlayEntry!);
   }
@@ -151,7 +156,7 @@ class SearchControllerX extends GetxController {
     allTags.shuffle();
     allTags.take(8).forEach((element) async {
       try {
-        var res = await Repository.instance.getCatsFromTag(element);
+        final res = await Repository.instance.getCatsFromTag(element);
         if (res.statusCode == 200) dataList.addAll(res.data);
       } catch (e) {
         debugPrint('An Error Occured!');
@@ -166,7 +171,7 @@ class SearchControllerX extends GetxController {
         if (shuldSearchViewLazyLoad) {
           shuldSearchViewLazyLoad = false;
           allTags.shuffle();
-          var res = await Repository.instance.getCatsFromTag(allTags.first);
+          final res = await Repository.instance.getCatsFromTag(allTags.first);
           if (res.statusCode == 200) dataList.value += res.data;
 
           shuldSearchViewLazyLoad = true;

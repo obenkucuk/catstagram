@@ -1,6 +1,6 @@
+import 'package:catstagram/constants/app_constants.dart';
+import 'package:catstagram/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../constants/app_constants.dart';
-import 'app_colors.dart';
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,

@@ -1,9 +1,9 @@
 import 'package:catstagram/constants/app_enums.dart';
+import 'package:catstagram/constants/loading_status_enums.dart';
+import 'package:catstagram/core/services/localization_service/localization_service.dart';
+import 'package:catstagram/core/services/theme_service/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../constants/loading_status_enums.dart';
-import '../../../../../core/services/localization_service/localization_service.dart';
-import '../../../../../core/services/theme_service/theme_service.dart';
 
 class SettingsController extends GetxController {
   final scaffoldKey = GlobalKey();
@@ -27,7 +27,7 @@ class SettingsController extends GetxController {
 
   /// creates dropdown items for the language dropdown
   Future<void> _initLocale() async {
-    var localeFromStorage = await LocalizationService.instance.getCurrentLocale();
+    final localeFromStorage = await LocalizationService.instance.getCurrentLocale();
     locale.value = localeFromStorage;
   }
 

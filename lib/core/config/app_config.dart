@@ -1,7 +1,6 @@
+import 'package:catstagram/core/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import '../logger.dart';
 
 class AppConfig {
   AppConfig._();

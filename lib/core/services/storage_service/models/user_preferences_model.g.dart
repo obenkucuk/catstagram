@@ -10,8 +10,7 @@ part of 'user_preferences_model.dart';
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetIsarUserPreferencesModelCollection on Isar {
-  IsarCollection<IsarUserPreferencesModel> get isarUserPreferencesModels =>
-      this.collection();
+  IsarCollection<IsarUserPreferencesModel> get isarUserPreferencesModels => this.collection();
 }
 
 const IsarUserPreferencesModelSchema = CollectionSchema(
@@ -85,10 +84,11 @@ void _isarUserPreferencesModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeBool(offsets[0], object.isSystemLocale);
-  writer.writeString(offsets[1], object.locale);
-  writer.writeByte(offsets[2], object.themeMode.index);
-  writer.writeString(offsets[3], object.tokenID);
+  writer
+    ..writeBool(offsets[0], object.isSystemLocale)
+    ..writeString(offsets[1], object.locale)
+    ..writeByte(offsets[2], object.themeMode.index)
+    ..writeString(offsets[3], object.tokenID);
 }
 
 IsarUserPreferencesModel _isarUserPreferencesModelDeserialize(
@@ -100,9 +100,7 @@ IsarUserPreferencesModel _isarUserPreferencesModelDeserialize(
   final object = IsarUserPreferencesModel(
     isSystemLocale: reader.readBool(offsets[0]),
     locale: reader.readString(offsets[1]),
-    themeMode: _IsarUserPreferencesModelthemeModeValueEnumMap[
-            reader.readByteOrNull(offsets[2])] ??
-        ThemeMode.system,
+    themeMode: _IsarUserPreferencesModelthemeModeValueEnumMap[reader.readByteOrNull(offsets[2])] ?? ThemeMode.system,
   );
   return object;
 }
@@ -119,9 +117,7 @@ P _isarUserPreferencesModelDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
-      return (_IsarUserPreferencesModelthemeModeValueEnumMap[
-              reader.readByteOrNull(offset)] ??
-          ThemeMode.system) as P;
+      return (_IsarUserPreferencesModelthemeModeValueEnumMap[reader.readByteOrNull(offset)] ?? ThemeMode.system) as P;
     case 3:
       return (reader.readString(offset)) as P;
     default:
@@ -144,16 +140,13 @@ Id _isarUserPreferencesModelGetId(IsarUserPreferencesModel object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _isarUserPreferencesModelGetLinks(
-    IsarUserPreferencesModel object) {
+List<IsarLinkBase<dynamic>> _isarUserPreferencesModelGetLinks(IsarUserPreferencesModel object) {
   return [];
 }
 
-void _isarUserPreferencesModelAttach(
-    IsarCollection<dynamic> col, Id id, IsarUserPreferencesModel object) {}
+void _isarUserPreferencesModelAttach(IsarCollection<dynamic> col, Id id, IsarUserPreferencesModel object) {}
 
-extension IsarUserPreferencesModelByIndex
-    on IsarCollection<IsarUserPreferencesModel> {
+extension IsarUserPreferencesModelByIndex on IsarCollection<IsarUserPreferencesModel> {
   Future<IsarUserPreferencesModel?> getByTokenID(String tokenID) {
     return getByIndex(r'tokenID', [tokenID]);
   }
@@ -170,14 +163,12 @@ extension IsarUserPreferencesModelByIndex
     return deleteByIndexSync(r'tokenID', [tokenID]);
   }
 
-  Future<List<IsarUserPreferencesModel?>> getAllByTokenID(
-      List<String> tokenIDValues) {
+  Future<List<IsarUserPreferencesModel?>> getAllByTokenID(List<String> tokenIDValues) {
     final values = tokenIDValues.map((e) => [e]).toList();
     return getAllByIndex(r'tokenID', values);
   }
 
-  List<IsarUserPreferencesModel?> getAllByTokenIDSync(
-      List<String> tokenIDValues) {
+  List<IsarUserPreferencesModel?> getAllByTokenIDSync(List<String> tokenIDValues) {
     final values = tokenIDValues.map((e) => [e]).toList();
     return getAllByIndexSync(r'tokenID', values);
   }
@@ -196,8 +187,7 @@ extension IsarUserPreferencesModelByIndex
     return putByIndex(r'tokenID', object);
   }
 
-  Id putByTokenIDSync(IsarUserPreferencesModel object,
-      {bool saveLinks = true}) {
+  Id putByTokenIDSync(IsarUserPreferencesModel object, {bool saveLinks = true}) {
     return putByIndexSync(r'tokenID', object, saveLinks: saveLinks);
   }
 
@@ -205,26 +195,23 @@ extension IsarUserPreferencesModelByIndex
     return putAllByIndex(r'tokenID', objects);
   }
 
-  List<Id> putAllByTokenIDSync(List<IsarUserPreferencesModel> objects,
-      {bool saveLinks = true}) {
+  List<Id> putAllByTokenIDSync(List<IsarUserPreferencesModel> objects, {bool saveLinks = true}) {
     return putAllByIndexSync(r'tokenID', objects, saveLinks: saveLinks);
   }
 }
 
-extension IsarUserPreferencesModelQueryWhereSort on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QWhere> {
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhere>
-      anyId() {
+extension IsarUserPreferencesModelQueryWhereSort
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QWhere> {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QWhereClause> {
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterWhereClause> idEqualTo(Id id) {
+extension IsarUserPreferencesModelQueryWhere
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QWhereClause> {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -233,8 +220,7 @@ extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -256,8 +242,8 @@ extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterWhereClause> idGreaterThan(Id id, {bool include = false}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhereClause> idGreaterThan(Id id,
+      {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -265,8 +251,8 @@ extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterWhereClause> idLessThan(Id id, {bool include = false}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhereClause> idLessThan(Id id,
+      {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -274,8 +260,7 @@ extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterWhereClause> idBetween(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -291,8 +276,7 @@ extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterWhereClause> tokenIDEqualTo(String tokenID) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhereClause> tokenIDEqualTo(String tokenID) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'tokenID',
@@ -301,8 +285,8 @@ extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterWhereClause> tokenIDNotEqualTo(String tokenID) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterWhereClause> tokenIDNotEqualTo(
+      String tokenID) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -337,10 +321,9 @@ extension IsarUserPreferencesModelQueryWhere on QueryBuilder<
   }
 }
 
-extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QFilterCondition> {
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> idEqualTo(Id value) {
+extension IsarUserPreferencesModelQueryFilter
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QFilterCondition> {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -349,8 +332,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -363,8 +345,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> idLessThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -377,8 +358,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> idBetween(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -395,8 +375,8 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> isSystemLocaleEqualTo(bool value) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> isSystemLocaleEqualTo(
+      bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isSystemLocale',
@@ -405,8 +385,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeEqualTo(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -419,8 +398,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeGreaterThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -435,8 +413,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeLessThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -451,8 +428,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeBetween(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -471,8 +447,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeStartsWith(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -485,8 +460,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeEndsWith(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -499,9 +473,8 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-          QAfterFilterCondition>
-      localeContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeContains(String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'locale',
@@ -511,9 +484,8 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-          QAfterFilterCondition>
-      localeMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeMatches(String pattern,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'locale',
@@ -523,8 +495,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeIsEmpty() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'locale',
@@ -533,8 +504,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> localeIsNotEmpty() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> localeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'locale',
@@ -543,8 +513,8 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> themeModeEqualTo(ThemeMode value) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> themeModeEqualTo(
+      ThemeMode value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'themeMode',
@@ -553,8 +523,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> themeModeGreaterThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> themeModeGreaterThan(
     ThemeMode value, {
     bool include = false,
   }) {
@@ -567,8 +536,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> themeModeLessThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> themeModeLessThan(
     ThemeMode value, {
     bool include = false,
   }) {
@@ -581,8 +549,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> themeModeBetween(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> themeModeBetween(
     ThemeMode lower,
     ThemeMode upper, {
     bool includeLower = true,
@@ -599,8 +566,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDEqualTo(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -613,8 +579,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDGreaterThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -629,8 +594,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDLessThan(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -645,8 +609,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDBetween(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -665,8 +628,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDStartsWith(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -679,8 +641,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDEndsWith(
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -693,9 +654,8 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-          QAfterFilterCondition>
-      tokenIDContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDContains(String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'tokenID',
@@ -705,9 +665,8 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-          QAfterFilterCondition>
-      tokenIDMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDMatches(String pattern,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'tokenID',
@@ -717,8 +676,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDIsEmpty() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'tokenID',
@@ -727,8 +685,7 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel,
-      QAfterFilterCondition> tokenIDIsNotEmpty() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterFilterCondition> tokenIDIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'tokenID',
@@ -738,206 +695,182 @@ extension IsarUserPreferencesModelQueryFilter on QueryBuilder<
   }
 }
 
-extension IsarUserPreferencesModelQueryObject on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QFilterCondition> {}
+extension IsarUserPreferencesModelQueryObject
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QFilterCondition> {}
 
-extension IsarUserPreferencesModelQueryLinks on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QFilterCondition> {}
+extension IsarUserPreferencesModelQueryLinks
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QFilterCondition> {}
 
-extension IsarUserPreferencesModelQuerySortBy on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QSortBy> {
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByIsSystemLocale() {
+extension IsarUserPreferencesModelQuerySortBy
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QSortBy> {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByIsSystemLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSystemLocale', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByIsSystemLocaleDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByIsSystemLocaleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSystemLocale', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByLocale() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'locale', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByLocaleDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByLocaleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'locale', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByThemeMode() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByThemeMode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'themeMode', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByThemeModeDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByThemeModeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'themeMode', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByTokenID() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByTokenID() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tokenID', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      sortByTokenIDDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> sortByTokenIDDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tokenID', Sort.desc);
     });
   }
 }
 
-extension IsarUserPreferencesModelQuerySortThenBy on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QSortThenBy> {
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenById() {
+extension IsarUserPreferencesModelQuerySortThenBy
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QSortThenBy> {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByIdDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByIsSystemLocale() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByIsSystemLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSystemLocale', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByIsSystemLocaleDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByIsSystemLocaleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSystemLocale', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByLocale() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'locale', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByLocaleDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByLocaleDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'locale', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByThemeMode() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByThemeMode() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'themeMode', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByThemeModeDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByThemeModeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'themeMode', Sort.desc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByTokenID() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByTokenID() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tokenID', Sort.asc);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy>
-      thenByTokenIDDesc() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QAfterSortBy> thenByTokenIDDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'tokenID', Sort.desc);
     });
   }
 }
 
-extension IsarUserPreferencesModelQueryWhereDistinct on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct> {
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct>
-      distinctByIsSystemLocale() {
+extension IsarUserPreferencesModelQueryWhereDistinct
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct> {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct> distinctByIsSystemLocale() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSystemLocale');
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct>
-      distinctByLocale({bool caseSensitive = true}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct> distinctByLocale(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'locale', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct>
-      distinctByThemeMode() {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct> distinctByThemeMode() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'themeMode');
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct>
-      distinctByTokenID({bool caseSensitive = true}) {
+  QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QDistinct> distinctByTokenID(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'tokenID', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension IsarUserPreferencesModelQueryProperty on QueryBuilder<
-    IsarUserPreferencesModel, IsarUserPreferencesModel, QQueryProperty> {
+extension IsarUserPreferencesModelQueryProperty
+    on QueryBuilder<IsarUserPreferencesModel, IsarUserPreferencesModel, QQueryProperty> {
   QueryBuilder<IsarUserPreferencesModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, bool, QQueryOperations>
-      isSystemLocaleProperty() {
+  QueryBuilder<IsarUserPreferencesModel, bool, QQueryOperations> isSystemLocaleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isSystemLocale');
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, String, QQueryOperations>
-      localeProperty() {
+  QueryBuilder<IsarUserPreferencesModel, String, QQueryOperations> localeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'locale');
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, ThemeMode, QQueryOperations>
-      themeModeProperty() {
+  QueryBuilder<IsarUserPreferencesModel, ThemeMode, QQueryOperations> themeModeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'themeMode');
     });
   }
 
-  QueryBuilder<IsarUserPreferencesModel, String, QQueryOperations>
-      tokenIDProperty() {
+  QueryBuilder<IsarUserPreferencesModel, String, QQueryOperations> tokenIDProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tokenID');
     });

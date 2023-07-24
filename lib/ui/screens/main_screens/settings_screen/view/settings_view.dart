@@ -1,11 +1,11 @@
+import 'package:catstagram/components/custom_dropdown/custom_dropdown.dart';
+import 'package:catstagram/constants/loading_status_enums.dart';
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
 import 'package:catstagram/theme/text_styles.dart';
+import 'package:catstagram/ui/screens/main_screens/settings_screen/controller/settings_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../constants/loading_status_enums.dart';
-import '../controller/settings_controller.dart';
-import '../../../../../components/custom_dropdown/custom_dropdown.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});

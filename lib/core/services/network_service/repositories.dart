@@ -1,11 +1,11 @@
 import 'dart:convert';
-import '../../logger.dart';
-import '../../models/cats_from_tag_response_model.dart';
-import '../../models/tags_response_model.dart';
-import 'base_http_model.dart';
-import 'http_enums.dart';
-import 'http_client.dart';
-import 'http_urls.dart';
+import 'package:catstagram/core/logger.dart';
+import 'package:catstagram/core/models/cats_from_tag_response_model.dart';
+import 'package:catstagram/core/models/tags_response_model.dart';
+import 'package:catstagram/core/services/network_service/base_http_model.dart';
+import 'package:catstagram/core/services/network_service/http_client.dart';
+import 'package:catstagram/core/services/network_service/http_enums.dart';
+import 'package:catstagram/core/services/network_service/http_urls.dart';
 
 class Repository {
   Repository._();
@@ -13,14 +13,14 @@ class Repository {
 
   Future<BaseHttpModel<TagsResponseModel>> getTags() async {
     try {
-      var response = await HttpClient.instance.request(
+      final response = await HttpClient.instance.request(
         method: HttpMethods.GET,
         path: HttpUrls.tags,
       );
 
       Log.success('getTags: \n', response!.body);
 
-      TagsResponseModel model =
+      final model =
           TagsResponseModel.fromJson((await jsonDecode(response.body) as List).map((e) => e.toString()).toList());
 
       return BaseHttpModel(data: model, statusCode: response.statusCode);
@@ -33,7 +33,7 @@ class Repository {
 
   Future<BaseHttpModel<List<CatFromTagResponseModel>>> getCatsFromTag(String tag) async {
     try {
-      var response = await HttpClient.instance.request(
+      final response = await HttpClient.instance.request(
         method: HttpMethods.GET,
         path: HttpUrls.catsFromTag,
         queryParameters: {'tags': tag},
@@ -41,7 +41,7 @@ class Repository {
 
       Log.success('getCatsFromTag: \n', response!.body);
 
-      var model = catsFromTagResponseModelFromJson(response.body, ReqContentType.photo, tag);
+      final model = catsFromTagResponseModelFromJson(response.body, ReqContentType.photo, tag);
 
       return BaseHttpModel(data: model, statusCode: response.statusCode);
     } catch (e, s) {

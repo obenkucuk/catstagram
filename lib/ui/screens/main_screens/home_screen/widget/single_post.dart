@@ -1,13 +1,13 @@
 import 'package:catstagram/core/extensions/to_cats_id_url.dart';
+import 'package:catstagram/core/models/cats_from_tag_response_model.dart';
 import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../core/models/cats_from_tag_response_model.dart';
 
 /// single post widget for the home screen
 class SinglePost extends StatelessWidget {
-  final CatFromTagResponseModel? catList;
   const SinglePost({super.key, this.catList});
+  final CatFromTagResponseModel? catList;
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MyBottomBar {
-  final List<MyBottomBarElemet> elements;
-
   MyBottomBar(this.elements);
+
+  final List<MyBottomBarElemet> elements;
 }
 
 class MyBottomBarElemet {

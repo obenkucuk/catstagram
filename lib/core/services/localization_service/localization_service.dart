@@ -1,10 +1,10 @@
 import 'dart:ui';
+import 'package:catstagram/constants/app_constants.dart';
+import 'package:catstagram/constants/app_enums.dart';
+import 'package:catstagram/core/logger.dart';
+import 'package:catstagram/core/services/storage_service/storage_service.dart';
+import 'package:catstagram/theme/material_inherited.dart';
 import 'package:flutter/material.dart';
-import '../../../constants/app_constants.dart';
-import '../../../constants/app_enums.dart';
-import '../../../theme/material_inherited.dart';
-import '../../logger.dart';
-import '../storage_service/storage_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LocalizationService {
@@ -26,7 +26,7 @@ class LocalizationService {
   Locale getSysyemLocale() {
     var locale = PlatformDispatcher.instance.locale;
 
-    bool isSysLocalSupported =
+    final isSysLocalSupported =
         AppLocalizations.supportedLocales.map((e) => e.languageCode).contains(locale.languageCode);
 
     if (!isSysLocalSupported) {
@@ -39,7 +39,7 @@ class LocalizationService {
   Future<void> changeLocal(BuildContext context, {required AppLocales locale}) async {
     MaterialAppInheritedWidget.of(context).changeLocale(locale);
 
-    var current = await StorageService.instance.getUserPreferences();
+    final current = await StorageService.instance.getUserPreferences();
 
     await StorageService.instance.saveUserPreferences(
       current.copyWith(locale: locale.name, isSystemLocale: locale == AppLocales.system),

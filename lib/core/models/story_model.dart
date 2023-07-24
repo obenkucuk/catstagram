@@ -1,13 +1,7 @@
+import 'package:catstagram/core/models/cats_from_tag_response_model.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'cats_from_tag_response_model.dart';
 
 class StoryModel {
-  final int index;
-  final String name;
-  final String image;
-  RxBool isSeen;
-  final List<CatFromTagResponseModel> storyList;
-
   StoryModel({
     required this.index,
     required this.name,
@@ -15,6 +9,12 @@ class StoryModel {
     required this.isSeen,
     required this.storyList,
   });
+
+  final int index;
+  final String name;
+  final String image;
+  RxBool isSeen;
+  final List<CatFromTagResponseModel> storyList;
 
   StoryModel copyWith({
     int? index,

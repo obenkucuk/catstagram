@@ -1,9 +1,9 @@
+import 'package:catstagram/main/my_bottom_bar_models.dart';
+import 'package:catstagram/ui/screens/main_screens/home_screen/home_screen.dart';
+import 'package:catstagram/ui/screens/main_screens/search_screen/search_screen.dart';
 import 'package:catstagram/ui/screens/main_screens/settings_screen/settings_screen.dart';
 import 'package:catstagram/ui/screens/main_screens/share_screen/share_screen.dart';
 import 'package:flutter/cupertino.dart';
-import '../ui/screens/main_screens/home_screen/home_screen.dart';
-import '../ui/screens/main_screens/search_screen/search_screen.dart';
-import 'my_bottom_bar_models.dart';
 
 final MyBottomBar appBottomBarItems = MyBottomBar(
   [

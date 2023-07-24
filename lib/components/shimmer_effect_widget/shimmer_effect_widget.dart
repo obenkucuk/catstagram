@@ -31,7 +31,10 @@ class _ShimmerEffectWidgetState extends State<ShimmerEffectWidget> {
   }
 
   Future<void> onReady() async {
-    await Future.delayed(const Duration(microseconds: 1));
+    await Future.delayed(
+      const Duration(microseconds: 1),
+      () {},
+    );
     setState(() {
       if (_isStart) {
         _colorInt = _colorInt + depth;

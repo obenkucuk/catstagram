@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 @immutable
 final class CubeTransformWidget extends StatelessWidget {
-  CubeTransformWidget({
-    super.key,
+  const CubeTransformWidget({
     required this.index,
     required this.currentPage,
     required this.pageDelta,
     required this.child,
+    super.key,
     this.perspectiveScale = 0.0005,
     this.rotationAngle = 90,
   });

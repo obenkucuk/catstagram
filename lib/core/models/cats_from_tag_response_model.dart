@@ -14,7 +14,7 @@ List<CatFromTagResponseModel> catsFromTagResponseModelFromJson(
               contentType,
               tag,
             ),
-          ) as List<CatFromTagResponseModel>,
+          ),
     );
 
 class CatFromTagResponseModel {
@@ -32,7 +32,7 @@ class CatFromTagResponseModel {
   ) =>
       CatFromTagResponseModel(
         id: json['_id'] as String,
-        tags: json['tags'] == null ? [tag] : List<String>.from(json['tags']!.map((x) => x) as List<String>),
+        tags: json['tags'] == null ? [tag] : List<String>.from(json['tags']!.map((x) => x)),
         contentType: contentType,
       );
 

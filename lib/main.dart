@@ -1,11 +1,11 @@
 import 'package:catstagram/core/config/app_config.dart';
+import 'package:catstagram/core/router/router.dart';
+import 'package:catstagram/core/services/session_service/session_service.dart';
+import 'package:catstagram/main/main_screen_constants.dart';
+import 'package:catstagram/theme/material_inherited.dart';
+import 'package:catstagram/theme/theme_data_dark.dart';
+import 'package:catstagram/theme/theme_data_light.dart';
 import 'package:flutter/material.dart';
-import 'core/router/router.dart';
-import 'core/services/session_service/session_service.dart';
-import 'main/main_screen_constants.dart';
-import 'theme/material_inherited.dart';
-import 'theme/theme_data_dark.dart';
-import 'theme/theme_data_light.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {

@@ -4,22 +4,22 @@ import 'dart:developer' as developer;
 
 class Log {
   static void print(dynamic m1, [dynamic m2 = '', dynamic m3 = '', dynamic m4 = '', dynamic m5 = '']) {
-    String message = '$m1 $m2 $m3 $m4 $m5';
+    final message = '$m1 $m2 $m3 $m4 $m5';
     developer.log(_LogColors.white + message + _LogColors.reset, name: '${_LogColors.white}PRINT${_LogColors.reset}');
   }
 
   static void error(dynamic m1, [dynamic m2 = '', dynamic m3 = '', dynamic m4 = '', dynamic m5 = '']) {
-    String message = '$m1 $m2 $m3 $m4 $m5';
+    final message = '$m1 $m2 $m3 $m4 $m5';
     developer.log(_LogColors.red + message + _LogColors.reset, name: '${_LogColors.red}ERROR${_LogColors.reset}');
   }
 
   static void success(dynamic m1, [dynamic m2 = '', dynamic m3 = '', dynamic m4 = '', dynamic m5 = '']) {
-    String message = '$m1 $m2 $m3 $m4 $m5';
+    final message = '$m1 $m2 $m3 $m4 $m5';
     developer.log(_LogColors.green + message + _LogColors.reset, name: '${_LogColors.green}SUCCESS${_LogColors.reset}');
   }
 
   static void info(dynamic m1, [dynamic m2 = '', dynamic m3 = '', dynamic m4 = '', dynamic m5 = '']) {
-    String message = '$m1 $m2 $m3 $m4 $m5';
+    final message = '$m1 $m2 $m3 $m4 $m5';
     developer.log(_LogColors.yellow + message + _LogColors.reset, name: '${_LogColors.yellow}INFO${_LogColors.reset}');
   }
 }

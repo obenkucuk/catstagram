@@ -14,7 +14,7 @@ class IsarUserPreferencesModel {
   final Id id = Isar.autoIncrement;
 
   @Index(unique: true, replace: true)
-  final String tokenID = "user_preferences_id";
+  final String tokenID = 'user_preferences_id';
 
   @enumerated
   final ThemeMode themeMode;

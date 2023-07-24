@@ -9,7 +9,7 @@ final class ThemeService {
   static final ThemeService instance = ThemeService._();
 
   Future<void> init() async {
-    var currentPrefs = await StorageService.instance.getUserPreferences();
+    final currentPrefs = await StorageService.instance.getUserPreferences();
 
     initThemeMode = currentPrefs.themeMode;
 
@@ -28,7 +28,7 @@ final class ThemeService {
           : PlatformDispatcher.instance.platformBrightness,
     );
 
-    var currentPrefs = await StorageService.instance.getUserPreferences();
+    final currentPrefs = await StorageService.instance.getUserPreferences();
 
     await StorageService.instance.saveUserPreferences(
       currentPrefs.copyWith(themeMode: mode),

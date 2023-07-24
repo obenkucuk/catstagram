@@ -1,4 +1,4 @@
-import '../../config/app_config.dart';
+import 'package:catstagram/core/config/app_config.dart';
 
 class HttpUrls {
   static final String catUrl = AppConfig.instance.catUrl;
