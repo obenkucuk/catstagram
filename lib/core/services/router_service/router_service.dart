@@ -6,17 +6,17 @@ class RouterService {
   RouterService._();
   static final RouterService instance = RouterService._();
 
-  Future<T?> pushNamed<T extends Object?>(String routeName, {RouterArgumentsModel? args}) async {
+  Future<T?> pushNamed<T extends Object?>(String routeName, {RouterArgumentsModel<T>? args}) async {
     return navigatorKey.currentContext!.pushNamed(
       routeName,
       extra: args ?? RouterArgumentsModel(),
     );
   }
 
-  void replaceNamed(String routeName, {RouterArgumentsModel? args}) async {
+  void replaceNamed<T>(String routeName, {RouterArgumentsModel<T>? args}) {
     return navigatorKey.currentContext!.replaceNamed(
       routeName,
-      extra: args ?? RouterArgumentsModel(),
+      extra: args ?? RouterArgumentsModel<T>(),
     );
   }
 }

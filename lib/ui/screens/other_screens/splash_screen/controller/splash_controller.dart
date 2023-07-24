@@ -38,8 +38,12 @@ class SplashController extends GetxController {
     /// İki saniye beklettikten sonra main page'a yönlendirir.
     await Future.delayed(
       const Duration(seconds: 2),
-      () => RouterService.instance
-          .replaceNamed(RoutesNames.main, args: RouterArgumentsModel(appPageTransition: AppPageTransition.fade)),
+      () => RouterService.instance.replaceNamed(
+        RoutesNames.main,
+        args: RouterArgumentsModel(
+          appPageTransition: AppPageTransition.fade,
+        ),
+      ),
     );
   }
 }

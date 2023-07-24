@@ -37,7 +37,10 @@ class MainScreenState extends State<MainScreen> {
       });
     }
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(
+      const Duration(seconds: 3),
+      () {},
+    );
     if (isMessengerActive) {
       setState(() {
         isMessengerActive = false;
@@ -62,13 +65,14 @@ class MainScreenState extends State<MainScreen> {
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 currentIndex: _selectedIndex,
                 onTap: (int index) => setState(() => _selectedIndex = index),
-                items: myBottomBar!.elements
-                    .map(
-                      (e) => BottomNavigationBarItem(icon: Icon(e.iconData)
-                          // label: e.label,
-                          ),
-                    )
-                    .toList(),
+                items: myBottomBar!.elements.map(
+                  (e) {
+                    return BottomNavigationBarItem(
+                      icon: Icon(e.iconData),
+                      // label: e.label,
+                    );
+                  },
+                ).toList(),
               ),
             ),
             ColoredBox(

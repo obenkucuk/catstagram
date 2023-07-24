@@ -1,10 +1,10 @@
-import 'package:catstagram/core/models/story_model.dart';
 import 'package:catstagram/core/router/route_names.dart';
 import 'package:catstagram/core/router/transition_pages/fade_transition_page.dart';
 import 'package:catstagram/core/router/transition_pages/slide_up_transition_page.dart';
 import 'package:catstagram/core/services/router_service/router_argsuments_model.dart';
 import 'package:catstagram/core/services/router_service/router_enums.dart';
 import 'package:catstagram/main/main_screen.dart';
+import 'package:catstagram/ui/screens/main_screens/home_screen/controller/home_controller.dart';
 import 'package:catstagram/ui/screens/other_screens/splash_screen/splash_screen.dart';
 import 'package:catstagram/ui/screens/other_screens/story_screen/story_screen.dart';
 import 'package:flutter/material.dart';
@@ -37,14 +37,12 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/story',
       name: RoutesNames.story,
-      pageBuilder: (context, state) => _routerPageBuilder(
+      pageBuilder: (context, state) => _routerPageBuilder<StoryScreenRouterModel>(
         state,
         context,
         StoryScreen(
-          elements:
-              (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[0] as List<StoryModel>,
-          initialPeopleIndex:
-              (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[1] as int,
+          elements: (state.extra as RouterArgumentsModel<StoryScreenRouterModel>).extra!.models,
+          initialPeopleIndex: (state.extra as RouterArgumentsModel<StoryScreenRouterModel>).extra!.index,
         ),
       ),
     ),
@@ -53,13 +51,14 @@ final GoRouter appRouter = GoRouter(
     return const MaterialPage(child: Scaffold(body: Center(child: Text('Error Page will be here'))));
   },
   redirect: (BuildContext context, GoRouterState state) {
-    //TODO redirect if user is not logged in
+    /// TODO redirect if user is not logged in
+
     return null;
   },
 );
 
-Page _routerPageBuilder(GoRouterState state, BuildContext context, Widget child) {
-  final RouterArgumentsModel routerArguments = (state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel;
+Page<T> _routerPageBuilder<T>(GoRouterState state, BuildContext context, Widget child) {
+  final routerArguments = (state.extra ?? RouterArgumentsModel<T>()) as RouterArgumentsModel<T>;
 
   switch (routerArguments.appPageTransition) {
     case AppPageTransition.custom:

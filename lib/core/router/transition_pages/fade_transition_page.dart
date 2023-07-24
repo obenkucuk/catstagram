@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 @immutable
-final class FadeTransitionPage extends CustomTransitionPage {
+final class FadeTransitionPage<T> extends CustomTransitionPage<T> {
   FadeTransitionPage(
     this.state, {
     required super.child,

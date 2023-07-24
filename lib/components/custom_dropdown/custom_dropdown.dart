@@ -41,8 +41,8 @@ class _CustomDropdownState extends State<CustomDropdown> {
   void showOverlay() {
     setState(() => overlayIsVisible = true);
 
-    var renderBox = dimensionKey.currentContext!.findRenderObject() as RenderBox;
-    final Offset offset = renderBox.localToGlobal(Offset.zero);
+    final renderBox = dimensionKey.currentContext!.findRenderObject() as RenderBox;
+    final offset = renderBox.localToGlobal(Offset.zero);
 
     overlayEntry = OverlayEntry(
       builder: (context) {

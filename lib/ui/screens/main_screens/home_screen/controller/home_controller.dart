@@ -76,9 +76,14 @@ class HomeController extends GetxController {
 
   /// go to story screen when the user tap on the story item
   void goToStory(int index) {
+    final storyScreenRouterModel = StoryScreenRouterModel(models: dataStories, index: index);
+
     RouterService.instance.pushNamed(
       RoutesNames.story,
-      args: RouterArgumentsModel(appPageTransition: AppPageTransition.slideUp, extra: [dataStories, index]),
+      args: RouterArgumentsModel<StoryScreenRouterModel>(
+        appPageTransition: AppPageTransition.slideUp,
+        extra: storyScreenRouterModel,
+      ),
     );
   }
 
@@ -118,4 +123,14 @@ class HomeController extends GetxController {
       ..dispose();
     super.onClose();
   }
+}
+
+final class StoryScreenRouterModel {
+  StoryScreenRouterModel({
+    required this.models,
+    required this.index,
+  });
+
+  final List<StoryModel> models;
+  final int index;
 }

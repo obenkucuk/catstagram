@@ -14,13 +14,14 @@ final class CubeTransformWidget extends StatelessWidget {
   });
 
   final double perspectiveScale;
-  final AlignmentGeometry rightPageAlignment = Alignment.centerLeft;
-  final AlignmentGeometry leftPageAlignment = Alignment.centerRight;
   final double rotationAngle;
   final int index;
   final int currentPage;
   final double pageDelta;
   final Widget child;
+
+  AlignmentGeometry get rightPageAlignment => Alignment.centerLeft;
+  AlignmentGeometry get leftPageAlignment => Alignment.centerRight;
 
   @override
   Widget build(BuildContext context) {

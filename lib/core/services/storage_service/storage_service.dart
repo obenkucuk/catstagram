@@ -74,7 +74,7 @@ class StorageService {
   Future<Isar> openIsarDB() async {
     final dir = await getApplicationDocumentsDirectory();
     if (Isar.instanceNames.isEmpty) {
-      return await Isar.open(
+      return Isar.open(
         [IsarUserPreferencesModelSchema],
         directory: dir.path,
       );

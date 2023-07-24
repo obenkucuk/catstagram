@@ -73,7 +73,9 @@ class SearchControllerX extends GetxController {
 
     if (!isKeywordExist) {
       final newSearchHistory = SearchHistoryAndFoundModel(
-          keyword: searchKey, imageUrl: searchFoundedList.isNotEmpty ? searchFoundedList.first.imageUrl : null);
+        keyword: searchKey,
+        imageUrl: searchFoundedList.isNotEmpty ? searchFoundedList.first.imageUrl : null,
+      );
       searchHistoryList.add(newSearchHistory);
     }
   }
@@ -112,8 +114,8 @@ class SearchControllerX extends GetxController {
   Future<void> showSearch() async {
     isOverlayVisible.value = true;
 
-    final RenderBox renderBox = overlayDimensionKey.currentContext!.findRenderObject() as RenderBox;
-    final Offset offset = renderBox.localToGlobal(Offset.zero);
+    final renderBox = overlayDimensionKey.currentContext!.findRenderObject() as RenderBox;
+    final offset = renderBox.localToGlobal(Offset.zero);
 
     overlayEntry = OverlayEntry(
       builder: (context) {

@@ -81,7 +81,7 @@ class HttpClient with HttpRequests, Header {
 
 // NOT throw error if status codes not success
     if (!(response.statusCode >= 200 && response.statusCode < 300)) {
-      //TODO when server exception style is ready, create model for errors
+      /// TODO when server exception style is ready, create model for errors
       throw CustomHttpException(statusCode: response.statusCode, message: response.body);
     }
 

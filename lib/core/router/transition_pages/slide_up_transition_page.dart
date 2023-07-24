@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SlideUpTransitionPage extends CustomTransitionPage {
-  final GoRouterState state;
+class SlideUpTransitionPage<T> extends CustomTransitionPage<T> {
   SlideUpTransitionPage(
     this.state, {
     required super.child,
@@ -10,13 +9,16 @@ class SlideUpTransitionPage extends CustomTransitionPage {
           key: state.pageKey,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SlideTransition(
-                position: animation.drive(
-                  Tween<Offset>(
-                    begin: const Offset(0, 1),
-                    end: Offset.zero,
-                  ),
+              position: animation.drive(
+                Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
                 ),
-                child: child);
+              ),
+              child: child,
+            );
           },
         );
+
+  final GoRouterState state;
 }
