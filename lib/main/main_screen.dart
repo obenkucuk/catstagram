@@ -1,10 +1,10 @@
+import 'package:catstagram/main/my_bottom_bar_models.dart';
+import 'package:catstagram/theme/app_colors.dart';
+import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../theme/text_styles.dart';
-import 'my_bottom_bar_models.dart';
 
-class MainScreen extends StatefulWidget {
+final class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
   static MyBottomBar? myBottomBar;
 
@@ -21,9 +21,7 @@ class MainScreenState extends State<MainScreen> {
   bool isMessengerActive = false;
   Color _scaffoldColor = AppColorsX.error;
 
-  hideTabBar(bool val) {
-    setState(() => isTabBarVisible = val);
-  }
+  void hideTabBar({required bool val}) => setState(() => isTabBarVisible = val);
 
   Future<void> showSnacbar(String? message, [ScaffoldMessengerType type = ScaffoldMessengerType.error]) async {
     if (type == ScaffoldMessengerType.success) {
@@ -95,11 +93,12 @@ class MainScreenState extends State<MainScreen> {
   }
 }
 
-class MainScreenInheritedWidget extends InheritedWidget {
+@immutable
+final class MainScreenInheritedWidget extends InheritedWidget {
   const MainScreenInheritedWidget({
-    super.key,
     required this.state,
     required super.child,
+    super.key,
   });
   final MainScreenState state;
 

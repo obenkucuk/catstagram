@@ -1,13 +1,14 @@
+import 'package:catstagram/core/models/story_model.dart';
+import 'package:catstagram/core/router/route_names.dart';
+import 'package:catstagram/core/router/transition_pages/fade_transition_page.dart';
+import 'package:catstagram/core/router/transition_pages/slide_up_transition_page.dart';
+import 'package:catstagram/core/services/router_service/router_argsuments_model.dart';
+import 'package:catstagram/core/services/router_service/router_enums.dart';
+import 'package:catstagram/main/main_screen.dart';
 import 'package:catstagram/ui/screens/other_screens/splash_screen/splash_screen.dart';
 import 'package:catstagram/ui/screens/other_screens/story_screen/story_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../services/router_service/router_argsuments_model.dart';
-import '../../main/main_screen.dart';
-import '../services/router_service/router_enums.dart';
-import 'route_names.dart';
-import 'transition_pages/fade_transition_page.dart';
-import 'transition_pages/slide_up_transition_page.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -18,12 +19,20 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/',
       name: RoutesNames.splash,
-      pageBuilder: (context, state) => _routerPageBuilder(state, context, const SplashScreen()),
+      pageBuilder: (context, state) => _routerPageBuilder(
+        state,
+        context,
+        const SplashScreen(),
+      ),
     ),
     GoRoute(
       path: '/main',
       name: RoutesNames.main,
-      pageBuilder: (context, state) => _routerPageBuilder(state, context, const MainScreen()),
+      pageBuilder: (context, state) => _routerPageBuilder(
+        state,
+        context,
+        const MainScreen(),
+      ),
     ),
     GoRoute(
       path: '/story',
@@ -32,8 +41,10 @@ final GoRouter appRouter = GoRouter(
         state,
         context,
         StoryScreen(
-          elements: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[0],
-          initialPeopleIndex: (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[1],
+          elements:
+              (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[0] as List<StoryModel>,
+          initialPeopleIndex:
+              (((state.extra ?? RouterArgumentsModel()) as RouterArgumentsModel).extra as List)[1] as int,
         ),
       ),
     ),

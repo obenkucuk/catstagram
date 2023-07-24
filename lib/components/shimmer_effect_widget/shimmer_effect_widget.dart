@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 enum ShimmerEffectBrigthness { lighter, darker }
 
 @immutable
-class ShimmerEffectWidget extends StatefulWidget {
+final class ShimmerEffectWidget extends StatefulWidget {
+  const ShimmerEffectWidget({
+    super.key,
+    this.light = ShimmerEffectBrigthness.darker,
+  });
   final ShimmerEffectBrigthness? light;
-
-  const ShimmerEffectWidget({Key? key, this.light = ShimmerEffectBrigthness.darker}) : super(key: key);
 
   @override
   State<ShimmerEffectWidget> createState() => _ShimmerEffectWidgetState();
@@ -28,7 +30,7 @@ class _ShimmerEffectWidgetState extends State<ShimmerEffectWidget> {
     super.initState();
   }
 
-  onReady() async {
+  Future<void> onReady() async {
     await Future.delayed(const Duration(microseconds: 1));
     setState(() {
       if (_isStart) {
@@ -57,7 +59,7 @@ class _ShimmerEffectWidgetState extends State<ShimmerEffectWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = Color.fromARGB(
+    final color = Color.fromARGB(
       Colors.grey.shade200.alpha,
       Colors.grey.shade200.red + _colorInt,
       Colors.grey.shade200.green + _colorInt + 10,

@@ -1,28 +1,27 @@
+import 'package:catstagram/core/router/route_names.dart';
+import 'package:catstagram/core/services/network_service/repositories.dart';
+import 'package:catstagram/core/services/router_service/router_argsuments_model.dart';
+import 'package:catstagram/core/services/router_service/router_enums.dart';
+import 'package:catstagram/core/services/router_service/router_service.dart';
 import 'package:catstagram/core/services/session_service/session_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../core/router/route_names.dart';
-import '../../../../../core/services/network_service/repositories.dart';
-import '../../../../../core/services/router_service/router_argsuments_model.dart';
-import '../../../../../core/services/router_service/router_enums.dart';
-import '../../../../../core/services/router_service/router_service.dart';
 
 class SplashController extends GetxController {
   /// fetch all tags from the api and save it in the session service to use it in the app
   Future<void> _getTags() async {
-    List<String> allTags = [];
+    var allTags = <String>[];
 
     try {
-      var response = await Repository.instance.getTags();
+      final response = await Repository.instance.getTags();
 
       if (response.statusCode == 200) {
-        allTags = response.data.tags;
-
-        allTags.removeWhere((element) => element.contains(' '));
-        allTags.removeWhere((element) => element.contains('#'));
-        allTags.removeWhere((element) => element.contains('@'));
-        allTags.removeWhere((element) => element.length < 3);
-        allTags.shuffle();
+        allTags = response.data.tags
+          ..removeWhere((element) => element.contains(' '))
+          ..removeWhere((element) => element.contains('#'))
+          ..removeWhere((element) => element.contains('@'))
+          ..removeWhere((element) => element.length < 3)
+          ..shuffle();
 
         SessionService.instance.allTags = allTags;
       }
@@ -32,7 +31,7 @@ class SplashController extends GetxController {
   }
 
   @override
-  void onReady() async {
+  Future<void> onReady() async {
     super.onReady();
     await _getTags();
 

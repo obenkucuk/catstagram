@@ -1,13 +1,18 @@
+import 'package:catstagram/core/models/story_model.dart';
+import 'package:catstagram/ui/screens/other_screens/story_screen/controller/story_controller.dart';
+import 'package:catstagram/ui/screens/other_screens/story_screen/view/story_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
-import '../../../../core/models/story_model.dart';
-import '../story_screen/controller/story_controller.dart';
-import 'view/story_view.dart';
 
-class StoryScreen extends StatelessWidget {
+final class StoryScreen extends StatelessWidget {
+  const StoryScreen({
+    required this.elements,
+    required this.initialPeopleIndex,
+    super.key,
+  });
+
   final List<StoryModel> elements;
   final int initialPeopleIndex;
-  const StoryScreen({super.key, required this.elements, required this.initialPeopleIndex});
 
   @override
   Widget build(BuildContext context) {

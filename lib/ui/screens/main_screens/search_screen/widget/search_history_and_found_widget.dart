@@ -2,17 +2,17 @@ part of '../view/search_history_view.dart';
 
 /// search history and found widget for the search history view single item
 class _SearchHistoryAndFoundWidget extends StatelessWidget {
-  final String? imageUrl;
-  final String? title;
-  final Function(String value) onTap;
-  final Function(String value)? onDelete;
-
   const _SearchHistoryAndFoundWidget({
+    required this.onTap,
     this.imageUrl,
     this.title,
-    required this.onTap,
     this.onDelete,
   });
+
+  final String? imageUrl;
+  final String? title;
+  final void Function(String value) onTap;
+  final void Function(String value)? onDelete;
 
   @override
   Widget build(BuildContext context) {

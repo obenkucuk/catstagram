@@ -1,25 +1,25 @@
+import 'package:catstagram/components/custom_dropdown/animated_dropdown.dart';
+import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../theme/text_styles.dart';
-import 'animated_dropdown.dart';
 
-class CustomDropdown extends StatefulWidget {
-  final Map<String, Widget> items;
-  final Function(int) onSelected;
-  final int? title;
-  final TextStyle? textStyle;
-  final double? dropdownWidth;
-  final int itemHeight;
-
+@immutable
+final class CustomDropdown extends StatefulWidget {
   const CustomDropdown({
-    super.key,
     required this.items,
     required this.onSelected,
+    super.key,
     this.title,
     this.textStyle,
     this.dropdownWidth,
     this.itemHeight = 40,
   });
+  final Map<String, Widget> items;
+  final void Function(int) onSelected;
+  final int? title;
+  final TextStyle? textStyle;
+  final double? dropdownWidth;
+  final int itemHeight;
 
   @override
   State<CustomDropdown> createState() => _CustomDropdownState();
@@ -41,40 +41,42 @@ class _CustomDropdownState extends State<CustomDropdown> {
   void showOverlay() {
     setState(() => overlayIsVisible = true);
 
-    RenderBox renderBox = dimensionKey.currentContext!.findRenderObject() as RenderBox;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
+    var renderBox = dimensionKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
 
-    overlayEntry = OverlayEntry(builder: (context) {
-      return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            GestureDetector(
-              onTap: () => hideOverlay(),
-              child: Container(color: Colors.transparent),
-            ),
-            Positioned(
-              left: offset.dx,
-              top: offset.dy + renderBox.size.height + 10,
-              height: widget.itemHeight * widget.items.keys.length * 1.0,
-              width: widget.dropdownWidth,
-              child: AnimatedDropdown(
-                itemHeight: widget.itemHeight,
-                textStyle: widget.textStyle,
-                items: widget.items,
-                selectedItem: selectedItem,
-                onTap: (val) {
-                  setState(() => selectedItem = val);
-                  widget.onSelected(selectedItem);
-                  hideOverlay();
-                },
+    overlayEntry = OverlayEntry(
+      builder: (context) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              GestureDetector(
+                onTap: hideOverlay,
+                child: Container(color: Colors.transparent),
               ),
-            ),
-          ],
-        ),
-      );
-    });
+              Positioned(
+                left: offset.dx,
+                top: offset.dy + renderBox.size.height + 10,
+                height: widget.itemHeight * widget.items.keys.length * 1.0,
+                width: widget.dropdownWidth,
+                child: AnimatedDropdown(
+                  itemHeight: widget.itemHeight,
+                  textStyle: widget.textStyle,
+                  items: widget.items,
+                  selectedItem: selectedItem,
+                  onTap: (val) {
+                    setState(() => selectedItem = val);
+                    widget.onSelected(selectedItem);
+                    hideOverlay();
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
     overlayState = Overlay.of(context);
     overlayState!.insert(overlayEntry!);
   }
@@ -104,7 +106,12 @@ class _CustomDropdownState extends State<CustomDropdown> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(widget.items.keys.toList()[selectedItem], style: widget.textStyle ?? s16W600(context)),
+            Expanded(
+              child: Text(
+                widget.items.keys.toList()[selectedItem],
+                style: widget.textStyle ?? s16W600(context),
+              ),
+            ),
             AnimatedRotation(
               duration: const Duration(milliseconds: 200),
               turns: overlayIsVisible ? 0.5 : 0,

@@ -1,9 +1,9 @@
 part of '../view/story_view.dart';
 
-class _StoryUserAreaWidget extends StatelessWidget {
+final class _StoryUserAreaWidget extends StatelessWidget {
   const _StoryUserAreaWidget({
-    this.username,
     required this.onCloseTap,
+    this.username,
     this.image,
   });
 
@@ -13,7 +13,7 @@ class _StoryUserAreaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = Theme.of(context).colorScheme.primaryContainer;
+    final color = Theme.of(context).colorScheme.primaryContainer;
 
     return Row(
       children: [

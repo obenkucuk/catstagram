@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
-class AnimatedDropdown extends StatefulWidget {
-  final Map<String, Widget> items;
-  final int selectedItem;
-  final TextStyle? textStyle;
-  final Function(int) onTap;
-  final Function(String)? onValueChange;
-  final int itemHeight;
-
+@immutable
+final class AnimatedDropdown extends StatefulWidget {
   const AnimatedDropdown({
-    Key? key,
     required this.items,
     required this.selectedItem,
     required this.onTap,
+    required this.itemHeight,
+    super.key,
     this.textStyle,
     this.onValueChange,
-    required this.itemHeight,
-  }) : super(key: key);
+  });
+
+  final Map<String, Widget> items;
+  final int selectedItem;
+  final TextStyle? textStyle;
+  final void Function(int) onTap;
+  final void Function(String)? onValueChange;
+  final int itemHeight;
 
   @override
   State<AnimatedDropdown> createState() => _AnimatedDropdownState();
@@ -89,7 +90,7 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> with SingleTickerPr
                   height: widget.itemHeight.toDouble(),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Container(
+                    child: ColoredBox(
                       color: Colors.transparent,
                       child: widget.items.values.toList()[index],
                     ),
@@ -98,7 +99,12 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> with SingleTickerPr
               ),
             );
           },
-          separatorBuilder: (context, index) => Divider(thickness: 0.5, color: Theme.of(context).disabledColor),
+          separatorBuilder: (context, index) {
+            return Divider(
+              thickness: 0.5,
+              color: Theme.of(context).disabledColor,
+            );
+          },
         ),
       ),
     );

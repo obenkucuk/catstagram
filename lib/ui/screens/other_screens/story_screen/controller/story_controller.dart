@@ -1,8 +1,7 @@
+import 'package:catstagram/core/models/story_model.dart';
+import 'package:catstagram/ui/screens/other_screens/story_screen/controller/story_timer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../core/models/story_model.dart';
-import 'story_timer_controller.dart';
 
 enum StoryUpdateKeys { storyScreen }
 
@@ -72,7 +71,7 @@ class StoryController extends GetxController with GetSingleTickerProviderStateMi
   /// this function for [StoryTimerController]. it will bi triggered when timers duration is over.
   Future<void> _storyPeopleControllerListener() async {
     delta.value = peopleController.page! - peopleController.page!.floor();
-    var offset = peopleController.offset;
+    final offset = peopleController.offset;
     peopleController.position.axisDirection == AxisDirection.right
         ? currentPage.value = peopleController.page!.floor()
         : currentPage.value = peopleController.page!.ceil();
@@ -94,8 +93,9 @@ class StoryController extends GetxController with GetSingleTickerProviderStateMi
 
   @override
   void onClose() {
-    peopleController.removeListener(_storyPeopleControllerListener);
-    peopleController.dispose();
+    peopleController
+      ..removeListener(_storyPeopleControllerListener)
+      ..dispose();
     storyTimer.dispose();
     super.onClose();
   }

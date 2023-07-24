@@ -1,11 +1,11 @@
 import 'package:catstagram/core/extensions/to_cats_id_url.dart';
+import 'package:catstagram/core/models/cats_from_tag_response_model.dart';
+import 'package:catstagram/core/models/search_history_and_found_model.dart';
+import 'package:catstagram/core/services/network_service/repositories.dart';
 import 'package:catstagram/core/services/session_service/session_service.dart';
+import 'package:catstagram/ui/screens/main_screens/search_screen/view/search_history_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
-import '../../../../../core/models/cats_from_tag_response_model.dart';
-import '../../../../../core/models/search_history_and_found_model.dart';
-import '../../../../../core/services/network_service/repositories.dart';
-import '../view/search_history_view.dart';
 
 enum SearchKeys { updateSearch }
 
@@ -101,7 +101,7 @@ class SearchControllerX extends GetxController {
   }
 
   /// get the search key from the search history list to implement the search
-  void getSearchKeyFromHistory(value) {
+  void getSearchKeyFromHistory(String value) {
     searchTextController.text = value;
     searchTextController.selection = TextSelection.fromPosition(TextPosition(offset: value.length));
     implementSearch(value);

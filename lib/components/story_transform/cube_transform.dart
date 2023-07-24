@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 @immutable
-class CubeTransformWidget extends StatelessWidget {
+final class CubeTransformWidget extends StatelessWidget {
   CubeTransformWidget({
     super.key,
     required this.index,

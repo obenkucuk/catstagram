@@ -32,7 +32,7 @@ class SettingsController extends GetxController {
   }
 
   /// to wait some functions to complete before the screen loads
-  Future _ready() async {
+  Future<void> _ready() async {
     try {
       loadingStatus.value = LoadingStatus.loading;
       await Future.wait([_initLocale()]);

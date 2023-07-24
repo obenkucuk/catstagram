@@ -1,14 +1,15 @@
 part of '../view/story_view.dart';
 
 class _DurationIndicatorWidget extends StatefulWidget {
-  final int indicatorLenght;
-  final int currentStoryIndex;
-  final StoryTimerController storyTimer;
   const _DurationIndicatorWidget({
     required this.indicatorLenght,
     required this.currentStoryIndex,
     required this.storyTimer,
   });
+
+  final int indicatorLenght;
+  final int currentStoryIndex;
+  final StoryTimerController storyTimer;
 
   @override
   State<_DurationIndicatorWidget> createState() => _DurationIndicatorWidgetState();
@@ -22,9 +23,9 @@ class _DurationIndicatorWidgetState extends State<_DurationIndicatorWidget> with
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
-      var initialTime = widget.storyTimer.initialDuration.inMicroseconds;
-      var remainTime = widget.storyTimer.remainTime!.inMicroseconds;
-      var val = (initialTime - remainTime) / initialTime;
+      final initialTime = widget.storyTimer.initialDuration.inMicroseconds;
+      final remainTime = widget.storyTimer.remainTime!.inMicroseconds;
+      final val = (initialTime - remainTime) / initialTime;
 
       setState(() {
         indicatorValue = val;
@@ -41,12 +42,12 @@ class _DurationIndicatorWidgetState extends State<_DurationIndicatorWidget> with
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       child: Row(
         children: List.generate(
           widget.indicatorLenght,
           (index) {
-            var value = index == widget.currentStoryIndex
+            final value = index == widget.currentStoryIndex
                 ? indicatorValue
                 : index >= widget.currentStoryIndex
                     ? 0.0

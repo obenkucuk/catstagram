@@ -3,7 +3,7 @@ class TagsResponseModel {
 
   TagsResponseModel({required this.tags});
 
-  factory TagsResponseModel.fromJson(json) => TagsResponseModel(tags: json);
+  factory TagsResponseModel.fromJson(List<String> json) => TagsResponseModel(tags: json);
 
   Set<List<String>> toJson() => {tags};
 }

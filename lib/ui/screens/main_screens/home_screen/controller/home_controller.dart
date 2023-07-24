@@ -1,17 +1,17 @@
+import 'dart:math' show Random;
 import 'package:catstagram/core/extensions/to_cats_id_url.dart';
+import 'package:catstagram/core/models/cats_from_tag_response_model.dart';
+import 'package:catstagram/core/models/story_model.dart';
 import 'package:catstagram/core/router/route_names.dart';
+import 'package:catstagram/core/services/network_service/repositories.dart';
+import 'package:catstagram/core/services/router_service/router_argsuments_model.dart';
 import 'package:catstagram/core/services/router_service/router_enums.dart';
 import 'package:catstagram/core/services/router_service/router_service.dart';
 import 'package:catstagram/core/services/session_service/session_service.dart';
+import 'package:catstagram/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import '../../../../../core/models/cats_from_tag_response_model.dart';
-import '../../../../../core/models/story_model.dart';
-import '../../../../../core/services/network_service/repositories.dart';
-import '../../../../../core/services/router_service/router_argsuments_model.dart';
-import '../../../../../main/main_screen.dart';
-import 'dart:math' show Random;
 
 class HomeController extends GetxController {
   final scaffoldKey = GlobalKey();
@@ -84,10 +84,12 @@ class HomeController extends GetxController {
 
   /// when user go to the end of list items load more data
   Future<void> _postLazyLoad() async {
-    var direction = postScrollController.position.userScrollDirection;
+    final direction = postScrollController.position.userScrollDirection;
 
     /// hide the tab bar when the user scroll down and show it when the user scroll up
-    MainScreenInheritedWidget.of(context).hideTabBar(direction == ScrollDirection.forward ? true : false);
+    MainScreenInheritedWidget.of(context).hideTabBar(
+      val: direction == ScrollDirection.forward,
+    );
 
     if (postScrollController.position.maxScrollExtent - 20 <= postScrollController.offset) {
       try {

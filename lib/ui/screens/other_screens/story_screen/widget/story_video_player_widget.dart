@@ -1,6 +1,6 @@
 part of '../view/story_view.dart';
 
-class _StoryVideoPlayerWidget extends StatefulWidget {
+final class _StoryVideoPlayerWidget extends StatefulWidget {
   const _StoryVideoPlayerWidget({
     required this.storyTimer,
     required this.url,
@@ -20,7 +20,7 @@ class _StoryVideoPlayerWidgetState extends State<_StoryVideoPlayerWidget> {
     widget.storyTimer.initialDuration = widget.storyTimer.videoPlayerController!.value.duration;
     widget.storyTimer.resetTime();
     // Log.error(widget.storyTimer.videoPlayerController!.value.duration);
-    widget.storyTimer.videoPlayerController!.play();
+    await widget.storyTimer.videoPlayerController!.play();
   }
 
   @override

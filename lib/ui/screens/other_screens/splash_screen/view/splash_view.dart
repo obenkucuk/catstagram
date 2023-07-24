@@ -1,10 +1,9 @@
+import 'package:catstagram/constants/assets_constants.dart';
 import 'package:catstagram/core/config/app_config.dart';
+import 'package:catstagram/ui/screens/other_screens/splash_screen/controller/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../../../../constants/assets_constants.dart';
-import '../controller/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
   const SplashView({super.key});

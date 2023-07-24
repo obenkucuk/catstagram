@@ -1,6 +1,6 @@
+import 'package:catstagram/core/router/router.dart';
+import 'package:catstagram/core/services/router_service/router_argsuments_model.dart';
 import 'package:go_router/go_router.dart';
-import '../../router/router.dart';
-import 'router_argsuments_model.dart';
 
 class RouterService {
   RouterService._();

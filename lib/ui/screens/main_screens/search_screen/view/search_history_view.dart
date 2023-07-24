@@ -1,28 +1,20 @@
+import 'package:catstagram/components/shimmer_effect_widget/shimmer_effect_widget.dart';
+import 'package:catstagram/constants/assets_constants.dart';
+import 'package:catstagram/core/models/search_history_and_found_model.dart';
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
+import 'package:catstagram/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../../../../../components/shimmer_effect_widget/shimmer_effect_widget.dart';
-import '../../../../../constants/assets_constants.dart';
-import '../../../../../core/models/search_history_and_found_model.dart';
-import '../../../../../theme/text_styles.dart';
 
 part '../widget/not_found_widget.dart';
 part '../widget/search_history_and_found_widget.dart';
 
 enum SearchStatus { found, searching, history }
 
-class SearchHistoryView extends StatefulWidget {
-  final Offset offset;
-  final Size size;
-  final List<SearchHistoryAndFoundModel> historyList;
-  final List<SearchHistoryAndFoundModel> foundedList;
-  final Function(String value) onDelete;
-  final Function(String value) onTap;
-  final SearchStatus searchStatus;
-
+@immutable
+final class SearchHistoryView extends StatefulWidget {
   const SearchHistoryView({
-    Key? key,
     required this.offset,
     required this.historyList,
     required this.onDelete,
@@ -30,7 +22,16 @@ class SearchHistoryView extends StatefulWidget {
     required this.size,
     required this.searchStatus,
     required this.foundedList,
-  }) : super(key: key);
+    super.key,
+  });
+
+  final Offset offset;
+  final Size size;
+  final List<SearchHistoryAndFoundModel> historyList;
+  final List<SearchHistoryAndFoundModel> foundedList;
+  final void Function(String value) onDelete;
+  final void Function(String value) onTap;
+  final SearchStatus searchStatus;
 
   @override
   State<SearchHistoryView> createState() => _SearchHistoryViewState();
@@ -116,7 +117,7 @@ class _SearchHistoryViewState extends State<SearchHistoryView> with SingleTicker
                       imageUrl: e.imageUrl,
                       onTap: (value) => widget.onTap(value),
                     );
-                  }).toList()
+                  })
                 else
                   _NotFoundWidget(
                     height: MediaQuery.of(context).size.height - (widget.offset.dy + widget.size.height + 10),
@@ -131,7 +132,10 @@ class _SearchHistoryViewState extends State<SearchHistoryView> with SingleTicker
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(appLocalization(context).recentSearches, style: s14W600(context)),
+                    Text(
+                      appLocalization(context).recentSearches,
+                      style: s14W600(context),
+                    ),
                     ...widget.historyList.map((e) {
                       return _SearchHistoryAndFoundWidget(
                         title: e.keyword,
@@ -139,7 +143,7 @@ class _SearchHistoryViewState extends State<SearchHistoryView> with SingleTicker
                         onTap: (value) => widget.onTap(value),
                         onDelete: (value) => widget.onDelete(value),
                       );
-                    }).toList(),
+                    }),
                   ],
                 )
             ],
