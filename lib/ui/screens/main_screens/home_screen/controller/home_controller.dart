@@ -4,8 +4,6 @@ import 'package:catstagram/core/models/cats_from_tag_response_model.dart';
 import 'package:catstagram/core/models/story_model.dart';
 import 'package:catstagram/core/router/route_names.dart';
 import 'package:catstagram/core/services/network_service/repositories.dart';
-import 'package:catstagram/core/services/router_service/router_argsuments_model.dart';
-import 'package:catstagram/core/services/router_service/router_enums.dart';
 import 'package:catstagram/core/services/router_service/router_service.dart';
 import 'package:catstagram/core/services/session_service/session_service.dart';
 import 'package:catstagram/main/main_screen.dart';
@@ -75,15 +73,12 @@ class HomeController extends GetxController {
   }
 
   /// go to story screen when the user tap on the story item
-  void goToStory(int index) {
+  Future<void> goToStory(int index) async {
     final storyScreenRouterModel = StoryScreenRouterModel(models: dataStories, index: index);
 
-    RouterService.instance.pushNamed(
+    await RouterService.pushNamed<StoryScreenRouterModel>(
       RoutesNames.story,
-      args: RouterArgumentsModel<StoryScreenRouterModel>(
-        appPageTransition: AppPageTransition.slideUp,
-        extra: storyScreenRouterModel,
-      ),
+      args: storyScreenRouterModel,
     );
   }
 

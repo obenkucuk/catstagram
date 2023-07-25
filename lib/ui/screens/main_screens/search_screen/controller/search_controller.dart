@@ -193,7 +193,9 @@ class SearchControllerX extends GetxController {
 
   @override
   void onClose() {
-    searchScrollController.removeListener(_searchViewLazyLoad);
+    searchScrollController
+      ..removeListener(_searchViewLazyLoad)
+      ..dispose();
     super.onClose();
   }
 }

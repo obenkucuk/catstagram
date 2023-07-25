@@ -1,22 +1,30 @@
 import 'package:catstagram/core/router/router.dart';
-import 'package:catstagram/core/services/router_service/router_argsuments_model.dart';
 import 'package:go_router/go_router.dart';
 
-class RouterService {
-  RouterService._();
-  static final RouterService instance = RouterService._();
+enum TransitionTypes { custom, slideUp, fade }
 
-  Future<T?> pushNamed<T extends Object?>(String routeName, {RouterArgumentsModel<T>? args}) async {
-    return navigatorKey.currentContext!.pushNamed(
+final class RouterService {
+  const RouterService._();
+
+  static Future<T?> pushNamed<T extends Object?>(
+    String routeName, {
+    T? args,
+  }) async {
+    final router = await AppRouter.navigatorKey.currentContext!.pushNamed<T>(
       routeName,
-      extra: args ?? RouterArgumentsModel(),
+      extra: args,
     );
+
+    return router;
   }
 
-  void replaceNamed<T>(String routeName, {RouterArgumentsModel<T>? args}) {
-    return navigatorKey.currentContext!.replaceNamed(
+  static void replaceNamed<T extends Object?>(
+    String routeName, {
+    T? args,
+  }) {
+    return AppRouter.navigatorKey.currentContext!.replaceNamed(
       routeName,
-      extra: args ?? RouterArgumentsModel<T>(),
+      extra: args,
     );
   }
 }

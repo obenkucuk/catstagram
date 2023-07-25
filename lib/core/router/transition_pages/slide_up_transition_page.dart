@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SlideUpTransitionPage<T> extends CustomTransitionPage<T> {
-  SlideUpTransitionPage(
-    this.state, {
+  final GoRouterState state;
+
+  SlideUpTransitionPage({
+    required this.state,
     required super.child,
   }) : super(
           key: state.pageKey,
@@ -19,6 +21,4 @@ class SlideUpTransitionPage<T> extends CustomTransitionPage<T> {
             );
           },
         );
-
-  final GoRouterState state;
 }
