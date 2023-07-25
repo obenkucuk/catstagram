@@ -14,6 +14,7 @@ final class CustomDropdown extends StatefulWidget {
     this.dropdownWidth,
     this.itemHeight = 40,
   });
+
   final Map<String, Widget> items;
   final void Function(int) onSelected;
   final int? title;
@@ -41,6 +42,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
   void showOverlay() {
     setState(() => overlayIsVisible = true);
 
+    // ignore: cast_nullable_to_non_nullable
     final renderBox = dimensionKey.currentContext!.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
 

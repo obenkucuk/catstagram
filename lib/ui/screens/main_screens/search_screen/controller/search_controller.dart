@@ -114,6 +114,7 @@ class SearchControllerX extends GetxController {
   Future<void> showSearch() async {
     isOverlayVisible.value = true;
 
+    // ignore: cast_nullable_to_non_nullable
     final renderBox = overlayDimensionKey.currentContext!.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
 

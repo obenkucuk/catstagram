@@ -7,6 +7,7 @@ final class FadeTransitionPage<T> extends CustomTransitionPage<T> {
     required this.state,
     required super.child,
   }) : super(
+          transitionDuration: const Duration(seconds: 2),
           key: state.pageKey,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
@@ -14,7 +15,9 @@ final class FadeTransitionPage<T> extends CustomTransitionPage<T> {
               child: child,
             );
           },
-        );
+        ) {
+    debugPrint('fade transition çalıştı');
+  }
 
   final GoRouterState state;
 }

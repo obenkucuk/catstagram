@@ -20,5 +20,7 @@ class SlideUpTransitionPage<T> extends CustomTransitionPage<T> {
               child: child,
             );
           },
-        );
+        ) {
+    debugPrint('Slide Up çalıştı');
+  }
 }

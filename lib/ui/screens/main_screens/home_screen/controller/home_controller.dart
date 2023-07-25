@@ -76,7 +76,7 @@ class HomeController extends GetxController {
   Future<void> goToStory(int index) async {
     final storyScreenRouterModel = StoryScreenRouterModel(models: dataStories, index: index);
 
-    await RouterService.pushNamed<StoryScreenRouterModel>(
+    await RouterService.pushNamed(
       RoutesNames.story,
       args: storyScreenRouterModel,
     );

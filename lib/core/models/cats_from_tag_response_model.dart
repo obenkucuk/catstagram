@@ -32,7 +32,7 @@ class CatFromTagResponseModel {
   ) =>
       CatFromTagResponseModel(
         id: json['_id'] as String,
-        tags: json['tags'] == null ? [tag] : List<String>.from(json['tags']!.map((x) => x)),
+        tags: json['tags'] == null ? [tag] : List<String>.from(json['tags']!.map((x) => x) as Iterable<dynamic>),
         contentType: contentType,
       );
 

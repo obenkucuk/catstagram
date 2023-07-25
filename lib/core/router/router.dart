@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 
 final class AppRouter {
   const AppRouter._();
+
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter appRouter = GoRouter(
@@ -20,33 +21,35 @@ final class AppRouter {
       GoRoute(
         path: '/',
         name: RoutesNames.splash,
-        pageBuilder: (context, state) => routerPageBuilder(
-          context,
-          state,
-          TransitionTypes.slideUp,
-          const SplashScreen(),
-        ),
+        pageBuilder: (context, state) {
+          return routerPageBuilder(
+            state,
+            TransitionTypes.fade,
+            const SplashScreen(),
+          );
+        },
       ),
       GoRoute(
         path: '/main',
         name: RoutesNames.main,
-        pageBuilder: (context, state) => routerPageBuilder(
-          context,
-          state,
-          TransitionTypes.slideUp,
-          const MainScreen(),
-        ),
+        pageBuilder: (context, state) {
+          return routerPageBuilder(
+            state,
+            TransitionTypes.custom,
+            const MainScreen(),
+          );
+        },
       ),
       GoRoute(
         path: '/story',
         name: RoutesNames.story,
         pageBuilder: (context, state) {
+          // ignore: cast_nullable_to_non_nullable
           final arguments = state.extra as StoryScreenRouterModel;
 
-          return routerPageBuilder<StoryScreenRouterModel>(
-            context,
+          return routerPageBuilder(
             state,
-            TransitionTypes.fade,
+            TransitionTypes.slideUp,
             StoryScreen(
               elements: arguments.models,
               initialPeopleIndex: arguments.index,
@@ -59,27 +62,23 @@ final class AppRouter {
       return const MaterialPage(child: Scaffold(body: Center(child: Text('Error Page will be here'))));
     },
     redirect: (BuildContext context, GoRouterState state) {
-      /// TODO redirect if user is not logged in
+      // TODO(obenkucuk): redirect if user is not logged in
 
       return null;
     },
   );
 
   static Page<T> routerPageBuilder<T>(
-    BuildContext context,
     GoRouterState state,
     TransitionTypes type,
     Widget child,
   ) {
-    switch (type) {
-      case TransitionTypes.custom:
-        return MaterialPage<T>(child: child);
+    final page = switch (type) {
+      TransitionTypes.custom => NoTransitionPage<T>(child: child, key: state.pageKey),
+      TransitionTypes.slideUp => SlideUpTransitionPage<T>(state: state, child: child),
+      TransitionTypes.fade => FadeTransitionPage<T>(state: state, child: child)
+    };
 
-      case TransitionTypes.slideUp:
-        return SlideUpTransitionPage<T>(state: state, child: child);
-
-      case TransitionTypes.fade:
-        return FadeTransitionPage<T>(state: state, child: child);
-    }
+    return page;
   }
 }
