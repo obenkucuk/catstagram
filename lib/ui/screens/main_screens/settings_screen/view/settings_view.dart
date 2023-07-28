@@ -67,7 +67,7 @@ class SettingsView extends GetView<SettingsController> {
                     children: [
                       Text(appLocalization(context).changeLanguage),
                       const Spacer(),
-                      CustomDropdown(
+                      CustomDropdown.fromText(
                         title: controller.locale.value.languageCode == 'tr' ? 0 : 1,
                         dropdownWidth: MediaQuery.of(context).size.width * 0.4,
                         textStyle: s14W400(context),

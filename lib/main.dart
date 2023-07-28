@@ -1,13 +1,11 @@
 import 'dart:developer';
 import 'dart:ui';
-
 import 'package:catstagram/core/config/app_config.dart';
 import 'package:catstagram/core/router/router.dart';
 import 'package:catstagram/core/services/session_service/session_service.dart';
 import 'package:catstagram/main/main_screen_constants.dart';
+import 'package:catstagram/theme/app_theme.dart';
 import 'package:catstagram/theme/material_inherited.dart';
-import 'package:catstagram/theme/theme_data_dark.dart';
-import 'package:catstagram/theme/theme_data_light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -28,8 +26,8 @@ class MyApp extends StatelessWidget {
           return MaterialApp.router(
             title: AppConfig.instance.appName,
             debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
+            theme: AppTheme().lightTheme,
+            darkTheme: AppTheme().darkTheme,
             themeMode: MaterialAppInheritedWidget.of(context).themeMode,
             locale: MaterialAppInheritedWidget.of(context).locale,
             supportedLocales: AppLocalizations.supportedLocales,

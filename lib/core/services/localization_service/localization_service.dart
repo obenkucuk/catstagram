@@ -15,13 +15,10 @@ class LocalizationService {
 
   Future<void> init() async {
     initLocale = await getCurrentLocale();
-
     Log.info('LocalizationService initialized successfully');
   }
 
-  Future<Locale> getCurrentLocale() async {
-    return Locale((await StorageService.instance.getUserPreferences()).locale);
-  }
+  Future<Locale> getCurrentLocale() async => Locale((await StorageService.instance.getUserPreferences()).locale);
 
   Locale getSysyemLocale() {
     var locale = PlatformDispatcher.instance.locale;

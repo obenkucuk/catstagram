@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 final class CustomDropdown extends StatefulWidget {
-  const CustomDropdown({
+  const CustomDropdown.fromText({
     required this.items,
     required this.onSelected,
     super.key,

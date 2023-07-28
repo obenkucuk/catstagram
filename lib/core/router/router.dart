@@ -76,7 +76,7 @@ final class AppRouter {
     final page = switch (type) {
       TransitionTypes.custom => NoTransitionPage<T>(child: child, key: state.pageKey),
       TransitionTypes.slideUp => SlideUpTransitionPage<T>(state: state, child: child),
-      TransitionTypes.fade => FadeTransitionPage<T>(state: state, child: child)
+      TransitionTypes.fade => FadeTransitionPage<T>(state: state, child: child),
     };
 
     return page;

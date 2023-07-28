@@ -14,7 +14,7 @@ List<CatFromTagResponseModel> catsFromTagResponseModelFromJson(
               contentType,
               tag,
             ),
-          ),
+          ) as Iterable,
     );
 
 class CatFromTagResponseModel {

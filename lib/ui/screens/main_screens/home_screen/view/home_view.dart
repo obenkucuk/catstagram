@@ -13,6 +13,8 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(onPressed: () {}),
       key: controller.scaffoldKey,
       body: Obx(
         () => SafeArea(

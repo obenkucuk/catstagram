@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
   AppConfig._();
+
   static final AppConfig instance = AppConfig._();
 
   Future<void> init() async {
@@ -23,7 +24,7 @@ class AppConfig {
   }
 
   String get catUrl => _catUrl;
-  static late final String _catUrl;
+  late final String _catUrl;
 
   String get appName => _appName;
   late final String _appName;
