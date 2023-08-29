@@ -45,6 +45,7 @@ final class AppRouter {
         name: RoutesNames.story,
         pageBuilder: (context, state) {
           // ignore: cast_nullable_to_non_nullable
+
           final arguments = state.extra as StoryScreenRouterModel;
 
           return routerPageBuilder(

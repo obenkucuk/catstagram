@@ -14,7 +14,7 @@ class StoryTimerController {
 
   StoryTimerStatus status = StoryTimerStatus.pause;
 
-  late Duration initialDuration;
+  late final Duration initialDuration;
   Duration? remainTime;
 
   /// timer has a 2 listener. One of them is for duration and the other one is for next story.
@@ -27,6 +27,7 @@ class StoryTimerController {
   /// if story will pause, we need to pause the timer and video player.
   void pause() {
     timer.cancel();
+
     if (videoPlayerController != null) videoPlayerController!.pause();
 
     status = StoryTimerStatus.pause;

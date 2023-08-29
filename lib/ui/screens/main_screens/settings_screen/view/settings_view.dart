@@ -1,3 +1,4 @@
+import 'package:catstagram/c_dropdown/c_dropdown.dart';
 import 'package:catstagram/components/custom_dropdown/custom_dropdown.dart';
 import 'package:catstagram/constants/loading_status_enums.dart';
 import 'package:catstagram/core/services/localization_service/localization_service.dart';
@@ -37,8 +38,11 @@ class SettingsView extends GetView<SettingsController> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  CDropdown(
+                    items: controller.itemsU,
+                  ),
                   const SizedBox(height: 10),
 
                   /// change language with segmented control
@@ -76,9 +80,24 @@ class SettingsView extends GetView<SettingsController> {
                           appLocalization(context).english: Text(appLocalization(context).english)
                         },
                         onSelected: (index) => controller.changeLocalization(index),
-                      )
+                        child: const SizedBox(
+                          height: 99,
+                          width: 11,
+                        ),
+                      ),
                     ],
-                  )
+                  ),
+                  const TextField(),
+
+                  const SizedBox(
+                    height: 400,
+                  ),
+                  CDropdown(
+                    items: controller.itemsA,
+                  ),
+                  CDropdown(
+                    items: controller.itemsA,
+                  ),
                 ],
               ),
             )

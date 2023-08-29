@@ -8,6 +8,7 @@ final class CustomDropdown extends StatefulWidget {
   const CustomDropdown.fromText({
     required this.items,
     required this.onSelected,
+    required this.child,
     super.key,
     this.title,
     this.textStyle,
@@ -21,6 +22,7 @@ final class CustomDropdown extends StatefulWidget {
   final TextStyle? textStyle;
   final double? dropdownWidth;
   final int itemHeight;
+  final Widget child;
 
   @override
   State<CustomDropdown> createState() => _CustomDropdownState();
@@ -33,9 +35,12 @@ class _CustomDropdownState extends State<CustomDropdown> {
   late OverlayEntry? overlayEntry;
   OverlayState? overlayState;
 
+  GlobalKey globalKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
+
     selectedItem = widget.title ?? 0;
   }
 

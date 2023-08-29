@@ -32,6 +32,7 @@ class StoryView extends GetView<StoryController> {
             id: StoryUpdateKeys.storyScreen,
             builder: (controller) {
               return PageView.builder(
+                pageSnapping: false,
                 onPageChanged: (value) {
                   controller.storyTimer.resetTime();
                   controller.currentStoryIndex.value = 0;

@@ -9,12 +9,8 @@ final class CubeTransformWidget extends StatelessWidget {
     required this.pageDelta,
     required this.child,
     super.key,
-    this.perspectiveScale = 0.0005,
-    this.rotationAngle = 90,
   });
 
-  final double perspectiveScale;
-  final double rotationAngle;
   final int index;
   final int currentPage;
   final double pageDelta;
@@ -29,16 +25,16 @@ final class CubeTransformWidget extends StatelessWidget {
       return Transform(
         alignment: leftPageAlignment,
         transform: Matrix4.identity()
-          ..setEntry(3, 2, perspectiveScale)
-          ..rotateY((math.pi / 180 * rotationAngle) * pageDelta),
+          ..setEntry(3, 2, 0.0005)
+          ..rotateY((math.pi / 180 * 90) * pageDelta),
         child: child,
       );
     } else if (index == currentPage + 1) {
       return Transform(
         alignment: rightPageAlignment,
         transform: Matrix4.identity()
-          ..setEntry(3, 2, perspectiveScale)
-          ..rotateY(-(math.pi / 180 * rotationAngle) * (1 - pageDelta)),
+          ..setEntry(3, 2, 0.0005)
+          ..rotateY(-(math.pi / 180 * 90) * (1 - pageDelta)),
         child: child,
       );
     } else {
